@@ -1,0 +1,69 @@
+# Configuration for UNO RL Project
+
+# Training Configuration
+training:
+  episodes: 15000  # Balanced training length
+  batch_size: 64   # Good for both algorithms
+  learning_rate: 0.0005  # Stable learning rate
+  gamma: 0.99  # Discount factor
+  epsilon_start: 1.0
+  epsilon_end: 0.05  # Higher exploration minimum
+  epsilon_decay: 0.9995  # Gradual decay
+  memory_size: 20000  # Larger memory
+  target_update_freq: 1000
+  device: "mps"  # Use Apple Silicon GPU
+  
+# Unified Network Architecture (same for both DQN and DMC)
+network:
+  hidden_layers: [256, 128]  # Match original DQN architecture
+  activation: "relu"
+  dropout: 0.1
+  
+# DQN Configuration
+dqn:
+  hidden_layers: [256, 128]  # Match original architecture
+  activation: "relu"
+  dropout: 0.1
+  dueling: true
+  double_dqn: true
+  
+# DMC Configuration  
+dmc:
+  hidden_layers: [256, 128]  # Same as DQN for fair comparison
+  activation: "relu"
+  dropout: 0.1
+  monte_carlo_rollouts: 10
+  
+# MCTS Configuration - Enhanced for proper intermediate rewards
+mcts:
+  num_simulations: 200  # More simulations for better estimates
+  exploration_constant: 1.414  # UCB1 standard value
+  max_depth: 20  # Reasonable search depth
+  use_full_mcts: true  # Enable full MCTS instead of heuristic
+  intermediate_reward_weight: 0.3  # Balance between sparse and shaped rewards
+  
+# Environment Configuration
+environment:
+  game: "uno"
+  num_players: 2
+  seed: 42
+  
+# Evaluation Configuration
+evaluation:
+  eval_episodes: 500  # Faster evaluation
+  eval_freq: 2000  # More frequent evaluation
+  opponents: ["random", "rule_based"]
+  
+# Logging Configuration
+logging:
+  log_level: "INFO"
+  log_dir: "./logs"
+  tensorboard: true
+  wandb: false  # Set to true if using Weights & Biases
+  save_freq: 10000  # Save model every N episodes
+  
+# Paths
+paths:
+  models: "./models"
+  logs: "./logs"
+  experiments: "./experiments"

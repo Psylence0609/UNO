@@ -1,0 +1,73 @@
+{
+  "training": {
+    "episodes": 15000,
+    "batch_size": 64,
+    "learning_rate": 0.0005,
+    "gamma": 0.99,
+    "epsilon_start": 1.0,
+    "epsilon_end": 0.05,
+    "epsilon_decay": 0.9995,
+    "memory_size": 20000,
+    "target_update_freq": 1000,
+    "device": "mps"
+  },
+  "network": {
+    "hidden_layers": [
+      256,
+      128
+    ],
+    "activation": "relu",
+    "dropout": 0.1
+  },
+  "dqn": {
+    "hidden_layers": [
+      256,
+      128
+    ],
+    "activation": "relu",
+    "dropout": 0.1,
+    "dueling": true,
+    "double_dqn": true
+  },
+  "dmc": {
+    "hidden_layers": [
+      256,
+      128
+    ],
+    "activation": "relu",
+    "dropout": 0.1,
+    "monte_carlo_rollouts": 10
+  },
+  "mcts": {
+    "num_simulations": 200,
+    "exploration_constant": 1.414,
+    "max_depth": 20,
+    "use_full_mcts": true,
+    "intermediate_reward_weight": 0.3
+  },
+  "environment": {
+    "game": "uno",
+    "num_players": 2,
+    "seed": 42
+  },
+  "evaluation": {
+    "eval_episodes": 500,
+    "eval_freq": 2000,
+    "opponents": [
+      "random",
+      "rule_based"
+    ]
+  },
+  "logging": {
+    "log_level": "INFO",
+    "log_dir": "./logs",
+    "tensorboard": true,
+    "wandb": false,
+    "save_freq": 10000
+  },
+  "paths": {
+    "models": "./models",
+    "logs": "./logs",
+    "experiments": "./experiments"
+  }
+}

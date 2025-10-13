@@ -1,0 +1,42 @@
+🎯 UNO RL Agents Comprehensive Training & Comparison
+============================================================
+Using device: MPS (Apple Silicon GPU)
+
+Training Configuration:
+  Episodes: 15000
+  Architecture: [256, 128]
+  MCTS Simulations: 200
+  Batch Size: 64
+  Learning Rate: 0.0005
+
+📋 Training Plan:
+  1. DQN with MCTS reward shaping
+  2. DMC with MCTS reward shaping
+  3. Comprehensive evaluation
+
+🚀 Starting training automatically...
+
+🚀 Starting DQN+MCTS training...
+❌ DQN+MCTS training failed
+
+🚀 Starting DMC+MCTS training...
+❌ DMC+MCTS training failed
+
+📊 TRAINING SUMMARY
+========================================
+DQN+MCTS     | ❌ FAILED | N/A
+  Error: Traceback (most recent call last):
+  File "/Users/praneetsurabhi/Desktop/SEM_3/RL/UNO/src/training/t...
+DMC+MCTS     | ❌ FAILED | N/A
+  Error: Traceback (most recent call last):
+  File "/Users/praneetsurabhi/Desktop/SEM_3/RL/UNO/src/training/t...
+
+❌ No models trained successfully
+   Check the error messages above for debugging
+
+📁 Generated Files:
+  Models: models/
+  Logs: logs/
+  Results: results/
+
+🏁 Training and evaluation process completed!

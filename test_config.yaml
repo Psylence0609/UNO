@@ -1,0 +1,28 @@
+dqn:
+  activation: relu
+  double_dqn: true
+  dropout: 0.1
+  dueling: true
+  hidden_layers:
+  - 128
+  - 64
+environment:
+  seed: 42
+evaluation:
+  eval_episodes: 100
+  eval_freq: 50
+logging:
+  save_freq: 50
+paths:
+  logs: ./logs
+  models: ./models
+training:
+  batch_size: 32
+  episodes: 100
+  epsilon_decay: 0.995
+  epsilon_end: 0.01
+  epsilon_start: 1.0
+  gamma: 0.99
+  learning_rate: 0.001
+  memory_size: 1000
+  target_update_freq: 100

@@ -1,0 +1,332 @@
+2025-10-07 15:47:49,444 - UNO_RL_dqn_mcts_vs_random_42 - INFO - Training logger initialized for experiment: dqn_mcts_vs_random_42
+2025-10-07 15:47:49,444 - UNO_RL_dqn_mcts_vs_random_42 - INFO - Log directory: ./logs/dqn_mcts_vs_random_42
+2025-10-07 15:47:49,444 - UNO_RL_dqn_mcts_vs_random_42 - INFO - ============================================================
+2025-10-07 15:47:49,444 - UNO_RL_dqn_mcts_vs_random_42 - INFO - STARTING TRAINING
+2025-10-07 15:47:49,444 - UNO_RL_dqn_mcts_vs_random_42 - INFO - ============================================================
+2025-10-07 15:47:49,445 - UNO_RL_dqn_mcts_vs_random_42 - INFO - Configuration saved to: ./logs/dqn_mcts_vs_random_42/config.json
+2025-10-07 15:47:49,445 - UNO_RL_dqn_mcts_vs_random_42 - INFO - Training episodes: 15000
+2025-10-07 15:47:49,445 - UNO_RL_dqn_mcts_vs_random_42 - INFO - Learning rate: 0.0005
+2025-10-07 15:47:49,445 - UNO_RL_dqn_mcts_vs_random_42 - INFO - Batch size: 64
+2025-10-07 15:47:49,451 - UNO_RL_dqn_mcts_vs_random_42 - INFO - Starting episode 0
+2025-10-07 15:47:49,452 - UNO_RL_dqn_mcts_vs_random_42 - INFO - Performing final evaluation...
+2025-10-07 16:07:12,759 - UNO_RL_dqn_mcts_vs_random_42 - INFO - Training logger initialized for experiment: dqn_mcts_vs_random_42
+2025-10-07 16:07:12,759 - UNO_RL_dqn_mcts_vs_random_42 - INFO - Log directory: ./logs/dqn_mcts_vs_random_42
+2025-10-07 16:07:12,759 - UNO_RL_dqn_mcts_vs_random_42 - INFO - ============================================================
+2025-10-07 16:07:12,759 - UNO_RL_dqn_mcts_vs_random_42 - INFO - STARTING TRAINING
+2025-10-07 16:07:12,759 - UNO_RL_dqn_mcts_vs_random_42 - INFO - ============================================================
+2025-10-07 16:07:12,760 - UNO_RL_dqn_mcts_vs_random_42 - INFO - Configuration saved to: ./logs/dqn_mcts_vs_random_42/config.json
+2025-10-07 16:07:12,760 - UNO_RL_dqn_mcts_vs_random_42 - INFO - Training episodes: 15000
+2025-10-07 16:07:12,760 - UNO_RL_dqn_mcts_vs_random_42 - INFO - Learning rate: 0.0005
+2025-10-07 16:07:12,760 - UNO_RL_dqn_mcts_vs_random_42 - INFO - Batch size: 64
+2025-10-07 16:07:12,766 - UNO_RL_dqn_mcts_vs_random_42 - INFO - Starting episode 0
+2025-10-07 16:07:12,767 - UNO_RL_dqn_mcts_vs_random_42 - INFO - Episode      0 | Avg Reward:   0.01 | Avg Length:    1.0 | Epsilon: 1.000
+2025-10-07 16:07:12,779 - UNO_RL_dqn_mcts_vs_random_42 - INFO - Performing final evaluation...
+2025-10-07 16:08:35,084 - UNO_RL_dqn_mcts_vs_random_42 - INFO - Training logger initialized for experiment: dqn_mcts_vs_random_42
+2025-10-07 16:08:35,085 - UNO_RL_dqn_mcts_vs_random_42 - INFO - Log directory: ./logs/dqn_mcts_vs_random_42
+2025-10-07 16:08:45,317 - UNO_RL_dqn_mcts_vs_random_42 - INFO - Training logger initialized for experiment: dqn_mcts_vs_random_42
+2025-10-07 16:08:45,317 - UNO_RL_dqn_mcts_vs_random_42 - INFO - Log directory: ./logs/dqn_mcts_vs_random_42
+2025-10-07 16:10:44,169 - UNO_RL_dqn_mcts_vs_random_42 - INFO - Training logger initialized for experiment: dqn_mcts_vs_random_42
+2025-10-07 16:10:44,169 - UNO_RL_dqn_mcts_vs_random_42 - INFO - Log directory: ./logs/dqn_mcts_vs_random_42
+2025-10-07 16:11:13,816 - UNO_RL_dqn_mcts_vs_random_42 - INFO - Training logger initialized for experiment: dqn_mcts_vs_random_42
+2025-10-07 16:11:13,816 - UNO_RL_dqn_mcts_vs_random_42 - INFO - Log directory: ./logs/dqn_mcts_vs_random_42
+2025-10-07 16:11:31,639 - UNO_RL_dqn_mcts_vs_random_42 - INFO - Training logger initialized for experiment: dqn_mcts_vs_random_42
+2025-10-07 16:11:31,639 - UNO_RL_dqn_mcts_vs_random_42 - INFO - Log directory: ./logs/dqn_mcts_vs_random_42
+2025-10-07 16:16:30,511 - UNO_RL_dqn_mcts_vs_random_42 - INFO - Training logger initialized for experiment: dqn_mcts_vs_random_42
+2025-10-07 16:16:30,511 - UNO_RL_dqn_mcts_vs_random_42 - INFO - Log directory: ./logs/dqn_mcts_vs_random_42
+2025-10-07 16:16:59,780 - UNO_RL_dqn_mcts_vs_random_42 - INFO - Training logger initialized for experiment: dqn_mcts_vs_random_42
+2025-10-07 16:16:59,781 - UNO_RL_dqn_mcts_vs_random_42 - INFO - Log directory: ./logs/dqn_mcts_vs_random_42
+2025-10-07 16:21:50,919 - UNO_RL_dqn_mcts_vs_random_42 - INFO - Training logger initialized for experiment: dqn_mcts_vs_random_42
+2025-10-07 16:21:50,919 - UNO_RL_dqn_mcts_vs_random_42 - INFO - Log directory: ./logs/dqn_mcts_vs_random_42
+2025-10-07 16:38:02,335 - UNO_RL_dqn_mcts_vs_random_42 - INFO - Training logger initialized for experiment: dqn_mcts_vs_random_42
+2025-10-07 16:38:02,335 - UNO_RL_dqn_mcts_vs_random_42 - INFO - Log directory: ./logs/dqn_mcts_vs_random_42
+2025-10-07 16:38:04,794 - UNO_RL_dqn_mcts_vs_random_42 - INFO - Model checkpoint saved at episode 0: models/dqn_quick_test.pth
+2025-10-07 16:40:25,858 - UNO_RL_dqn_mcts_vs_random_42 - INFO - Training logger initialized for experiment: dqn_mcts_vs_random_42
+2025-10-07 16:40:25,858 - UNO_RL_dqn_mcts_vs_random_42 - INFO - Log directory: ./logs/dqn_mcts_vs_random_42
+2025-10-07 16:40:25,858 - UNO_RL_dqn_mcts_vs_random_42 - INFO - ============================================================
+2025-10-07 16:40:25,858 - UNO_RL_dqn_mcts_vs_random_42 - INFO - STARTING TRAINING
+2025-10-07 16:40:25,858 - UNO_RL_dqn_mcts_vs_random_42 - INFO - ============================================================
+2025-10-07 16:40:25,859 - UNO_RL_dqn_mcts_vs_random_42 - INFO - Configuration saved to: ./logs/dqn_mcts_vs_random_42/config.json
+2025-10-07 16:40:25,859 - UNO_RL_dqn_mcts_vs_random_42 - INFO - Training episodes: 15000
+2025-10-07 16:40:25,859 - UNO_RL_dqn_mcts_vs_random_42 - INFO - Learning rate: 0.0005
+2025-10-07 16:40:25,859 - UNO_RL_dqn_mcts_vs_random_42 - INFO - Batch size: 64
+2025-10-07 16:40:25,866 - UNO_RL_dqn_mcts_vs_random_42 - INFO - Starting episode 0
+2025-10-07 16:40:25,872 - UNO_RL_dqn_mcts_vs_random_42 - INFO - Episode      0 | Avg Reward:   0.01 | Avg Length:    1.0 | Epsilon: 1.000
+2025-10-07 16:40:26,565 - UNO_RL_dqn_mcts_vs_random_42 - INFO - Episode    100 | Avg Reward:   0.01 | Avg Length:    1.3 | Epsilon: 0.951
+2025-10-07 16:40:27,383 - UNO_RL_dqn_mcts_vs_random_42 - INFO - Episode    200 | Avg Reward:   0.01 | Avg Length:    1.2 | Epsilon: 0.904
+2025-10-07 16:40:28,232 - UNO_RL_dqn_mcts_vs_random_42 - INFO - Episode    300 | Avg Reward:   0.01 | Avg Length:    1.2 | Epsilon: 0.860
+2025-10-07 16:40:29,094 - UNO_RL_dqn_mcts_vs_random_42 - INFO - Episode    400 | Avg Reward:   0.01 | Avg Length:    1.2 | Epsilon: 0.818
+2025-10-07 16:40:29,924 - UNO_RL_dqn_mcts_vs_random_42 - INFO - Episode    500 | Avg Reward:   0.01 | Avg Length:    1.2 | Epsilon: 0.778
+2025-10-07 16:40:30,749 - UNO_RL_dqn_mcts_vs_random_42 - INFO - Episode    600 | Avg Reward:   0.01 | Avg Length:    1.2 | Epsilon: 0.740
+2025-10-07 16:40:31,604 - UNO_RL_dqn_mcts_vs_random_42 - INFO - Episode    700 | Avg Reward:   0.01 | Avg Length:    1.1 | Epsilon: 0.704
+2025-10-07 16:40:32,561 - UNO_RL_dqn_mcts_vs_random_42 - INFO - Episode    800 | Avg Reward:   0.01 | Avg Length:    1.2 | Epsilon: 0.670
+2025-10-07 16:40:33,417 - UNO_RL_dqn_mcts_vs_random_42 - INFO - Episode    900 | Avg Reward:   0.01 | Avg Length:    1.2 | Epsilon: 0.637
+2025-10-07 16:40:34,285 - UNO_RL_dqn_mcts_vs_random_42 - INFO - Starting episode 1000
+2025-10-07 16:40:34,292 - UNO_RL_dqn_mcts_vs_random_42 - INFO - Episode   1000 | Avg Reward:   0.01 | Avg Length:    1.1 | Epsilon: 0.606
+2025-10-07 16:40:35,175 - UNO_RL_dqn_mcts_vs_random_42 - INFO - Episode   1100 | Avg Reward:   0.01 | Avg Length:    1.2 | Epsilon: 0.577
+2025-10-07 16:40:36,042 - UNO_RL_dqn_mcts_vs_random_42 - INFO - Episode   1200 | Avg Reward:   0.01 | Avg Length:    1.2 | Epsilon: 0.548
+2025-10-07 16:40:36,897 - UNO_RL_dqn_mcts_vs_random_42 - INFO - Episode   1300 | Avg Reward:   0.01 | Avg Length:    1.3 | Epsilon: 0.522
+2025-10-07 16:40:37,773 - UNO_RL_dqn_mcts_vs_random_42 - INFO - Episode   1400 | Avg Reward:   0.01 | Avg Length:    1.3 | Epsilon: 0.496
+2025-10-07 16:40:38,636 - UNO_RL_dqn_mcts_vs_random_42 - INFO - Episode   1500 | Avg Reward:   0.01 | Avg Length:    1.2 | Epsilon: 0.472
+2025-10-07 16:40:39,511 - UNO_RL_dqn_mcts_vs_random_42 - INFO - Episode   1600 | Avg Reward:   0.01 | Avg Length:    1.1 | Epsilon: 0.449
+2025-10-07 16:40:40,380 - UNO_RL_dqn_mcts_vs_random_42 - INFO - Episode   1700 | Avg Reward:   0.01 | Avg Length:    1.2 | Epsilon: 0.427
+2025-10-07 16:40:41,252 - UNO_RL_dqn_mcts_vs_random_42 - INFO - Episode   1800 | Avg Reward:   0.01 | Avg Length:    1.2 | Epsilon: 0.406
+2025-10-07 16:40:42,132 - UNO_RL_dqn_mcts_vs_random_42 - INFO - Episode   1900 | Avg Reward:   0.01 | Avg Length:    1.1 | Epsilon: 0.386
+2025-10-07 16:40:42,998 - UNO_RL_dqn_mcts_vs_random_42 - INFO - Starting episode 2000
+2025-10-07 16:40:43,008 - UNO_RL_dqn_mcts_vs_random_42 - INFO - Episode   2000 | Avg Reward:   0.01 | Avg Length:    1.1 | Epsilon: 0.368
+2025-10-07 16:40:53,105 - UNO_RL_dqn_mcts_vs_random_42 - INFO - ==================================================
+2025-10-07 16:40:53,106 - UNO_RL_dqn_mcts_vs_random_42 - INFO - EVALUATION AT EPISODE 2000
+2025-10-07 16:40:53,106 - UNO_RL_dqn_mcts_vs_random_42 - INFO - --------------------------------------------------
+2025-10-07 16:40:53,106 - UNO_RL_dqn_mcts_vs_random_42 - INFO - random_win_rate: 0.5340
+2025-10-07 16:40:53,106 - UNO_RL_dqn_mcts_vs_random_42 - INFO - random_avg_length: 46.4920
+2025-10-07 16:40:53,106 - UNO_RL_dqn_mcts_vs_random_42 - INFO - ==================================================
+2025-10-07 16:40:53,207 - UNO_RL_dqn_mcts_vs_random_42 - INFO - Performing final evaluation...
+2025-10-07 16:41:03,758 - UNO_RL_dqn_mcts_vs_random_42 - INFO - ==================================================
+2025-10-07 16:41:03,759 - UNO_RL_dqn_mcts_vs_random_42 - INFO - EVALUATION AT EPISODE 2011
+2025-10-07 16:41:03,759 - UNO_RL_dqn_mcts_vs_random_42 - INFO - --------------------------------------------------
+2025-10-07 16:41:03,759 - UNO_RL_dqn_mcts_vs_random_42 - INFO - random_win_rate: 0.5200
+2025-10-07 16:41:03,759 - UNO_RL_dqn_mcts_vs_random_42 - INFO - random_avg_length: 48.3540
+2025-10-07 16:41:03,759 - UNO_RL_dqn_mcts_vs_random_42 - INFO - ==================================================
+2025-10-07 16:41:03,769 - UNO_RL_dqn_mcts_vs_random_42 - INFO - Model checkpoint saved at episode 2011: ./models/dqn_mcts_final.pth
+2025-10-07 16:41:03,769 - UNO_RL_dqn_mcts_vs_random_42 - INFO - ============================================================
+2025-10-07 16:41:03,769 - UNO_RL_dqn_mcts_vs_random_42 - INFO - TRAINING COMPLETED
+2025-10-07 16:41:03,769 - UNO_RL_dqn_mcts_vs_random_42 - INFO - ============================================================
+2025-10-07 16:41:03,770 - UNO_RL_dqn_mcts_vs_random_42 - INFO - Total training time: 37.91 seconds (0.01 hours)
+2025-10-07 16:41:03,770 - UNO_RL_dqn_mcts_vs_random_42 - INFO - Total episodes: 2012
+2025-10-07 16:41:03,770 - UNO_RL_dqn_mcts_vs_random_42 - INFO - Final 100-episode average reward: 0.011
+2025-10-07 16:41:03,775 - UNO_RL_dqn_mcts_vs_random_42 - INFO - Metrics saved to: ./logs/dqn_mcts_vs_random_42
+2025-10-07 16:41:04,347 - UNO_RL_dqn_mcts_vs_random_42 - INFO - Training plots saved to: ./logs/dqn_mcts_vs_random_42/training_plots.png
+2025-10-07 16:41:04,347 - UNO_RL_dqn_mcts_vs_random_42 - INFO - All logs and plots saved to: ./logs/dqn_mcts_vs_random_42
+2025-10-07 16:52:03,881 - UNO_RL_dqn_mcts_vs_random_42 - INFO - Training logger initialized for experiment: dqn_mcts_vs_random_42
+2025-10-07 16:52:03,881 - UNO_RL_dqn_mcts_vs_random_42 - INFO - Log directory: ./logs/dqn_mcts_vs_random_42
+2025-10-07 16:52:03,881 - UNO_RL_dqn_mcts_vs_random_42 - INFO - ============================================================
+2025-10-07 16:52:03,881 - UNO_RL_dqn_mcts_vs_random_42 - INFO - STARTING TRAINING
+2025-10-07 16:52:03,881 - UNO_RL_dqn_mcts_vs_random_42 - INFO - ============================================================
+2025-10-07 16:52:03,881 - UNO_RL_dqn_mcts_vs_random_42 - INFO - Configuration saved to: ./logs/dqn_mcts_vs_random_42/config.json
+2025-10-07 16:52:03,881 - UNO_RL_dqn_mcts_vs_random_42 - INFO - Training episodes: 15000
+2025-10-07 16:52:03,881 - UNO_RL_dqn_mcts_vs_random_42 - INFO - Learning rate: 0.0005
+2025-10-07 16:52:03,881 - UNO_RL_dqn_mcts_vs_random_42 - INFO - Batch size: 64
+2025-10-07 16:52:03,890 - UNO_RL_dqn_mcts_vs_random_42 - INFO - Starting episode 0
+2025-10-07 16:52:03,896 - UNO_RL_dqn_mcts_vs_random_42 - INFO - Episode      0 | Avg Reward:   0.01 | Avg Length:    1.0 | Epsilon: 1.000
+2025-10-07 16:52:04,593 - UNO_RL_dqn_mcts_vs_random_42 - INFO - Episode    100 | Avg Reward:   0.01 | Avg Length:    1.2 | Epsilon: 0.951
+2025-10-07 16:52:05,409 - UNO_RL_dqn_mcts_vs_random_42 - INFO - Episode    200 | Avg Reward:   0.01 | Avg Length:    1.2 | Epsilon: 0.904
+2025-10-07 16:52:06,233 - UNO_RL_dqn_mcts_vs_random_42 - INFO - Episode    300 | Avg Reward:   0.01 | Avg Length:    1.2 | Epsilon: 0.860
+2025-10-07 16:52:07,100 - UNO_RL_dqn_mcts_vs_random_42 - INFO - Episode    400 | Avg Reward:   0.01 | Avg Length:    1.2 | Epsilon: 0.818
+2025-10-07 16:52:07,958 - UNO_RL_dqn_mcts_vs_random_42 - INFO - Episode    500 | Avg Reward:   0.01 | Avg Length:    1.2 | Epsilon: 0.778
+2025-10-07 16:52:08,818 - UNO_RL_dqn_mcts_vs_random_42 - INFO - Episode    600 | Avg Reward:   0.01 | Avg Length:    1.1 | Epsilon: 0.740
+2025-10-07 16:52:09,661 - UNO_RL_dqn_mcts_vs_random_42 - INFO - Episode    700 | Avg Reward:   0.01 | Avg Length:    1.2 | Epsilon: 0.704
+2025-10-07 16:52:10,524 - UNO_RL_dqn_mcts_vs_random_42 - INFO - Episode    800 | Avg Reward:   0.01 | Avg Length:    1.2 | Epsilon: 0.670
+2025-10-07 16:52:11,376 - UNO_RL_dqn_mcts_vs_random_42 - INFO - Episode    900 | Avg Reward:   0.01 | Avg Length:    1.2 | Epsilon: 0.637
+2025-10-07 16:52:12,250 - UNO_RL_dqn_mcts_vs_random_42 - INFO - Starting episode 1000
+2025-10-07 16:52:12,259 - UNO_RL_dqn_mcts_vs_random_42 - INFO - Episode   1000 | Avg Reward:   0.01 | Avg Length:    1.1 | Epsilon: 0.606
+2025-10-07 16:52:13,184 - UNO_RL_dqn_mcts_vs_random_42 - INFO - Episode   1100 | Avg Reward:   0.01 | Avg Length:    1.1 | Epsilon: 0.577
+2025-10-07 16:52:14,057 - UNO_RL_dqn_mcts_vs_random_42 - INFO - Episode   1200 | Avg Reward:   0.01 | Avg Length:    1.2 | Epsilon: 0.548
+2025-10-07 16:52:15,043 - UNO_RL_dqn_mcts_vs_random_42 - INFO - Episode   1300 | Avg Reward:   0.01 | Avg Length:    1.2 | Epsilon: 0.522
+2025-10-07 16:52:15,933 - UNO_RL_dqn_mcts_vs_random_42 - INFO - Episode   1400 | Avg Reward:   0.01 | Avg Length:    1.2 | Epsilon: 0.496
+2025-10-07 16:52:16,826 - UNO_RL_dqn_mcts_vs_random_42 - INFO - Episode   1500 | Avg Reward:   0.01 | Avg Length:    1.1 | Epsilon: 0.472
+2025-10-07 16:52:17,772 - UNO_RL_dqn_mcts_vs_random_42 - INFO - Episode   1600 | Avg Reward:   0.01 | Avg Length:    1.1 | Epsilon: 0.449
+2025-10-07 16:52:18,682 - UNO_RL_dqn_mcts_vs_random_42 - INFO - Episode   1700 | Avg Reward:   0.01 | Avg Length:    1.2 | Epsilon: 0.427
+2025-10-07 16:52:19,659 - UNO_RL_dqn_mcts_vs_random_42 - INFO - Episode   1800 | Avg Reward:   0.01 | Avg Length:    1.2 | Epsilon: 0.406
+2025-10-07 16:52:20,662 - UNO_RL_dqn_mcts_vs_random_42 - INFO - Episode   1900 | Avg Reward:   0.01 | Avg Length:    1.1 | Epsilon: 0.386
+2025-10-07 16:52:21,560 - UNO_RL_dqn_mcts_vs_random_42 - INFO - Starting episode 2000
+2025-10-07 16:52:21,567 - UNO_RL_dqn_mcts_vs_random_42 - INFO - Episode   2000 | Avg Reward:   0.01 | Avg Length:    1.3 | Epsilon: 0.368
+2025-10-07 16:52:32,782 - UNO_RL_dqn_mcts_vs_random_42 - INFO - ==================================================
+2025-10-07 16:52:32,783 - UNO_RL_dqn_mcts_vs_random_42 - INFO - EVALUATION AT EPISODE 2000
+2025-10-07 16:52:32,783 - UNO_RL_dqn_mcts_vs_random_42 - INFO - --------------------------------------------------
+2025-10-07 16:52:32,783 - UNO_RL_dqn_mcts_vs_random_42 - INFO - random_win_rate: 0.4900
+2025-10-07 16:52:32,783 - UNO_RL_dqn_mcts_vs_random_42 - INFO - random_avg_length: 47.1060
+2025-10-07 16:52:32,783 - UNO_RL_dqn_mcts_vs_random_42 - INFO - ==================================================
+2025-10-07 16:52:33,835 - UNO_RL_dqn_mcts_vs_random_42 - INFO - Episode   2100 | Avg Reward:   0.01 | Avg Length:    1.2 | Epsilon: 0.350
+2025-10-07 16:52:34,863 - UNO_RL_dqn_mcts_vs_random_42 - INFO - Episode   2200 | Avg Reward:   0.01 | Avg Length:    1.2 | Epsilon: 0.333
+2025-10-07 16:52:35,886 - UNO_RL_dqn_mcts_vs_random_42 - INFO - Episode   2300 | Avg Reward:   0.01 | Avg Length:    1.1 | Epsilon: 0.316
+2025-10-07 16:52:36,936 - UNO_RL_dqn_mcts_vs_random_42 - INFO - Episode   2400 | Avg Reward:   0.01 | Avg Length:    1.3 | Epsilon: 0.301
+2025-10-07 16:52:37,949 - UNO_RL_dqn_mcts_vs_random_42 - INFO - Episode   2500 | Avg Reward:   0.01 | Avg Length:    1.2 | Epsilon: 0.286
+2025-10-07 16:52:38,944 - UNO_RL_dqn_mcts_vs_random_42 - INFO - Episode   2600 | Avg Reward:   0.01 | Avg Length:    1.2 | Epsilon: 0.272
+2025-10-07 16:52:39,899 - UNO_RL_dqn_mcts_vs_random_42 - INFO - Episode   2700 | Avg Reward:   0.01 | Avg Length:    1.2 | Epsilon: 0.259
+2025-10-07 16:52:40,873 - UNO_RL_dqn_mcts_vs_random_42 - INFO - Episode   2800 | Avg Reward:   0.01 | Avg Length:    1.2 | Epsilon: 0.246
+2025-10-07 16:52:41,842 - UNO_RL_dqn_mcts_vs_random_42 - INFO - Episode   2900 | Avg Reward:   0.01 | Avg Length:    1.2 | Epsilon: 0.234
+2025-10-07 16:52:42,797 - UNO_RL_dqn_mcts_vs_random_42 - INFO - Starting episode 3000
+2025-10-07 16:52:42,807 - UNO_RL_dqn_mcts_vs_random_42 - INFO - Episode   3000 | Avg Reward:   0.01 | Avg Length:    1.2 | Epsilon: 0.223
+2025-10-07 16:52:43,766 - UNO_RL_dqn_mcts_vs_random_42 - INFO - Episode   3100 | Avg Reward:   0.01 | Avg Length:    1.2 | Epsilon: 0.212
+2025-10-07 16:52:44,719 - UNO_RL_dqn_mcts_vs_random_42 - INFO - Episode   3200 | Avg Reward:   0.01 | Avg Length:    1.2 | Epsilon: 0.202
+2025-10-07 16:52:45,696 - UNO_RL_dqn_mcts_vs_random_42 - INFO - Episode   3300 | Avg Reward:   0.01 | Avg Length:    1.1 | Epsilon: 0.192
+2025-10-07 16:52:46,665 - UNO_RL_dqn_mcts_vs_random_42 - INFO - Episode   3400 | Avg Reward:   0.01 | Avg Length:    1.2 | Epsilon: 0.183
+2025-10-07 16:52:47,640 - UNO_RL_dqn_mcts_vs_random_42 - INFO - Episode   3500 | Avg Reward:   0.01 | Avg Length:    1.1 | Epsilon: 0.174
+2025-10-07 16:52:48,619 - UNO_RL_dqn_mcts_vs_random_42 - INFO - Episode   3600 | Avg Reward:   0.01 | Avg Length:    1.2 | Epsilon: 0.165
+2025-10-07 16:52:49,591 - UNO_RL_dqn_mcts_vs_random_42 - INFO - Episode   3700 | Avg Reward:   0.01 | Avg Length:    1.2 | Epsilon: 0.157
+2025-10-07 16:52:50,558 - UNO_RL_dqn_mcts_vs_random_42 - INFO - Episode   3800 | Avg Reward:   0.01 | Avg Length:    1.1 | Epsilon: 0.149
+2025-10-07 16:52:51,577 - UNO_RL_dqn_mcts_vs_random_42 - INFO - Episode   3900 | Avg Reward:   0.01 | Avg Length:    1.2 | Epsilon: 0.142
+2025-10-07 16:52:52,606 - UNO_RL_dqn_mcts_vs_random_42 - INFO - Starting episode 4000
+2025-10-07 16:52:52,617 - UNO_RL_dqn_mcts_vs_random_42 - INFO - Episode   4000 | Avg Reward:   0.01 | Avg Length:    1.2 | Epsilon: 0.135
+2025-10-07 16:53:05,410 - UNO_RL_dqn_mcts_vs_random_42 - INFO - ==================================================
+2025-10-07 16:53:05,410 - UNO_RL_dqn_mcts_vs_random_42 - INFO - EVALUATION AT EPISODE 4000
+2025-10-07 16:53:05,410 - UNO_RL_dqn_mcts_vs_random_42 - INFO - --------------------------------------------------
+2025-10-07 16:53:05,410 - UNO_RL_dqn_mcts_vs_random_42 - INFO - random_win_rate: 0.5200
+2025-10-07 16:53:05,410 - UNO_RL_dqn_mcts_vs_random_42 - INFO - random_avg_length: 48.0780
+2025-10-07 16:53:05,410 - UNO_RL_dqn_mcts_vs_random_42 - INFO - ==================================================
+2025-10-07 16:53:06,444 - UNO_RL_dqn_mcts_vs_random_42 - INFO - Episode   4100 | Avg Reward:   0.01 | Avg Length:    1.3 | Epsilon: 0.129
+2025-10-07 16:53:07,469 - UNO_RL_dqn_mcts_vs_random_42 - INFO - Episode   4200 | Avg Reward:   0.01 | Avg Length:    1.2 | Epsilon: 0.122
+2025-10-07 16:53:08,478 - UNO_RL_dqn_mcts_vs_random_42 - INFO - Episode   4300 | Avg Reward:   0.01 | Avg Length:    1.2 | Epsilon: 0.116
+2025-10-07 16:53:09,459 - UNO_RL_dqn_mcts_vs_random_42 - INFO - Episode   4400 | Avg Reward:   0.01 | Avg Length:    1.3 | Epsilon: 0.111
+2025-10-07 16:53:10,490 - UNO_RL_dqn_mcts_vs_random_42 - INFO - Episode   4500 | Avg Reward:   0.01 | Avg Length:    1.2 | Epsilon: 0.105
+2025-10-07 16:53:11,452 - UNO_RL_dqn_mcts_vs_random_42 - INFO - Episode   4600 | Avg Reward:   0.01 | Avg Length:    1.2 | Epsilon: 0.100
+2025-10-07 16:53:12,402 - UNO_RL_dqn_mcts_vs_random_42 - INFO - Episode   4700 | Avg Reward:   0.01 | Avg Length:    1.2 | Epsilon: 0.095
+2025-10-07 16:53:13,376 - UNO_RL_dqn_mcts_vs_random_42 - INFO - Episode   4800 | Avg Reward:   0.01 | Avg Length:    1.1 | Epsilon: 0.091
+2025-10-07 16:53:14,421 - UNO_RL_dqn_mcts_vs_random_42 - INFO - Episode   4900 | Avg Reward:   0.01 | Avg Length:    1.2 | Epsilon: 0.086
+2025-10-07 16:53:15,462 - UNO_RL_dqn_mcts_vs_random_42 - INFO - Starting episode 5000
+2025-10-07 16:53:15,472 - UNO_RL_dqn_mcts_vs_random_42 - INFO - Episode   5000 | Avg Reward:   0.01 | Avg Length:    1.1 | Epsilon: 0.082
+2025-10-07 16:53:16,511 - UNO_RL_dqn_mcts_vs_random_42 - INFO - Episode   5100 | Avg Reward:   0.01 | Avg Length:    1.2 | Epsilon: 0.078
+2025-10-07 16:53:17,526 - UNO_RL_dqn_mcts_vs_random_42 - INFO - Episode   5200 | Avg Reward:   0.01 | Avg Length:    1.2 | Epsilon: 0.074
+2025-10-07 16:53:18,510 - UNO_RL_dqn_mcts_vs_random_42 - INFO - Episode   5300 | Avg Reward:   0.01 | Avg Length:    1.1 | Epsilon: 0.071
+2025-10-07 16:53:19,510 - UNO_RL_dqn_mcts_vs_random_42 - INFO - Episode   5400 | Avg Reward:   0.01 | Avg Length:    1.1 | Epsilon: 0.067
+2025-10-07 16:53:20,496 - UNO_RL_dqn_mcts_vs_random_42 - INFO - Episode   5500 | Avg Reward:   0.01 | Avg Length:    1.1 | Epsilon: 0.064
+2025-10-07 16:53:21,459 - UNO_RL_dqn_mcts_vs_random_42 - INFO - Episode   5600 | Avg Reward:   0.01 | Avg Length:    1.1 | Epsilon: 0.061
+2025-10-07 16:53:22,445 - UNO_RL_dqn_mcts_vs_random_42 - INFO - Episode   5700 | Avg Reward:   0.01 | Avg Length:    1.3 | Epsilon: 0.058
+2025-10-07 16:53:23,457 - UNO_RL_dqn_mcts_vs_random_42 - INFO - Episode   5800 | Avg Reward:   0.01 | Avg Length:    1.1 | Epsilon: 0.055
+2025-10-07 16:53:24,463 - UNO_RL_dqn_mcts_vs_random_42 - INFO - Episode   5900 | Avg Reward:   0.01 | Avg Length:    1.2 | Epsilon: 0.052
+2025-10-07 16:53:25,447 - UNO_RL_dqn_mcts_vs_random_42 - INFO - Starting episode 6000
+2025-10-07 16:53:25,457 - UNO_RL_dqn_mcts_vs_random_42 - INFO - Episode   6000 | Avg Reward:   0.01 | Avg Length:    1.2 | Epsilon: 0.050
+2025-10-07 16:53:37,849 - UNO_RL_dqn_mcts_vs_random_42 - INFO - ==================================================
+2025-10-07 16:53:37,851 - UNO_RL_dqn_mcts_vs_random_42 - INFO - EVALUATION AT EPISODE 6000
+2025-10-07 16:53:37,851 - UNO_RL_dqn_mcts_vs_random_42 - INFO - --------------------------------------------------
+2025-10-07 16:53:37,851 - UNO_RL_dqn_mcts_vs_random_42 - INFO - random_win_rate: 0.4960
+2025-10-07 16:53:37,851 - UNO_RL_dqn_mcts_vs_random_42 - INFO - random_avg_length: 46.7560
+2025-10-07 16:53:37,851 - UNO_RL_dqn_mcts_vs_random_42 - INFO - ==================================================
+2025-10-07 16:53:38,873 - UNO_RL_dqn_mcts_vs_random_42 - INFO - Episode   6100 | Avg Reward:   0.01 | Avg Length:    1.2 | Epsilon: 0.050
+2025-10-07 16:53:39,880 - UNO_RL_dqn_mcts_vs_random_42 - INFO - Episode   6200 | Avg Reward:   0.01 | Avg Length:    1.2 | Epsilon: 0.050
+2025-10-07 16:53:40,864 - UNO_RL_dqn_mcts_vs_random_42 - INFO - Episode   6300 | Avg Reward:   0.01 | Avg Length:    1.2 | Epsilon: 0.050
+2025-10-07 16:53:41,854 - UNO_RL_dqn_mcts_vs_random_42 - INFO - Episode   6400 | Avg Reward:   0.01 | Avg Length:    1.2 | Epsilon: 0.050
+2025-10-07 16:53:42,898 - UNO_RL_dqn_mcts_vs_random_42 - INFO - Episode   6500 | Avg Reward:   0.01 | Avg Length:    1.1 | Epsilon: 0.050
+2025-10-07 16:53:43,904 - UNO_RL_dqn_mcts_vs_random_42 - INFO - Episode   6600 | Avg Reward:   0.01 | Avg Length:    1.2 | Epsilon: 0.050
+2025-10-07 16:53:44,921 - UNO_RL_dqn_mcts_vs_random_42 - INFO - Episode   6700 | Avg Reward:   0.01 | Avg Length:    1.2 | Epsilon: 0.050
+2025-10-07 16:53:45,942 - UNO_RL_dqn_mcts_vs_random_42 - INFO - Episode   6800 | Avg Reward:   0.01 | Avg Length:    1.2 | Epsilon: 0.050
+2025-10-07 16:53:46,997 - UNO_RL_dqn_mcts_vs_random_42 - INFO - Episode   6900 | Avg Reward:   0.01 | Avg Length:    1.2 | Epsilon: 0.050
+2025-10-07 16:53:48,034 - UNO_RL_dqn_mcts_vs_random_42 - INFO - Starting episode 7000
+2025-10-07 16:53:48,044 - UNO_RL_dqn_mcts_vs_random_42 - INFO - Episode   7000 | Avg Reward:   0.01 | Avg Length:    1.2 | Epsilon: 0.050
+2025-10-07 16:53:49,043 - UNO_RL_dqn_mcts_vs_random_42 - INFO - Episode   7100 | Avg Reward:   0.01 | Avg Length:    1.2 | Epsilon: 0.050
+2025-10-07 16:53:50,023 - UNO_RL_dqn_mcts_vs_random_42 - INFO - Episode   7200 | Avg Reward:   0.01 | Avg Length:    1.1 | Epsilon: 0.050
+2025-10-07 16:53:51,018 - UNO_RL_dqn_mcts_vs_random_42 - INFO - Episode   7300 | Avg Reward:   0.01 | Avg Length:    1.1 | Epsilon: 0.050
+2025-10-07 16:53:51,987 - UNO_RL_dqn_mcts_vs_random_42 - INFO - Episode   7400 | Avg Reward:   0.01 | Avg Length:    1.2 | Epsilon: 0.050
+2025-10-07 16:53:52,973 - UNO_RL_dqn_mcts_vs_random_42 - INFO - Episode   7500 | Avg Reward:   0.01 | Avg Length:    1.3 | Epsilon: 0.050
+2025-10-07 16:53:53,949 - UNO_RL_dqn_mcts_vs_random_42 - INFO - Episode   7600 | Avg Reward:   0.01 | Avg Length:    1.1 | Epsilon: 0.050
+2025-10-07 16:53:54,924 - UNO_RL_dqn_mcts_vs_random_42 - INFO - Episode   7700 | Avg Reward:   0.01 | Avg Length:    1.2 | Epsilon: 0.050
+2025-10-07 16:53:55,935 - UNO_RL_dqn_mcts_vs_random_42 - INFO - Episode   7800 | Avg Reward:   0.01 | Avg Length:    1.1 | Epsilon: 0.050
+2025-10-07 16:53:56,966 - UNO_RL_dqn_mcts_vs_random_42 - INFO - Episode   7900 | Avg Reward:   0.01 | Avg Length:    1.1 | Epsilon: 0.050
+2025-10-07 16:53:57,987 - UNO_RL_dqn_mcts_vs_random_42 - INFO - Starting episode 8000
+2025-10-07 16:53:57,996 - UNO_RL_dqn_mcts_vs_random_42 - INFO - Episode   8000 | Avg Reward:   0.01 | Avg Length:    1.2 | Epsilon: 0.050
+2025-10-07 16:54:09,922 - UNO_RL_dqn_mcts_vs_random_42 - INFO - ==================================================
+2025-10-07 16:54:09,923 - UNO_RL_dqn_mcts_vs_random_42 - INFO - EVALUATION AT EPISODE 8000
+2025-10-07 16:54:09,923 - UNO_RL_dqn_mcts_vs_random_42 - INFO - --------------------------------------------------
+2025-10-07 16:54:09,923 - UNO_RL_dqn_mcts_vs_random_42 - INFO - random_win_rate: 0.4980
+2025-10-07 16:54:09,923 - UNO_RL_dqn_mcts_vs_random_42 - INFO - random_avg_length: 45.7780
+2025-10-07 16:54:09,923 - UNO_RL_dqn_mcts_vs_random_42 - INFO - ==================================================
+2025-10-07 16:54:10,930 - UNO_RL_dqn_mcts_vs_random_42 - INFO - Episode   8100 | Avg Reward:   0.01 | Avg Length:    1.2 | Epsilon: 0.050
+2025-10-07 16:54:11,980 - UNO_RL_dqn_mcts_vs_random_42 - INFO - Episode   8200 | Avg Reward:   0.01 | Avg Length:    1.2 | Epsilon: 0.050
+2025-10-07 16:54:12,991 - UNO_RL_dqn_mcts_vs_random_42 - INFO - Episode   8300 | Avg Reward:   0.01 | Avg Length:    1.1 | Epsilon: 0.050
+2025-10-07 16:54:14,094 - UNO_RL_dqn_mcts_vs_random_42 - INFO - Episode   8400 | Avg Reward:   0.01 | Avg Length:    1.2 | Epsilon: 0.050
+2025-10-07 16:54:15,105 - UNO_RL_dqn_mcts_vs_random_42 - INFO - Episode   8500 | Avg Reward:   0.01 | Avg Length:    1.2 | Epsilon: 0.050
+2025-10-07 16:54:16,159 - UNO_RL_dqn_mcts_vs_random_42 - INFO - Episode   8600 | Avg Reward:   0.01 | Avg Length:    1.1 | Epsilon: 0.050
+2025-10-07 16:54:17,195 - UNO_RL_dqn_mcts_vs_random_42 - INFO - Episode   8700 | Avg Reward:   0.01 | Avg Length:    1.2 | Epsilon: 0.050
+2025-10-07 16:54:18,312 - UNO_RL_dqn_mcts_vs_random_42 - INFO - Episode   8800 | Avg Reward:   0.01 | Avg Length:    1.2 | Epsilon: 0.050
+2025-10-07 16:54:19,367 - UNO_RL_dqn_mcts_vs_random_42 - INFO - Episode   8900 | Avg Reward:   0.01 | Avg Length:    1.2 | Epsilon: 0.050
+2025-10-07 16:54:20,400 - UNO_RL_dqn_mcts_vs_random_42 - INFO - Starting episode 9000
+2025-10-07 16:54:20,411 - UNO_RL_dqn_mcts_vs_random_42 - INFO - Episode   9000 | Avg Reward:   0.01 | Avg Length:    1.1 | Epsilon: 0.050
+2025-10-07 16:54:21,439 - UNO_RL_dqn_mcts_vs_random_42 - INFO - Episode   9100 | Avg Reward:   0.01 | Avg Length:    1.1 | Epsilon: 0.050
+2025-10-07 16:54:22,423 - UNO_RL_dqn_mcts_vs_random_42 - INFO - Episode   9200 | Avg Reward:   0.01 | Avg Length:    1.2 | Epsilon: 0.050
+2025-10-07 16:54:23,397 - UNO_RL_dqn_mcts_vs_random_42 - INFO - Episode   9300 | Avg Reward:   0.01 | Avg Length:    1.2 | Epsilon: 0.050
+2025-10-07 16:54:24,393 - UNO_RL_dqn_mcts_vs_random_42 - INFO - Episode   9400 | Avg Reward:   0.01 | Avg Length:    1.3 | Epsilon: 0.050
+2025-10-07 16:54:25,371 - UNO_RL_dqn_mcts_vs_random_42 - INFO - Episode   9500 | Avg Reward:   0.01 | Avg Length:    1.2 | Epsilon: 0.050
+2025-10-07 16:54:26,390 - UNO_RL_dqn_mcts_vs_random_42 - INFO - Episode   9600 | Avg Reward:   0.01 | Avg Length:    1.2 | Epsilon: 0.050
+2025-10-07 16:54:27,381 - UNO_RL_dqn_mcts_vs_random_42 - INFO - Episode   9700 | Avg Reward:   0.01 | Avg Length:    1.3 | Epsilon: 0.050
+2025-10-07 16:54:28,439 - UNO_RL_dqn_mcts_vs_random_42 - INFO - Episode   9800 | Avg Reward:   0.01 | Avg Length:    1.2 | Epsilon: 0.050
+2025-10-07 16:54:29,432 - UNO_RL_dqn_mcts_vs_random_42 - INFO - Episode   9900 | Avg Reward:   0.01 | Avg Length:    1.2 | Epsilon: 0.050
+2025-10-07 16:54:30,435 - UNO_RL_dqn_mcts_vs_random_42 - INFO - Starting episode 10000
+2025-10-07 16:54:30,446 - UNO_RL_dqn_mcts_vs_random_42 - INFO - Episode  10000 | Avg Reward:   0.01 | Avg Length:    1.2 | Epsilon: 0.050
+2025-10-07 16:54:42,743 - UNO_RL_dqn_mcts_vs_random_42 - INFO - ==================================================
+2025-10-07 16:54:42,744 - UNO_RL_dqn_mcts_vs_random_42 - INFO - EVALUATION AT EPISODE 10000
+2025-10-07 16:54:42,744 - UNO_RL_dqn_mcts_vs_random_42 - INFO - --------------------------------------------------
+2025-10-07 16:54:42,744 - UNO_RL_dqn_mcts_vs_random_42 - INFO - random_win_rate: 0.4900
+2025-10-07 16:54:42,744 - UNO_RL_dqn_mcts_vs_random_42 - INFO - random_avg_length: 46.4660
+2025-10-07 16:54:42,744 - UNO_RL_dqn_mcts_vs_random_42 - INFO - ==================================================
+2025-10-07 16:54:42,755 - UNO_RL_dqn_mcts_vs_random_42 - INFO - Model checkpoint saved at episode 10000: ./models/dqn_mcts_episode_10000.pth
+2025-10-07 16:54:43,770 - UNO_RL_dqn_mcts_vs_random_42 - INFO - Episode  10100 | Avg Reward:   0.01 | Avg Length:    1.1 | Epsilon: 0.050
+2025-10-07 16:54:44,764 - UNO_RL_dqn_mcts_vs_random_42 - INFO - Episode  10200 | Avg Reward:   0.01 | Avg Length:    1.2 | Epsilon: 0.050
+2025-10-07 16:54:45,742 - UNO_RL_dqn_mcts_vs_random_42 - INFO - Episode  10300 | Avg Reward:   0.01 | Avg Length:    1.2 | Epsilon: 0.050
+2025-10-07 16:54:46,753 - UNO_RL_dqn_mcts_vs_random_42 - INFO - Episode  10400 | Avg Reward:   0.01 | Avg Length:    1.3 | Epsilon: 0.050
+2025-10-07 16:54:47,763 - UNO_RL_dqn_mcts_vs_random_42 - INFO - Episode  10500 | Avg Reward:   0.01 | Avg Length:    1.2 | Epsilon: 0.050
+2025-10-07 16:54:48,810 - UNO_RL_dqn_mcts_vs_random_42 - INFO - Episode  10600 | Avg Reward:   0.01 | Avg Length:    1.2 | Epsilon: 0.050
+2025-10-07 16:54:49,830 - UNO_RL_dqn_mcts_vs_random_42 - INFO - Episode  10700 | Avg Reward:   0.01 | Avg Length:    1.3 | Epsilon: 0.050
+2025-10-07 16:54:50,844 - UNO_RL_dqn_mcts_vs_random_42 - INFO - Episode  10800 | Avg Reward:   0.01 | Avg Length:    1.3 | Epsilon: 0.050
+2025-10-07 16:54:51,846 - UNO_RL_dqn_mcts_vs_random_42 - INFO - Episode  10900 | Avg Reward:   0.01 | Avg Length:    1.2 | Epsilon: 0.050
+2025-10-07 16:54:52,871 - UNO_RL_dqn_mcts_vs_random_42 - INFO - Starting episode 11000
+2025-10-07 16:54:52,881 - UNO_RL_dqn_mcts_vs_random_42 - INFO - Episode  11000 | Avg Reward:   0.01 | Avg Length:    1.2 | Epsilon: 0.050
+2025-10-07 16:54:53,902 - UNO_RL_dqn_mcts_vs_random_42 - INFO - Episode  11100 | Avg Reward:   0.01 | Avg Length:    1.3 | Epsilon: 0.050
+2025-10-07 16:54:54,944 - UNO_RL_dqn_mcts_vs_random_42 - INFO - Episode  11200 | Avg Reward:   0.01 | Avg Length:    1.1 | Epsilon: 0.050
+2025-10-07 16:54:55,942 - UNO_RL_dqn_mcts_vs_random_42 - INFO - Episode  11300 | Avg Reward:   0.01 | Avg Length:    1.2 | Epsilon: 0.050
+2025-10-07 16:54:56,950 - UNO_RL_dqn_mcts_vs_random_42 - INFO - Episode  11400 | Avg Reward:   0.01 | Avg Length:    1.2 | Epsilon: 0.050
+2025-10-07 16:54:58,001 - UNO_RL_dqn_mcts_vs_random_42 - INFO - Episode  11500 | Avg Reward:   0.01 | Avg Length:    1.1 | Epsilon: 0.050
+2025-10-07 16:54:59,058 - UNO_RL_dqn_mcts_vs_random_42 - INFO - Episode  11600 | Avg Reward:   0.01 | Avg Length:    1.1 | Epsilon: 0.050
+2025-10-07 16:55:00,098 - UNO_RL_dqn_mcts_vs_random_42 - INFO - Episode  11700 | Avg Reward:   0.01 | Avg Length:    1.2 | Epsilon: 0.050
+2025-10-07 16:55:01,129 - UNO_RL_dqn_mcts_vs_random_42 - INFO - Episode  11800 | Avg Reward:   0.01 | Avg Length:    1.2 | Epsilon: 0.050
+2025-10-07 16:55:02,137 - UNO_RL_dqn_mcts_vs_random_42 - INFO - Episode  11900 | Avg Reward:   0.01 | Avg Length:    1.2 | Epsilon: 0.050
+2025-10-07 16:55:03,125 - UNO_RL_dqn_mcts_vs_random_42 - INFO - Starting episode 12000
+2025-10-07 16:55:03,135 - UNO_RL_dqn_mcts_vs_random_42 - INFO - Episode  12000 | Avg Reward:   0.01 | Avg Length:    1.2 | Epsilon: 0.050
+2025-10-07 16:55:15,541 - UNO_RL_dqn_mcts_vs_random_42 - INFO - ==================================================
+2025-10-07 16:55:15,541 - UNO_RL_dqn_mcts_vs_random_42 - INFO - EVALUATION AT EPISODE 12000
+2025-10-07 16:55:15,541 - UNO_RL_dqn_mcts_vs_random_42 - INFO - --------------------------------------------------
+2025-10-07 16:55:15,541 - UNO_RL_dqn_mcts_vs_random_42 - INFO - random_win_rate: 0.5020
+2025-10-07 16:55:15,541 - UNO_RL_dqn_mcts_vs_random_42 - INFO - random_avg_length: 45.8540
+2025-10-07 16:55:15,541 - UNO_RL_dqn_mcts_vs_random_42 - INFO - ==================================================
+2025-10-07 16:55:16,545 - UNO_RL_dqn_mcts_vs_random_42 - INFO - Episode  12100 | Avg Reward:   0.01 | Avg Length:    1.2 | Epsilon: 0.050
+2025-10-07 16:55:17,514 - UNO_RL_dqn_mcts_vs_random_42 - INFO - Episode  12200 | Avg Reward:   0.01 | Avg Length:    1.2 | Epsilon: 0.050
+2025-10-07 16:55:18,506 - UNO_RL_dqn_mcts_vs_random_42 - INFO - Episode  12300 | Avg Reward:   0.01 | Avg Length:    1.2 | Epsilon: 0.050
+2025-10-07 16:55:19,452 - UNO_RL_dqn_mcts_vs_random_42 - INFO - Episode  12400 | Avg Reward:   0.01 | Avg Length:    1.2 | Epsilon: 0.050
+2025-10-07 16:55:20,416 - UNO_RL_dqn_mcts_vs_random_42 - INFO - Episode  12500 | Avg Reward:   0.01 | Avg Length:    1.1 | Epsilon: 0.050
+2025-10-07 16:55:21,390 - UNO_RL_dqn_mcts_vs_random_42 - INFO - Episode  12600 | Avg Reward:   0.01 | Avg Length:    1.1 | Epsilon: 0.050
+2025-10-07 16:55:22,360 - UNO_RL_dqn_mcts_vs_random_42 - INFO - Episode  12700 | Avg Reward:   0.01 | Avg Length:    1.1 | Epsilon: 0.050
+2025-10-07 16:55:23,314 - UNO_RL_dqn_mcts_vs_random_42 - INFO - Episode  12800 | Avg Reward:   0.01 | Avg Length:    1.2 | Epsilon: 0.050
+2025-10-07 16:55:24,277 - UNO_RL_dqn_mcts_vs_random_42 - INFO - Episode  12900 | Avg Reward:   0.01 | Avg Length:    1.2 | Epsilon: 0.050
+2025-10-07 16:55:25,230 - UNO_RL_dqn_mcts_vs_random_42 - INFO - Starting episode 13000
+2025-10-07 16:55:25,239 - UNO_RL_dqn_mcts_vs_random_42 - INFO - Episode  13000 | Avg Reward:   0.01 | Avg Length:    1.3 | Epsilon: 0.050
+2025-10-07 16:55:26,175 - UNO_RL_dqn_mcts_vs_random_42 - INFO - Episode  13100 | Avg Reward:   0.01 | Avg Length:    1.2 | Epsilon: 0.050
+2025-10-07 16:55:27,134 - UNO_RL_dqn_mcts_vs_random_42 - INFO - Episode  13200 | Avg Reward:   0.01 | Avg Length:    1.3 | Epsilon: 0.050
+2025-10-07 16:55:28,123 - UNO_RL_dqn_mcts_vs_random_42 - INFO - Episode  13300 | Avg Reward:   0.01 | Avg Length:    1.2 | Epsilon: 0.050
+2025-10-07 16:55:29,086 - UNO_RL_dqn_mcts_vs_random_42 - INFO - Episode  13400 | Avg Reward:   0.01 | Avg Length:    1.1 | Epsilon: 0.050
+2025-10-07 16:55:30,055 - UNO_RL_dqn_mcts_vs_random_42 - INFO - Episode  13500 | Avg Reward:   0.01 | Avg Length:    1.1 | Epsilon: 0.050
+2025-10-07 16:55:31,019 - UNO_RL_dqn_mcts_vs_random_42 - INFO - Episode  13600 | Avg Reward:   0.01 | Avg Length:    1.2 | Epsilon: 0.050
+2025-10-07 16:55:32,033 - UNO_RL_dqn_mcts_vs_random_42 - INFO - Episode  13700 | Avg Reward:   0.01 | Avg Length:    1.1 | Epsilon: 0.050
+2025-10-07 16:55:33,049 - UNO_RL_dqn_mcts_vs_random_42 - INFO - Episode  13800 | Avg Reward:   0.01 | Avg Length:    1.1 | Epsilon: 0.050
+2025-10-07 16:55:34,020 - UNO_RL_dqn_mcts_vs_random_42 - INFO - Episode  13900 | Avg Reward:   0.01 | Avg Length:    1.1 | Epsilon: 0.050
+2025-10-07 16:55:35,000 - UNO_RL_dqn_mcts_vs_random_42 - INFO - Starting episode 14000
+2025-10-07 16:55:35,011 - UNO_RL_dqn_mcts_vs_random_42 - INFO - Episode  14000 | Avg Reward:   0.01 | Avg Length:    1.2 | Epsilon: 0.050
+2025-10-07 16:55:45,806 - UNO_RL_dqn_mcts_vs_random_42 - INFO - ==================================================
+2025-10-07 16:55:45,806 - UNO_RL_dqn_mcts_vs_random_42 - INFO - EVALUATION AT EPISODE 14000
+2025-10-07 16:55:45,806 - UNO_RL_dqn_mcts_vs_random_42 - INFO - --------------------------------------------------
+2025-10-07 16:55:45,806 - UNO_RL_dqn_mcts_vs_random_42 - INFO - random_win_rate: 0.5060
+2025-10-07 16:55:45,806 - UNO_RL_dqn_mcts_vs_random_42 - INFO - random_avg_length: 46.5920
+2025-10-07 16:55:45,806 - UNO_RL_dqn_mcts_vs_random_42 - INFO - ==================================================
+2025-10-07 16:55:46,774 - UNO_RL_dqn_mcts_vs_random_42 - INFO - Episode  14100 | Avg Reward:   0.01 | Avg Length:    1.2 | Epsilon: 0.050
+2025-10-07 16:55:47,752 - UNO_RL_dqn_mcts_vs_random_42 - INFO - Episode  14200 | Avg Reward:   0.01 | Avg Length:    1.2 | Epsilon: 0.050
+2025-10-07 16:55:48,759 - UNO_RL_dqn_mcts_vs_random_42 - INFO - Episode  14300 | Avg Reward:   0.01 | Avg Length:    1.2 | Epsilon: 0.050
+2025-10-07 16:55:49,750 - UNO_RL_dqn_mcts_vs_random_42 - INFO - Episode  14400 | Avg Reward:   0.01 | Avg Length:    1.1 | Epsilon: 0.050
+2025-10-07 16:55:50,710 - UNO_RL_dqn_mcts_vs_random_42 - INFO - Episode  14500 | Avg Reward:   0.01 | Avg Length:    1.3 | Epsilon: 0.050
+2025-10-07 16:55:51,706 - UNO_RL_dqn_mcts_vs_random_42 - INFO - Episode  14600 | Avg Reward:   0.01 | Avg Length:    1.2 | Epsilon: 0.050
+2025-10-07 16:55:52,683 - UNO_RL_dqn_mcts_vs_random_42 - INFO - Episode  14700 | Avg Reward:   0.01 | Avg Length:    1.2 | Epsilon: 0.050
+2025-10-07 16:55:53,644 - UNO_RL_dqn_mcts_vs_random_42 - INFO - Episode  14800 | Avg Reward:   0.01 | Avg Length:    1.2 | Epsilon: 0.050
+2025-10-07 16:55:54,601 - UNO_RL_dqn_mcts_vs_random_42 - INFO - Episode  14900 | Avg Reward:   0.01 | Avg Length:    1.2 | Epsilon: 0.050
+2025-10-07 16:55:55,535 - UNO_RL_dqn_mcts_vs_random_42 - INFO - Performing final evaluation...
+2025-10-07 16:56:06,972 - UNO_RL_dqn_mcts_vs_random_42 - INFO - ==================================================
+2025-10-07 16:56:06,972 - UNO_RL_dqn_mcts_vs_random_42 - INFO - EVALUATION AT EPISODE 14999
+2025-10-07 16:56:06,973 - UNO_RL_dqn_mcts_vs_random_42 - INFO - --------------------------------------------------
+2025-10-07 16:56:06,973 - UNO_RL_dqn_mcts_vs_random_42 - INFO - random_win_rate: 0.5160
+2025-10-07 16:56:06,973 - UNO_RL_dqn_mcts_vs_random_42 - INFO - random_avg_length: 48.0160
+2025-10-07 16:56:06,973 - UNO_RL_dqn_mcts_vs_random_42 - INFO - ==================================================
+2025-10-07 16:56:06,980 - UNO_RL_dqn_mcts_vs_random_42 - INFO - Model checkpoint saved at episode 14999: ./models/dqn_mcts_final.pth
+2025-10-07 16:56:06,980 - UNO_RL_dqn_mcts_vs_random_42 - INFO - ============================================================
+2025-10-07 16:56:06,980 - UNO_RL_dqn_mcts_vs_random_42 - INFO - TRAINING COMPLETED
+2025-10-07 16:56:06,980 - UNO_RL_dqn_mcts_vs_random_42 - INFO - ============================================================
+2025-10-07 16:56:06,980 - UNO_RL_dqn_mcts_vs_random_42 - INFO - Total training time: 243.10 seconds (0.07 hours)
+2025-10-07 16:56:06,980 - UNO_RL_dqn_mcts_vs_random_42 - INFO - Total episodes: 15000
+2025-10-07 16:56:06,980 - UNO_RL_dqn_mcts_vs_random_42 - INFO - Final 100-episode average reward: 0.010
+2025-10-07 16:56:07,007 - UNO_RL_dqn_mcts_vs_random_42 - INFO - Metrics saved to: ./logs/dqn_mcts_vs_random_42
+2025-10-07 16:56:07,599 - UNO_RL_dqn_mcts_vs_random_42 - INFO - Training plots saved to: ./logs/dqn_mcts_vs_random_42/training_plots.png
+2025-10-07 16:56:07,600 - UNO_RL_dqn_mcts_vs_random_42 - INFO - All logs and plots saved to: ./logs/dqn_mcts_vs_random_42
