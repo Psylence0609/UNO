@@ -1,3 +1,0 @@
-Agent,Wins,Losses,Win_Rate,Total_Games
-Random,1987,2013,0.49675,4000
-DMC+MCTS,2013,1987,0.50325,4000

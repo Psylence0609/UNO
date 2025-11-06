@@ -1,0 +1,6 @@
+Agent,Total_Wins,Total_Losses,Win_Rate,Total_Games,Vs_Random_Win_Rate,Avg_Turns
+DMC Ep10k,454,446,0.504,900,0.526,49.9
+DMC Old,448,452,0.498,900,0.508,47.8
+DQN+MCTS,444,456,0.493,900,0.500,46.8
+DQN Original,434,466,0.482,900,0.486,48.4
+

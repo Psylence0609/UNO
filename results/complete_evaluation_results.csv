@@ -1,0 +1,6 @@
+Model,Win_Rate_vs_Random,Avg_Turns,Ranking,Algorithm_Type,MCTS_Reward_Shaping
+DMC Ep10k,0.526,49.9,1,DMC,Yes
+DMC Old,0.508,47.8,2,DMC,Yes
+DQN+MCTS,0.500,46.8,3,DQN,Yes
+DQN Original,0.486,48.4,4,DQN,No
+
