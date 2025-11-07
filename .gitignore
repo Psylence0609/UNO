@@ -1,5 +1,6 @@
 # Python
 __pycache__/
+**/__pycache__/
 *.py[cod]
 *.pyo
 *.pyd
@@ -35,3 +36,7 @@ env/
 # models/
 # results/
 # logs/
+
+experiments/
+logs/
+models/

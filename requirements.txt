@@ -23,6 +23,7 @@ click>=8.0.0
 pyyaml>=6.0
 wandb>=0.12.0  # For experiment tracking
 tensorboard>=2.8.0
+GitPython>=3.1.0  # Required for RLCard's DMCTrainer
 
 # Development and Testing
 pytest>=6.2.0
