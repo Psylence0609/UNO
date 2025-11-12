@@ -13,7 +13,7 @@ from tqdm import tqdm
 sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
 from src.environments.uno_env import UnoEnvironment
-from src.agents.dqn_agent import DQNAgent
+from src.agents.dqn_agent_new import DQNAgent
 from src.agents.random_agent import RandomAgent
 from src.utils.replay_buffer import ReplayBuffer
 from src.training.logger import TrainingLogger, calculate_reward
@@ -239,8 +239,9 @@ class DQNTrainer:
             self.logger.log_evaluation(self.episode, final_eval)
             
             # Save final model
+            os.makedirs(os.path.join(self.config['paths']['models'], "custom"), exist_ok=True)
             final_model_path = self.save_model(
-                os.path.join(self.config['paths']['models'], "dqn_final.pth")
+                os.path.join(self.config['paths']['models'], "custom", "dqn_final.pth")
             )
             
             self.logger.end_training()

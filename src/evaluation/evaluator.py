@@ -88,6 +88,12 @@ class Evaluator:
         """
         # Reset environment
         state, player_id = self.env.reset()
+        
+        # Reset opponent tracking for agents with opponent modeling
+        for agent in agents:
+            if hasattr(agent, 'reset_opponent_tracking'):
+                agent.reset_opponent_tracking(num_players=self.env.num_players)
+        
         game_length = 0
         
         # Play until game ends
@@ -95,14 +101,39 @@ class Evaluator:
             # Get action from current player
             action = agents[player_id].use_raw(state)
             
+            # Update opponent tracking for agents with opponent modeling
+            # Track opponent actions after they're taken
+            for i, agent in enumerate(agents):
+                if i != player_id and hasattr(agent, 'update_opponent_history'):
+                    # Get opponent hand size if available
+                    opponent_hand_size = None
+                    if 'raw_obs' in state and 'num_cards' in state['raw_obs']:
+                        num_cards = state['raw_obs']['num_cards']
+                        if isinstance(num_cards, (list, np.ndarray)):
+                            if player_id < len(num_cards):
+                                opponent_hand_size = num_cards[player_id]
+                        elif isinstance(num_cards, dict):
+                            opponent_hand_size = num_cards.get(player_id)
+                    
+                    # Update opponent history (opponent_id from agent's perspective)
+                    # Agent i tracks player_id as opponent
+                    agent.update_opponent_history(
+                        action=action,
+                        opponent_id=player_id,
+                        hand_size=opponent_hand_size
+                    )
+            
             # Take step
-            state, player_id = self.env.step(action)
+            next_state, next_player_id = self.env.step(action)
             game_length += 1
             
             # Safety check for infinite games
             if game_length > 1000:
                 print(f"Warning: Game exceeded 1000 steps, ending early")
                 break
+            
+            state = next_state
+            player_id = next_player_id
         
         # Get final payoffs
         payoffs = self.env.get_payoffs()

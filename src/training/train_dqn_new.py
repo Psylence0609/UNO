@@ -223,8 +223,9 @@ class DQNTrainer:
             self.logger.log_evaluation(self.episode, final_eval_data)
             
             # Save final model
+            os.makedirs(os.path.join(self.config['paths']['models'], "custom"), exist_ok=True)
             final_model_path = self.save_model(
-                os.path.join(self.config['paths']['models'], "dqn_mcts_final.pth")
+                os.path.join(self.config['paths']['models'], "custom", "dqn_mcts_final.pth")
             )
             
             self.logger.end_training()

@@ -58,22 +58,22 @@ def main():
     # Model configurations
     models = {
         'DQN Original': {
-            'file': 'models/dqn_final.pth',
+            'file': 'models/custom/dqn_final.pth',
             'type': 'dqn',
             'architecture': [256, 128]
         },
         'DQN+MCTS': {
-            'file': 'models/dqn_mcts_final.pth',
+            'file': 'models/custom/dqn_mcts_final.pth',
             'type': 'dqn',
             'architecture': [256, 128]
         },
         'DMC Old': {
-            'file': 'models/dmc_mcts_final.pth',
+            'file': 'models/custom/dmc_mcts_final.pth',
             'type': 'dmc',
-            'architecture': [256, 128]  # Updated architecture
+            'architecture': [256, 128]
         },
         'DMC Ep10k': {
-            'file': 'models/dmc_episode_10000.pth',
+            'file': 'models/custom/dmc_episode_10000.pth',
             'type': 'dmc',
             'architecture': [256, 128]
         }

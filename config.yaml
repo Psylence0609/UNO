@@ -67,3 +67,19 @@ paths:
   models: "./models"
   logs: "./logs"
   experiments: "./experiments"
+
+# Opponent Modeling Configuration
+opponent_modeling:
+  enabled: true
+  history_size: 20  # Number of recent actions to track
+  hidden_layers: [128, 64]  # Opponent modeling network architecture
+  strategy_dim: 32  # Dimension of opponent strategy representation
+  activation: "relu"
+  dropout: 0.1
+  feature_weights:
+    hand_size: 1.0
+    hand_size_change: 1.0
+    action_history: 1.0
+    action_frequencies: 1.0
+    play_style: 1.0
+    game_progress: 1.0
