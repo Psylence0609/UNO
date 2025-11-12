@@ -535,7 +535,7 @@ class DMCAgentWithOpponentModeling(DMCAgent):
         Args:
             filepath: Path to load the model from
         """
-        checkpoint = torch.load(filepath, map_location=self.device)
+        checkpoint = torch.load(filepath, map_location=self.device, weights_only=False)
         
         self.network.load_state_dict(checkpoint['network_state_dict'])
         self.opponent_model.load_state_dict(checkpoint['opponent_model_state_dict'])

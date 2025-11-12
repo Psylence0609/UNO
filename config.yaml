@@ -2,22 +2,24 @@
 
 # Training Configuration
 training:
-  episodes: 15000  # Balanced training length
+  episodes: 20000  # Extended training for opponent modeling
   batch_size: 64   # Good for both algorithms
-  learning_rate: 0.0005  # Stable learning rate
+  learning_rate: 0.0001  # Reduced for more stable training (was 0.0005)
   gamma: 0.99  # Discount factor
   epsilon_start: 1.0
-  epsilon_end: 0.05  # Higher exploration minimum
-  epsilon_decay: 0.9995  # Gradual decay
+  epsilon_end: 0.01  # Low exploration for better exploitation (matching RLCard DMC)
+  epsilon_decay: 0.999079  # Decay to reach 0.01 in ~5000 episodes (matching RLCard DMC exploration schedule)
+  max_grad_norm: 40.0  # Gradient clipping (matching RLCard DMC - was 1.0)
   memory_size: 20000  # Larger memory
   target_update_freq: 1000
   device: "mps"  # Use Apple Silicon GPU
+  gradient_accumulation_steps: 1  # Gradient accumulation for larger effective batch size
   
 # Unified Network Architecture (same for both DQN and DMC)
 network:
-  hidden_layers: [256, 128]  # Match original DQN architecture
+  hidden_layers: [512, 256, 128]  # Enhanced architecture for advanced opponent modeling
   activation: "relu"
-  dropout: 0.1
+  dropout: 0.1  # Reduced dropout for better learning (matching RLCard - was 0.2)
   
 # DQN Configuration
 dqn:
@@ -50,7 +52,7 @@ environment:
   
 # Evaluation Configuration
 evaluation:
-  eval_episodes: 500  # Faster evaluation
+  eval_episodes: 1000  # More evaluation games for lower variance (reduced from 500)
   eval_freq: 2000  # More frequent evaluation
   opponents: ["random", "rule_based"]
   
@@ -72,10 +74,14 @@ paths:
 opponent_modeling:
   enabled: true
   history_size: 20  # Number of recent actions to track
-  hidden_layers: [128, 64]  # Opponent modeling network architecture
-  strategy_dim: 32  # Dimension of opponent strategy representation
+  hidden_layers: [256, 128, 64]  # Advanced opponent modeling network architecture
+  strategy_dim: 64  # Dimension of opponent strategy representation (increased for sophistication)
+  num_attention_heads: 4  # Number of attention heads for transformer-like processing
+  use_attention: true  # Use attention mechanism for opponent modeling
+  use_temporal: true  # Use temporal modeling for opponent sequences
+  use_gated_fusion: true  # Use gated fusion for state-opponent feature combination
   activation: "relu"
-  dropout: 0.1
+  dropout: 0.1  # Reduced dropout for better learning (matching RLCard - was 0.2)
   feature_weights:
     hand_size: 1.0
     hand_size_change: 1.0
@@ -83,3 +89,31 @@ opponent_modeling:
     action_frequencies: 1.0
     play_style: 1.0
     game_progress: 1.0
+
+# Early Stopping Configuration
+early_stopping:
+  enabled: true
+  patience: 3000  # Episodes without improvement before stopping (increased for more training)
+  min_improvement: 0.01  # Minimum absolute improvement to consider progress (1%)
+  baseline_win_rate: 0.50  # Baseline win rate to compare against
+  target_win_rate: 0.55  # Target win rate (informational only - training continues beyond this)
+  check_interval: 500  # Episodes between progress checks
+  min_episodes: 5000  # Minimum episodes before early stopping can trigger (increased for stable training)
+  smoothing_window: 5  # Number of recent evaluations to average for smoother progress tracking
+
+# Learning Rate Scheduler Configuration
+learning_rate_scheduler:
+  enabled: true
+  mode: "max"  # Monitor win rate (maximize)
+  factor: 0.5  # Reduce LR by half when plateauing
+  patience: 1000  # Wait 1000 evaluation checks before reducing (500 episodes * 2 checks = 1000)
+  min_lr: 1e-6  # Minimum learning rate
+  verbose: false
+
+# Optimizer Configuration
+optimizer:
+  type: "rmsprop"  # Use RMSProp optimizer (matching RLCard DMC - was AdamW)
+  alpha: 0.99  # RMSProp smoothing factor (matching RLCard)
+  momentum: 0.0  # RMSProp momentum (matching RLCard)
+  eps: 0.00001  # RMSProp epsilon (matching RLCard) - using decimal format to avoid YAML string parsing
+  weight_decay: 0.0  # No weight decay for RMSProp (matching RLCard)
