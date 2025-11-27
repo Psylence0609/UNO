@@ -195,6 +195,62 @@ class OpponentFeatureExtractor:
         
         return np.array(features, dtype=np.float32)
     
+    def extract_sequence_features(self, opponent_id: int) -> np.ndarray:
+        """
+        Extract sequence of recent actions and hand sizes.
+        
+        Args:
+            opponent_id: ID of the opponent
+            
+        Returns:
+            Sequence features as numpy array [seq_len, sequence_feature_size]
+        """
+        if opponent_id == 0:
+            # Return zero sequence for our agent
+            return np.zeros((self.history_size, self.get_sequence_feature_size()), dtype=np.float32)
+            
+        # Get recent actions and hand sizes
+        actions = list(self.opponent_actions.get(opponent_id, []))
+        hand_sizes = list(self.opponent_hand_sizes.get(opponent_id, []))
+        
+        # Pad or truncate to history_size
+        seq_len = self.history_size
+        
+        # Create sequence features
+        # Each step: [one_hot_action (num_actions), hand_size (1)]
+        sequence_features = np.zeros((seq_len, self.get_sequence_feature_size()), dtype=np.float32)
+        
+        # Fill from the end (most recent)
+        current_len = len(actions)
+        for i in range(min(current_len, seq_len)):
+            # Index in history (0 is oldest stored, -1 is most recent)
+            # We want to fill the sequence such that the last element is the most recent
+            hist_idx = current_len - 1 - i
+            seq_idx = seq_len - 1 - i
+            
+            if hist_idx >= 0:
+                action = actions[hist_idx]
+                hand_size = hand_sizes[hist_idx] if hist_idx < len(hand_sizes) else 7.0
+                
+                # One-hot action
+                if 0 <= action < self.num_actions:
+                    sequence_features[seq_idx, action] = 1.0
+                
+                # Hand size
+                sequence_features[seq_idx, self.num_actions] = float(hand_size)
+                
+        return sequence_features
+
+    def get_sequence_feature_size(self) -> int:
+        """
+        Get the size of the sequence feature vector (per step).
+        
+        Returns:
+            Sequence feature vector size
+        """
+        # One-hot action + hand size
+        return self.num_actions + 1
+    
     def _compute_hand_size_change(self, opponent_id: int) -> float:
         """
         Compute hand size change rate (average change per turn).

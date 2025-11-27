@@ -2,9 +2,10 @@
 
 # Training Configuration
 training:
-  episodes: 20000  # Extended training for opponent modeling
-  batch_size: 64   # Good for both algorithms
-  learning_rate: 0.0001  # Reduced for more stable training (was 0.0005)
+  episodes: 70000  # Continue training (was 100000, now 70k to account for 30k already done)
+  total_frames: 10000000  # Total frames for actor-learner training (10M frames, matching RLCard scale)
+  batch_size: 128   # Increased for stability (was 64)
+  learning_rate: 0.00005  # Reduced for fine-tuning (was 0.0001)
   gamma: 0.99  # Discount factor
   epsilon_start: 1.0
   epsilon_end: 0.01  # Low exploration for better exploitation (matching RLCard DMC)
@@ -43,6 +44,7 @@ mcts:
   max_depth: 20  # Reasonable search depth
   use_full_mcts: true  # Enable full MCTS instead of heuristic
   intermediate_reward_weight: 0.3  # Balance between sparse and shaped rewards
+  enabled: true  # Enable MCTS reward shaping
   
 # Environment Configuration
 environment:
@@ -88,17 +90,29 @@ opponent_modeling:
     action_history: 1.0
     action_frequencies: 1.0
     play_style: 1.0
+    play_style: 1.0
     game_progress: 1.0
+
+# Self-Play Configuration
+self_play:
+  enabled: true
+  pool_size: 20  # Increased from 10 for more diversity
+  save_interval: 2000  # Save to pool every N episodes
+  opponent_probs:
+    random: 0.2  # Reduced to make room for heuristic
+    heuristic: 0.2  # New heuristic opponent
+    current: 0.3
+    past: 0.3
 
 # Early Stopping Configuration
 early_stopping:
-  enabled: true
-  patience: 3000  # Episodes without improvement before stopping (increased for more training)
-  min_improvement: 0.01  # Minimum absolute improvement to consider progress (1%)
+  enabled: false  # Disabled to allow full exploration
+  patience: 10000  # Episodes without improvement before stopping (VERY LENIENT - increased from 3000)
+  min_improvement: 0.005  # Minimum absolute improvement to consider progress (0.5% - more lenient)
   baseline_win_rate: 0.50  # Baseline win rate to compare against
   target_win_rate: 0.55  # Target win rate (informational only - training continues beyond this)
-  check_interval: 500  # Episodes between progress checks
-  min_episodes: 5000  # Minimum episodes before early stopping can trigger (increased for stable training)
+  check_interval: 500  # Episodes between progress checks (for episode-based training)
+  min_episodes: 10000  # Minimum episodes before early stopping can trigger (VERY LENIENT - increased from 5000)
   smoothing_window: 5  # Number of recent evaluations to average for smoother progress tracking
 
 # Learning Rate Scheduler Configuration
@@ -117,3 +131,13 @@ optimizer:
   momentum: 0.0  # RMSProp momentum (matching RLCard)
   eps: 0.00001  # RMSProp epsilon (matching RLCard) - using decimal format to avoid YAML string parsing
   weight_decay: 0.0  # No weight decay for RMSProp (matching RLCard)
+
+# Actor-Learner Configuration
+actor_learner:
+  num_actors: 8  # Number of parallel actor processes (more than RLCard's 5 for faster data)
+  num_buffers: 50  # Number of shared memory buffers for experience (MATCHING RLCARD)
+  num_learner_threads: 1  # Single learner thread (avoids lock contention issues)
+  unroll_length: 100  # Length of unroll sequences (MATCHING RLCARD)
+  batch_size: 32  # Batch size for sequence processing (MATCHING RLCARD)
+  buffer_capacity: 100  # Maximum sequences per buffer (MATCHING RLCARD)
+  model_sync_frequency: 100  # Number of updates between model synchronization to actors

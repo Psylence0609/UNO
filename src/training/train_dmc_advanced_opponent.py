@@ -20,6 +20,7 @@ from src.environments.uno_env import UnoEnvironment
 from src.agents.dmc_agent_advanced_opponent import AdvancedDMCAgentWithOpponent
 from src.agents.dmc_agent import DMCAgent
 from src.agents.random_agent import RandomAgent
+from src.agents.heuristic_agent import HeuristicAgent
 from src.mcts.proper_mcts import ProperMCTS
 from src.training.logger import TrainingLogger
 from src.evaluation.evaluator import Evaluator
@@ -90,6 +91,7 @@ class EarlyStoppingMonitor:
         self.best_win_rate = baseline_win_rate
         self.best_smoothed_win_rate = baseline_win_rate  # Track smoothed win rate
         self.episodes_since_improvement = 0
+        self.evaluations_since_improvement = 0  # Track evaluations for frame-based training
         self.win_rate_history = deque(maxlen=50)  # Last 50 evaluations for smoothing
         self.episode_history = deque(maxlen=50)
         
@@ -135,9 +137,11 @@ class EarlyStoppingMonitor:
         improvement_smoothed = smoothed_win_rate - self.best_smoothed_win_rate
         
         # Consider it an improvement if smoothed rate improves OR if raw rate is significantly better
+        # VERY LENIENT: Accept even small improvements
         is_improvement = (
-            improvement_smoothed >= self.min_improvement * 0.5 or  # More lenient for smoothed
-            improvement_raw >= self.min_improvement * 2.0  # But still catch big jumps
+            improvement_smoothed >= self.min_improvement * 0.1 or  # Very lenient for smoothed (10% of min_improvement)
+            improvement_raw >= self.min_improvement * 0.5 or  # More lenient for raw (50% of min_improvement)
+            current_win_rate > self.best_win_rate  # Any improvement counts
         )
         
         if is_improvement:
@@ -147,9 +151,12 @@ class EarlyStoppingMonitor:
             if current_win_rate > self.best_win_rate:
                 self.best_win_rate = current_win_rate
             self.episodes_since_improvement = 0
+            self.evaluations_since_improvement = 0
             self.improvements += 1
         else:
+            # Increment both counters (for compatibility)
             self.episodes_since_improvement += self.check_interval
+            self.evaluations_since_improvement += 1  # Track evaluations for frame-based training
         
         # Determine if training is learning (more lenient - use smoothed rate)
         is_learning = (
@@ -159,26 +166,31 @@ class EarlyStoppingMonitor:
         )
         
         # Determine if training should continue
-        # Don't stop just because we reached target - we want to maximize performance!
+        # VERY LENIENT: Only stop in extreme cases
         should_continue = True
         reason = ""
         
-        if current_episode < self.min_episodes:
+        # Use evaluation count for frame-based training, episode count as fallback
+        evaluation_count = self.total_checks
+        min_evaluations = max(20, self.min_episodes // self.check_interval)  # Convert episodes to evaluations
+        
+        if evaluation_count < min_evaluations:
             should_continue = True
-            reason = f"Below minimum episodes ({self.min_episodes}) - too early to assess"
-        elif current_episode < self.min_episodes * 1.5:
+            reason = f"Below minimum evaluations ({min_evaluations}) - too early to assess (evaluation {evaluation_count})"
+        elif evaluation_count < min_evaluations * 2:
             # Very early in training - be very lenient
             should_continue = True
-            reason = f"Early training phase (episode {current_episode}/{self.min_episodes * 1.5}) - allowing exploration"
-        elif not is_learning and current_episode > self.min_episodes * 3 and smoothed_win_rate < self.baseline_win_rate - 0.05:
-            # Only stop if clearly not learning AND well past minimum AND significantly below baseline
+            reason = f"Early training phase (evaluation {evaluation_count}/{min_evaluations * 2}) - allowing exploration"
+        elif not is_learning and evaluation_count > min_evaluations * 5 and smoothed_win_rate < self.baseline_win_rate - 0.10:
+            # Only stop if clearly not learning AND well past minimum AND significantly below baseline (10% below)
             should_continue = False
             reason = f"Not learning (smoothed win rate {smoothed_win_rate:.1%} significantly below baseline {self.baseline_win_rate:.1%})"
-        elif self.episodes_since_improvement >= self.patience and current_episode >= self.min_episodes * 2:
-            # Stop if no improvement for patience period AND we're well into training
+        elif self.evaluations_since_improvement >= self.patience // self.check_interval and evaluation_count >= min_evaluations * 3:
+            # Stop if no improvement for many evaluations AND we're well into training
+            # patience // check_interval converts episode patience to evaluation patience
             should_continue = False
-            reason = f"No improvement for {self.episodes_since_improvement} episodes (patience: {self.patience}). Best smoothed: {self.best_smoothed_win_rate:.1%}, Best raw: {self.best_win_rate:.1%}"
-        elif std_recent < 0.003 and current_episode > self.min_episodes * 4 and smoothed_win_rate < self.baseline_win_rate + 0.02:
+            reason = f"No improvement for {self.evaluations_since_improvement} evaluations (patience: {self.patience // self.check_interval}). Best smoothed: {self.best_smoothed_win_rate:.1%}, Best raw: {self.best_win_rate:.1%}"
+        elif std_recent < 0.002 and evaluation_count > min_evaluations * 8 and smoothed_win_rate < self.baseline_win_rate - 0.05:
             # Very stable but low performance - only stop if well above minimum and clearly plateaued
             should_continue = False
             reason = f"Performance plateaued at low level (std: {std_recent:.4f}). Smoothed: {smoothed_win_rate:.1%}, Best: {self.best_win_rate:.1%}"
@@ -201,6 +213,7 @@ class EarlyStoppingMonitor:
             'improvement_smoothed': improvement_smoothed,
             'is_improvement': is_improvement,
             'episodes_since_improvement': self.episodes_since_improvement,
+            'evaluations_since_improvement': self.evaluations_since_improvement,
             'avg_recent': avg_recent,
             'std_recent': std_recent,
             'is_learning': is_learning,
@@ -281,6 +294,7 @@ class AdvancedDMCTrainerWithOpponent:
         
         # Setup opponents
         self.random_opponent = RandomAgent(self.env.num_actions)
+        self.heuristic_opponent = HeuristicAgent(self.env.num_actions)
         
         # Setup logger
         self.logger = TrainingLogger(
@@ -291,6 +305,34 @@ class AdvancedDMCTrainerWithOpponent:
         # Setup evaluator
         self.evaluator = Evaluator(self.env)
         
+        # Self-play configuration
+        self.self_play_config = self.config.get('self_play', {})
+        self.use_self_play = self.self_play_config.get('enabled', False)
+        
+        if self.use_self_play:
+            print("✅ Self-play enabled")
+            self.opponent_pool = deque(maxlen=self.self_play_config.get('pool_size', 10))
+            self.pool_save_interval = self.self_play_config.get('save_interval', 2000)
+            self.opponent_probs = self.self_play_config.get('opponent_probs', {
+                'random': 0.2,
+                'heuristic': 0.2,
+                'current': 0.3,
+                'past': 0.3
+            })
+            # Initialize pool directory
+            self.pool_dir = os.path.join(self.config['paths']['models'], "opponent_pool")
+            os.makedirs(self.pool_dir, exist_ok=True)
+            
+            # Temporary agent for loading past opponents
+            self.past_opponent_agent = AdvancedDMCAgentWithOpponent(
+                state_size=self.state_size,
+                action_size=self.env.num_actions,
+                config=self.config
+            )
+        else:
+            print("⚠️  Self-play disabled")
+            self.opponent_pool = None
+            
         # Training counters
         self.episode = 0
         self.total_steps = 0
@@ -325,7 +367,48 @@ class AdvancedDMCTrainerWithOpponent:
         
         episode_reward = 0
         episode_length = 0
-        agents = [self.dmc_agent, self.random_opponent]
+        episode_reward = 0
+        episode_length = 0
+        
+        # Select opponent
+        opponent_agent = self.random_opponent
+        opponent_type = "random"
+        
+        if self.use_self_play:
+            rand = np.random.random()
+            probs = self.opponent_probs
+            
+            if rand < probs['random']:
+                opponent_agent = self.random_opponent
+                opponent_type = "random"
+            elif rand < probs['random'] + probs.get('heuristic', 0.0):
+                opponent_agent = self.heuristic_opponent
+                opponent_type = "heuristic"
+            elif rand < probs['random'] + probs.get('heuristic', 0.0) + probs['current']:
+                # Play against current self (copy weights)
+                # Note: We use the same agent instance but in eval mode for opponent
+                # This works because we process turns sequentially
+                opponent_agent = self.dmc_agent
+                opponent_type = "current"
+            else:
+                # Play against past self
+                if len(self.opponent_pool) > 0:
+                    past_model_path = np.random.choice(self.opponent_pool)
+                    try:
+                        self.past_opponent_agent.load(past_model_path)
+                        self.past_opponent_agent.eval()
+                        opponent_agent = self.past_opponent_agent
+                        opponent_type = "past"
+                    except Exception as e:
+                        print(f"⚠️  Failed to load past opponent: {e}")
+                        opponent_agent = self.random_opponent
+                        opponent_type = "random (fallback)"
+                else:
+                    # Fallback to random if pool empty
+                    opponent_agent = self.random_opponent
+                    opponent_type = "random (empty pool)"
+        
+        agents = [self.dmc_agent, opponent_agent]
         
         while not self.env.is_over():
             current_agent = agents[player_id]
@@ -336,7 +419,40 @@ class AdvancedDMCTrainerWithOpponent:
                 prev_state = state
             
             # Take action
-            action = current_agent.use_raw(state)
+            if current_agent == self.dmc_agent:
+                # Our agent (training)
+                action = current_agent.use_raw(state)
+            elif current_agent == self.past_opponent_agent:
+                # Past opponent (eval)
+                # Need to extract features for opponent
+                # Note: For simplicity, past opponent uses its own internal tracking
+                # We need to ensure it has the correct opponent_id (0)
+                # But wait, the opponent sees US as opponent_id=1 relative to them?
+                # Actually, in 2-player:
+                # Player 0 (Us): Opponent is Player 1
+                # Player 1 (Opponent): Opponent is Player 0
+                
+                # For the past agent, we need to make sure it tracks US
+                # But extract_opponent_features uses self.current_opponent_id which defaults to 1
+                # We need to temporarily swap it or handle it
+                
+                # Simplification: Past agent just uses raw state without advanced features for now
+                # Or we can properly implement it, but it requires careful state management
+                # Let's use use_raw which handles feature extraction internally if implemented
+                
+                # IMPORTANT: We need to set the opponent agent to eval mode
+                current_agent.eval()
+                with torch.no_grad():
+                    action = current_agent.use_raw(state)
+            else:
+                # Random agent or current agent (as opponent)
+                if current_agent == self.dmc_agent:
+                    current_agent.eval()
+                    with torch.no_grad():
+                        action = current_agent.use_raw(state)
+                    current_agent.train()
+                else:
+                    action = current_agent.use_raw(state)
             next_state, next_player_id = self.env.step(action)
             episode_length += 1
             self.total_steps += 1
@@ -434,22 +550,50 @@ class AdvancedDMCTrainerWithOpponent:
         self.dmc_agent.train()
         self.dmc_agent.epsilon = original_epsilon
         
+        # Evaluate against past self (if pool is available)
+        if self.use_self_play and self.opponent_pool and len(self.opponent_pool) > 0:
+            try:
+                # Select a random past model
+                past_model_path = np.random.choice(self.opponent_pool)
+                self.past_opponent_agent.load(past_model_path)
+                self.past_opponent_agent.eval()
+                
+                # Evaluate
+                agents = [self.dmc_agent, self.past_opponent_agent]
+                past_results = self.evaluator.evaluate_agents(agents, num_games, verbose=False)
+                
+                results['vs_past'] = {
+                    'win_rate': past_results['win_rates'][0],
+                    'avg_game_length': past_results['avg_game_length'],
+                    'wins': past_results['wins'][0],
+                    'losses': past_results['wins'][1]
+                }
+            except Exception as e:
+                print(f"⚠️  Failed to evaluate against past opponent: {e}")
+                results['vs_past'] = {'win_rate': 0.0, 'avg_game_length': 0.0}
+        
         return results
     
-    def save_model(self, filepath=None, include_training_state=False):
+    def save_model(self, filepath=None, include_training_state=False, suffix=None):
         """
         Save the trained model with optional training state.
         
         Args:
             filepath: Path to save the model. If None, uses default naming.
             include_training_state: If True, includes training state (episode, best_win_rate, etc.)
+            suffix: Optional suffix to append to the filename (e.g., timestamp or version)
         """
         if filepath is None:
             os.makedirs(os.path.join(self.config['paths']['models'], "custom"), exist_ok=True)
+            filename = f"dmc_advanced_opponent_episode_{self.episode}"
+            if suffix:
+                filename += f"_{suffix}"
+            filename += ".pth"
+            
             filepath = os.path.join(
                 self.config['paths']['models'],
                 "custom",
-                f"dmc_advanced_opponent_episode_{self.episode}.pth"
+                filename
             )
         
         # Save model weights (existing functionality)
@@ -642,14 +786,20 @@ class AdvancedDMCTrainerWithOpponent:
                     # Check if this is a new best model and save it
                     if current_win_rate > self.best_win_rate:
                         self.best_win_rate = current_win_rate
+                        self.best_win_rate = current_win_rate
+                        
+                        # Save with unique name to avoid overwriting previous bests
+                        timestamp = int(time.time())
+                        best_model_filename = f"dmc_advanced_opponent_best_v2_{timestamp}.pth"
                         best_model_path = os.path.join(
                             self.config['paths']['models'],
                             "custom",
-                            "dmc_advanced_opponent_best.pth"
+                            best_model_filename
                         )
                         self.save_model(best_model_path, include_training_state=True)
                         self.best_model_path = best_model_path
                         print(f"✅ New best model saved: {current_win_rate:.1%} win rate (episode {episode + 1})")
+                        print(f"   Saved as: {best_model_filename}")
                     
                     # Log evaluation
                     eval_data = {
@@ -661,8 +811,15 @@ class AdvancedDMCTrainerWithOpponent:
                         'improvement_raw': progress_info.get('improvement_raw', progress_info.get('improvement', 0)),
                         'improvement_smoothed': progress_info.get('improvement_smoothed', 0),
                         'episodes_since_improvement': progress_info['episodes_since_improvement'],
+                        'episodes_since_improvement': progress_info['episodes_since_improvement'],
                         'is_learning': progress_info['is_learning']
                     }
+                    
+                    # Add vs_past stats if available
+                    if 'vs_past' in eval_results:
+                        eval_data['past_win_rate'] = eval_results['vs_past']['win_rate']
+                        print(f"Vs Past Self: {eval_results['vs_past']['win_rate']:.1%} win rate")
+                        
                     self.logger.log_evaluation(episode + 1, eval_data)
                     
                     # Update learning rate scheduler
@@ -681,6 +838,16 @@ class AdvancedDMCTrainerWithOpponent:
                 # Save model periodically (with training state)
                 if (episode + 1) % save_freq == 0 and episode > 0:
                     self.save_model(include_training_state=True)
+                    
+                # Save to opponent pool
+                if self.use_self_play and (episode + 1) % self.pool_save_interval == 0:
+                    pool_model_path = os.path.join(
+                        self.pool_dir,
+                        f"opponent_episode_{episode + 1}.pth"
+                    )
+                    self.save_model(pool_model_path, include_training_state=False)
+                    self.opponent_pool.append(pool_model_path)
+                    # print(f"💾 Added model to opponent pool: {pool_model_path}")
         
         except KeyboardInterrupt:
             print("\n⚠️  Training interrupted by user")

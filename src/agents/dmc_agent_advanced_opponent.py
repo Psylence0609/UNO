@@ -73,6 +73,7 @@ class AdvancedDMCAgentWithOpponent(DMCAgent):
         # Store config
         self.opponent_feature_size = opponent_feature_size
         self.strategy_dim = strategy_dim
+        self.sequence_feature_size = self.opponent_extractor.get_sequence_feature_size()
         
         # Initialize base attributes (without calling super().__init__ to avoid creating base network)
         self.state_size = state_size
@@ -133,7 +134,8 @@ class AdvancedDMCAgentWithOpponent(DMCAgent):
             num_attention_heads=num_attention_heads,
             use_attention=use_attention,
             use_temporal=use_temporal,
-            dropout=opponent_dropout
+            dropout=opponent_dropout,
+            sequence_feature_size=self.sequence_feature_size
         ).to(self.device)
         
         # Optimizer configuration (matching RLCard DMC)
@@ -218,9 +220,11 @@ class AdvancedDMCAgentWithOpponent(DMCAgent):
         """Update opponent history with new action."""
         self.opponent_extractor.update_history(action, opponent_id, hand_size)
     
-    def extract_opponent_features(self, state: Dict) -> np.ndarray:
+    def extract_opponent_features(self, state: Dict) -> Tuple[np.ndarray, np.ndarray]:
         """Extract opponent features from current state."""
-        return self.opponent_extractor.extract_features(state, self.current_opponent_id)
+        static = self.opponent_extractor.extract_features(state, self.current_opponent_id)
+        sequence = self.opponent_extractor.extract_sequence_features(self.current_opponent_id)
+        return static, sequence
     
     def _process_state(self, state):
         """Process state for the network."""
@@ -250,21 +254,24 @@ class AdvancedDMCAgentWithOpponent(DMCAgent):
             epsilon = self.epsilon
         
         # Process state and opponent features
+        # Process state and opponent features
         if isinstance(state, dict):
             state_features = self._process_state(state)
-            opponent_features = self.extract_opponent_features(state)
+            opponent_features, sequence_features = self.extract_opponent_features(state)
         else:
             state_features = state
             opponent_features = np.zeros(self.opponent_feature_size)
+            sequence_features = np.zeros((self.opponent_extractor.history_size, self.sequence_feature_size))
         
         # Convert to tensors
         state_tensor = torch.FloatTensor(state_features).unsqueeze(0).to(self.device)
         opponent_tensor = torch.FloatTensor(opponent_features).unsqueeze(0).to(self.device)
+        sequence_tensor = torch.FloatTensor(sequence_features).unsqueeze(0).to(self.device)
         
         # Get opponent strategy representation
         self.opponent_model.eval()
         with torch.no_grad():
-            opponent_strategy, _, _ = self.opponent_model(opponent_tensor, sequence_features=None)
+            opponent_strategy, _, _ = self.opponent_model(opponent_tensor, sequence_features=sequence_tensor)
         
         # Epsilon-greedy action selection
         if np.random.random() > epsilon:
@@ -308,17 +315,19 @@ class AdvancedDMCAgentWithOpponent(DMCAgent):
         reward: float,
         next_state: Dict,
         done: bool,
-        opponent_features: np.ndarray
+        opponent_features: Tuple[np.ndarray, np.ndarray]
     ):
         """Store transition for episode-based learning."""
         state_features = self._process_state(state)
+        static_features, sequence_features = opponent_features
         self.episode_data.append({
             'state': state_features,
             'action': action,
             'reward': reward,
             'next_state': next_state,
             'done': done,
-            'opponent_features': opponent_features
+            'opponent_features': static_features,
+            'sequence_features': sequence_features
         })
     
     def learn_episode(self) -> dict:
@@ -345,10 +354,13 @@ class AdvancedDMCAgentWithOpponent(DMCAgent):
         returns_tensor = torch.FloatTensor(returns_list).to(self.device)
         opponent_features = torch.stack([torch.FloatTensor(of) for of in opponent_features_list]).to(self.device)
         
+        sequence_features_list = [t['sequence_features'] for t in self.episode_data]
+        sequence_features = torch.stack([torch.FloatTensor(sf) for sf in sequence_features_list]).to(self.device)
+        
         # Get opponent strategy representations (batch processing)
         self.opponent_model.train()
         opponent_strategies, hand_size_preds, action_preds = self.opponent_model(
-            opponent_features, sequence_features=None
+            opponent_features, sequence_features=sequence_features
         )
         
         # Forward pass through main network
@@ -423,7 +435,10 @@ class AdvancedDMCAgentWithOpponent(DMCAgent):
             't_step': self.t_step,
             'state_size': self.state_size,
             'action_size': self.action_size,
+            'state_size': self.state_size,
+            'action_size': self.action_size,
             'opponent_feature_size': self.opponent_feature_size,
+            'sequence_feature_size': self.sequence_feature_size,
             'strategy_dim': self.strategy_dim
         }
         os.makedirs(os.path.dirname(filepath), exist_ok=True)
@@ -482,6 +497,24 @@ class AdvancedDMCAgentWithOpponent(DMCAgent):
         
         self.epsilon = checkpoint.get('epsilon', 0.0)
         self.t_step = checkpoint.get('t_step', 0)
+        self.network.to(self.device)
+        self.opponent_model.to(self.device)
+    
+    def load_state_dict(self, state_dict: Dict):
+        """
+        Load model state dictionary for synchronization (used in actor-learner architecture).
+        
+        Args:
+            state_dict: Dictionary containing 'network_state_dict' and 'opponent_model_state_dict'
+        """
+        if 'network_state_dict' in state_dict:
+            self.network.load_state_dict(state_dict['network_state_dict'])
+        if 'opponent_model_state_dict' in state_dict:
+            self.opponent_model.load_state_dict(state_dict['opponent_model_state_dict'])
+        if 'epsilon' in state_dict:
+            self.epsilon = state_dict['epsilon']
+        
+        # Ensure models are on correct device
         self.network.to(self.device)
         self.opponent_model.to(self.device)
 

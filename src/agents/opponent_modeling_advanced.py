@@ -163,7 +163,8 @@ class AdvancedOpponentModelingNetwork(nn.Module):
         num_attention_heads: int = 4,
         use_attention: bool = True,
         use_temporal: bool = True,
-        dropout: float = 0.1
+        dropout: float = 0.1,
+        sequence_feature_size: Optional[int] = None
     ):
         """
         Initialize advanced opponent modeling network.
@@ -183,6 +184,7 @@ class AdvancedOpponentModelingNetwork(nn.Module):
         self.strategy_dim = strategy_dim
         self.use_attention = use_attention
         self.use_temporal = use_temporal
+        self.sequence_feature_size = sequence_feature_size if sequence_feature_size is not None else feature_size
         
         # Input projection
         self.input_proj = nn.Linear(feature_size, hidden_layers[0])
@@ -191,7 +193,9 @@ class AdvancedOpponentModelingNetwork(nn.Module):
         # Attention mechanism (if enabled)
         if use_attention and use_temporal:
             # For temporal sequences, we need to reshape features
-            # Assume we can create sequences from recent history
+            # Projection for sequence features
+            self.sequence_proj = nn.Linear(self.sequence_feature_size, hidden_layers[0])
+            
             self.attention = MultiHeadAttention(
                 embed_dim=hidden_layers[0],
                 num_heads=num_attention_heads,
@@ -247,7 +251,7 @@ class AdvancedOpponentModelingNetwork(nn.Module):
         # Temporal attention (if enabled and sequence provided)
         if self.use_attention and self.use_temporal and sequence_features is not None:
             # Process sequence with attention
-            seq_proj = self.input_proj(sequence_features)  # [batch, seq_len, hidden]
+            seq_proj = self.sequence_proj(sequence_features)  # [batch, seq_len, hidden]
             seq_proj = self.attention_norm(seq_proj)
             seq_attn = self.attention(seq_proj)
             
