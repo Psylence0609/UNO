@@ -1,4 +1,4 @@
-# 🎯 2-PLAYER UNO TOURNAMENT LEADERBOARD
+#  2-PLAYER UNO TOURNAMENT LEADERBOARD
 
 ## Tournament Overview
 - **Total Agents**: 8 (7 trained + 1 baseline)
@@ -20,42 +20,42 @@
 | 8 | DMC + MCTS | 45.9% | 3213-3787 | 1.54 | Custom DMC with MCTS reward shaping |
 
 
-## 🏆 KEY CONCLUSIONS (2-PLAYER HEAD-TO-HEAD)
+##  KEY CONCLUSIONS (2-PLAYER HEAD-TO-HEAD)
 
 ### 1. **RLCard DMC Dominates in Head-to-Head** 🥇
 - **RLCard DMC (57.7%)** takes first place in 2-player matches
 - **DRON (53.4%)** drops to second, still strong but not dominant
 - Official implementation performs well in direct competition
 
-### 2. **Much More Competitive Field** ⚖️
+### 2. **Much More Competitive Field** ⚖
 - **6 out of 8 agents achieve 45%+ win rates** (vs only 3 in 3-player)
 - **Heuristic (52.0%)** performs much better in 2-player
 - **Random (47.6%)** is competitive, not completely dominated
 - Fewer players makes games more predictable and strategic
 
-### 3. **DMC Variants Show Strength in Direct Competition** 💪
+### 3. **DMC Variants Show Strength in Direct Competition** 
 - **DMC (47.9%)** outperforms **DMC + MCTS (45.9%)** in 2-player
 - Reverse of 3-player results where MCTS integration helped more
 - Different dynamics in smaller vs larger games
 
-### 4. **MCTS Integration Less Beneficial in 2-Player** 📉
+### 4. **MCTS Integration Less Beneficial in 2-Player** 
 - **DQN + MCTS (48.4%)** vs **DQN (47.1%)**: Only +1.3% improvement
 - Much smaller benefit compared to 3-player (+9% improvement)
 - Suggests MCTS more valuable in complex multi-agent scenarios
 
-### 5. **All Trained Agents Beat Random Consistently** ✅
+### 5. **All Trained Agents Beat Random Consistently** 
 - Every trained agent achieves 45%+ win rate vs random
 - **RLCard DMC (57.7%)** and **DRON (53.4%)** show clear superiority
 - Good validation across different game formats
 
-## 📊 PERFORMANCE CATEGORIES (2-PLAYER)
+##  PERFORMANCE CATEGORIES (2-PLAYER)
 
 - **Elite (55%+)**: RLCard DMC (57.7%), DRON (53.4%) - Top performers
 - **Strong (50-55%)**: Heuristic (52.0%) - Surprisingly competitive
 - **Moderate (45-50%)**: DQN+MCTS (48.4%), DMC (47.9%), Random (47.6%), DQN (47.1%), DMC+MCTS (45.9%)
 - **No poor performers**: All agents achieve reasonable performance
 
-## 🔬 RESEARCH INSIGHTS (2-PLAYER VS 3-PLAYER)
+##  RESEARCH INSIGHTS (2-PLAYER VS 3-PLAYER)
 
 ### Key Differences:
 1. **RLCard DMC excels in 2-player** (1st) vs **struggles in 3-player** (6th)

@@ -223,7 +223,7 @@ class EarlyStoppingMonitor:
         
         if verbose:
             print(f"\n{'='*80}")
-            print(f"📊 PROGRESS CHECK (Episode {current_episode})")
+            print(f" PROGRESS CHECK (Episode {current_episode})")
             print(f"{'='*80}")
             print(f"Current Win Rate: {current_win_rate:.1%} (raw)")
             print(f"Smoothed Win Rate: {smoothed_win_rate:.1%} ({self.smoothing_window}-eval average)")
@@ -233,10 +233,10 @@ class EarlyStoppingMonitor:
             print(f"Improvement (smoothed): {improvement_smoothed:+.1%}")
             print(f"Episodes Since Improvement: {self.episodes_since_improvement}/{self.patience}")
             print(f"Average Recent Win Rate: {avg_recent:.1%} ± {std_recent:.3f}")
-            print(f"Is Learning: {'✅ Yes' if is_learning else '❌ No'}")
-            print(f"Meets Target ({self.target_win_rate:.1%}): {'✅ Yes' if result['meets_target'] else '❌ No'}")
-            print(f"Meets Baseline ({self.baseline_win_rate:.1%}): {'✅ Yes' if result['meets_baseline'] else '❌ No'}")
-            print(f"\nRecommendation: {'✅ CONTINUE' if should_continue else '⛔ STOP'}")
+            print(f"Is Learning: {' Yes' if is_learning else ' No'}")
+            print(f"Meets Target ({self.target_win_rate:.1%}): {' Yes' if result['meets_target'] else ' No'}")
+            print(f"Meets Baseline ({self.baseline_win_rate:.1%}): {' Yes' if result['meets_baseline'] else ' No'}")
+            print(f"\nRecommendation: {' CONTINUE' if should_continue else ' STOP'}")
             print(f"Reason: {reason}")
             print(f"{'='*80}\n")
         
@@ -282,15 +282,15 @@ class AdvancedDMCTrainerWithOpponent:
                     config=mcts_config
                 )
                 self.use_mcts_reward = True
-                print("✅ MCTS reward shaping enabled")
+                print(" MCTS reward shaping enabled")
             except Exception as e:
-                print(f"⚠️  MCTS reward shaping failed to initialize: {e}")
+                print(f"  MCTS reward shaping failed to initialize: {e}")
                 self.mcts_shaper = None
                 self.use_mcts_reward = False
         else:
             self.mcts_shaper = None
             self.use_mcts_reward = False
-            print("⚠️  MCTS reward shaping disabled")
+            print("  MCTS reward shaping disabled")
         
         # Setup opponents
         self.random_opponent = RandomAgent(self.env.num_actions)
@@ -310,7 +310,7 @@ class AdvancedDMCTrainerWithOpponent:
         self.use_self_play = self.self_play_config.get('enabled', False)
         
         if self.use_self_play:
-            print("✅ Self-play enabled")
+            print(" Self-play enabled")
             self.opponent_pool = deque(maxlen=self.self_play_config.get('pool_size', 10))
             self.pool_save_interval = self.self_play_config.get('save_interval', 2000)
             self.opponent_probs = self.self_play_config.get('opponent_probs', {
@@ -330,7 +330,7 @@ class AdvancedDMCTrainerWithOpponent:
                 config=self.config
             )
         else:
-            print("⚠️  Self-play disabled")
+            print("  Self-play disabled")
             self.opponent_pool = None
             
         # Training counters
@@ -400,7 +400,7 @@ class AdvancedDMCTrainerWithOpponent:
                         opponent_agent = self.past_opponent_agent
                         opponent_type = "past"
                     except Exception as e:
-                        print(f"⚠️  Failed to load past opponent: {e}")
+                        print(f"  Failed to load past opponent: {e}")
                         opponent_agent = self.random_opponent
                         opponent_type = "random (fallback)"
                 else:
@@ -569,7 +569,7 @@ class AdvancedDMCTrainerWithOpponent:
                     'losses': past_results['wins'][1]
                 }
             except Exception as e:
-                print(f"⚠️  Failed to evaluate against past opponent: {e}")
+                print(f"  Failed to evaluate against past opponent: {e}")
                 results['vs_past'] = {'win_rate': 0.0, 'avg_game_length': 0.0}
         
         return results
@@ -628,7 +628,7 @@ class AdvancedDMCTrainerWithOpponent:
         if not os.path.exists(checkpoint_path):
             raise FileNotFoundError(f"Checkpoint not found: {checkpoint_path}")
         
-        print(f"📂 Loading checkpoint: {checkpoint_path}")
+        print(f" Loading checkpoint: {checkpoint_path}")
         checkpoint = torch.load(checkpoint_path, map_location=self.dmc_agent.device, weights_only=False)
         
         # Load model weights
@@ -648,7 +648,7 @@ class AdvancedDMCTrainerWithOpponent:
                 self.early_stopping.best_win_rate = checkpoint['best_win_rate']
             else:
                 # Old checkpoint - initialize from current evaluation
-                print("⚠️  Old checkpoint format detected (no training state).")
+                print("  Old checkpoint format detected (no training state).")
                 print("   Running initial evaluation to set baseline...")
                 initial_eval = self.evaluate_agent(num_games=self.eval_episodes)
                 initial_win_rate = initial_eval['vs_random']['win_rate']
@@ -670,11 +670,11 @@ class AdvancedDMCTrainerWithOpponent:
             if 'total_steps' in checkpoint:
                 self.total_steps = checkpoint['total_steps']
             
-            print(f"✅ Resuming from episode {start_episode} (last completed: {last_completed_episode})")
+            print(f" Resuming from episode {start_episode} (last completed: {last_completed_episode})")
             print(f"   Best win rate: {self.best_win_rate:.1%}")
             print(f"   Best smoothed win rate: {self.early_stopping.best_smoothed_win_rate:.1%}")
         else:
-            print(f"✅ Model weights loaded (not resuming training)")
+            print(f" Model weights loaded (not resuming training)")
         
         return checkpoint
     
@@ -685,7 +685,7 @@ class AdvancedDMCTrainerWithOpponent:
         num_episodes = self.config['training']['episodes']
         save_freq = self.config['logging']['save_freq']
         
-        print(f"\n🚀 ADVANCED DMC + OPPONENT MODELING TRAINING")
+        print(f"\n ADVANCED DMC + OPPONENT MODELING TRAINING")
         print(f"{'='*80}")
         print(f"Device: {self.dmc_agent.device}")
         print(f"State Size: {self.state_size}")
@@ -696,7 +696,7 @@ class AdvancedDMCTrainerWithOpponent:
         print(f"Evaluation Episodes: {self.eval_episodes}")
         print(f"Early Stopping Patience: {self.early_stopping.patience} episodes (no improvement)")
         print(f"Target Win Rate: {self.early_stopping.target_win_rate:.1%} (informational - training continues beyond this)")
-        print(f"\n📊 Training Configuration (Matching RLCard DMC):")
+        print(f"\n Training Configuration (Matching RLCard DMC):")
         optimizer_type = type(self.dmc_agent.optimizer).__name__
         print(f"   Optimizer: {optimizer_type}")
         print(f"   Learning Rate: {self.config['training']['learning_rate']}")
@@ -705,12 +705,12 @@ class AdvancedDMCTrainerWithOpponent:
         print(f"   Dropout: {self.config['network']['dropout']}")
         print(f"   Network LR: {self.dmc_agent.network_lr}")
         print(f"   Opponent LR: {self.dmc_agent.opponent_lr}")
-        print(f"\n⚠️  Note: Training will NOT stop just because 55% is reached - it will continue to maximize performance!")
+        print(f"\n  Note: Training will NOT stop just because 55% is reached - it will continue to maximize performance!")
         print(f"{'='*80}\n")
         
         # Initial evaluation (only if not resuming)
         if self.episode == 0:
-            print("📊 Initial Evaluation...")
+            print(" Initial Evaluation...")
             initial_eval = self.evaluate_agent(num_games=self.eval_episodes)
             initial_win_rate = initial_eval['vs_random']['win_rate']
             print(f"Initial Win Rate: {initial_win_rate:.1%}\n")
@@ -720,7 +720,7 @@ class AdvancedDMCTrainerWithOpponent:
             self.early_stopping.baseline_win_rate = initial_win_rate
             self.best_win_rate = initial_win_rate
         else:
-            print(f"📊 Resuming training from episode {self.episode}")
+            print(f" Resuming training from episode {self.episode}")
             print(f"   Current best win rate: {self.best_win_rate:.1%}\n")
         
         # Track episodes completed (accessible in finally block)
@@ -732,14 +732,14 @@ class AdvancedDMCTrainerWithOpponent:
             end_episode = num_episodes
             episodes_to_run = end_episode - start_episode
             
-            print(f"🔍 DEBUG: Starting training loop")
+            print(f" DEBUG: Starting training loop")
             print(f"   Start episode: {start_episode}")
             print(f"   End episode: {end_episode}")
             print(f"   Episodes to run: {episodes_to_run}")
             print(f"   Range: range({start_episode}, {end_episode})")
             
             if episodes_to_run <= 0:
-                print(f"⚠️  WARNING: No episodes to run! start_episode={start_episode}, num_episodes={num_episodes}")
+                print(f"  WARNING: No episodes to run! start_episode={start_episode}, num_episodes={num_episodes}")
                 print(f"   This means training is already complete!")
                 return
             
@@ -755,7 +755,7 @@ class AdvancedDMCTrainerWithOpponent:
                     episode_data = self.train_episode()
                     self.logger.end_episode(episode, episode_data)
                 except Exception as e:
-                    print(f"❌ ERROR during episode {episode}: {e}")
+                    print(f" ERROR during episode {episode}: {e}")
                     import traceback
                     traceback.print_exc()
                     raise
@@ -798,7 +798,7 @@ class AdvancedDMCTrainerWithOpponent:
                         )
                         self.save_model(best_model_path, include_training_state=True)
                         self.best_model_path = best_model_path
-                        print(f"✅ New best model saved: {current_win_rate:.1%} win rate (episode {episode + 1})")
+                        print(f" New best model saved: {current_win_rate:.1%} win rate (episode {episode + 1})")
                         print(f"   Saved as: {best_model_filename}")
                     
                     # Log evaluation
@@ -827,12 +827,12 @@ class AdvancedDMCTrainerWithOpponent:
                     
                     # Early stopping decision
                     if not progress_info['should_continue']:
-                        print(f"\n⛔ EARLY STOPPING TRIGGERED")
+                        print(f"\n EARLY STOPPING TRIGGERED")
                         print(f"Reason: {progress_info['reason']}")
                         print(f"Best Win Rate Achieved: {progress_info['best_win_rate']:.1%}")
                         print(f"Current Win Rate: {current_win_rate:.1%}")
                         if progress_info['best_win_rate'] >= self.early_stopping.target_win_rate:
-                            print(f"✅ Target win rate ({self.early_stopping.target_win_rate:.1%}) exceeded!")
+                            print(f" Target win rate ({self.early_stopping.target_win_rate:.1%}) exceeded!")
                         break
                 
                 # Save model periodically (with training state)
@@ -847,20 +847,20 @@ class AdvancedDMCTrainerWithOpponent:
                     )
                     self.save_model(pool_model_path, include_training_state=False)
                     self.opponent_pool.append(pool_model_path)
-                    # print(f"💾 Added model to opponent pool: {pool_model_path}")
+                    # print(f" Added model to opponent pool: {pool_model_path}")
         
         except KeyboardInterrupt:
-            print("\n⚠️  Training interrupted by user")
+            print("\n  Training interrupted by user")
         except Exception as e:
-            print(f"\n❌ ERROR in training loop: {e}")
+            print(f"\n ERROR in training loop: {e}")
             import traceback
             traceback.print_exc()
             raise
         finally:
-            print(f"🔍 DEBUG: Training loop exited. Episodes completed in loop: {episodes_completed_in_loop}")
+            print(f" DEBUG: Training loop exited. Episodes completed in loop: {episodes_completed_in_loop}")
         
             # Final evaluation (with error handling)
-            print("\n📊 Final Evaluation...")
+            print("\n Final Evaluation...")
             try:
                 # Use more games for final evaluation to get reliable estimate
                 final_eval_games = max(self.eval_episodes * 2, 2000)
@@ -868,7 +868,7 @@ class AdvancedDMCTrainerWithOpponent:
                 final_win_rate = final_eval['vs_random']['win_rate']
                 final_avg_length = final_eval['vs_random']['avg_game_length']
             except Exception as e:
-                print(f"⚠️  Error during final evaluation: {e}")
+                print(f"  Error during final evaluation: {e}")
                 print("   Using last evaluation results if available...")
                 # Try to get last evaluation if available
                 if hasattr(self, '_last_eval_results'):
@@ -888,7 +888,7 @@ class AdvancedDMCTrainerWithOpponent:
                 }
                 self.logger.log_evaluation(self.episode, final_eval_data)
             except Exception as e:
-                print(f"⚠️  Error logging final evaluation: {e}")
+                print(f"  Error logging final evaluation: {e}")
             
             # Save final model (with training state)
             try:
@@ -898,17 +898,17 @@ class AdvancedDMCTrainerWithOpponent:
                     include_training_state=True
                 )
             except Exception as e:
-                print(f"⚠️  Error saving final model: {e}")
+                print(f"  Error saving final model: {e}")
                 final_model_path = None
             
             try:
                 self.logger.end_training()
             except Exception as e:
-                print(f"⚠️  Error ending training log: {e}")
+                print(f"  Error ending training log: {e}")
             
             # Print summary
             print(f"\n{'='*80}")
-            print(f"🏆 TRAINING SUMMARY")
+            print(f" TRAINING SUMMARY")
             print(f"{'='*80}")
             print(f"Total Episodes: {self.episode + 1}")
             print(f"Final Win Rate: {final_win_rate:.1%}")
@@ -956,10 +956,10 @@ def main():
                 "dmc_advanced_opponent_final.pth"
             )
             if os.path.exists(final_checkpoint):
-                print(f"⚠️  Best checkpoint not found. Using final checkpoint: {final_checkpoint}")
+                print(f"  Best checkpoint not found. Using final checkpoint: {final_checkpoint}")
                 trainer.load_checkpoint(final_checkpoint, resume_training=True)
             else:
-                print(f"⚠️  No checkpoint found. Starting fresh training...")
+                print(f"  No checkpoint found. Starting fresh training...")
     elif args.resume:
         trainer.load_checkpoint(args.resume, resume_training=True)
     
@@ -967,7 +967,7 @@ def main():
     final_eval, model_path = trainer.train()
     
     # Print final results
-    print("\n🎉 TRAINING COMPLETED!")
+    print("\n TRAINING COMPLETED!")
     print("=" * 80)
     print(f"Final Win Rate vs Random: {final_eval['vs_random']['win_rate']:.1%}")
     print(f"Final Model: {model_path}")

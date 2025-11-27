@@ -20,49 +20,49 @@ This project implements and evaluates multiple reinforcement learning algorithms
 
 ```
 UNO/
-├── src/
-│   ├── agents/          # RL agent implementations
-│   │   ├── dqn_agent_new.py    # Canonical DQN agent ([256,128] architecture)
-│   │   ├── dmc_agent.py        # DMC agent with three-headed architecture
-│   │   ├── dmc_agent_with_opponent.py  # DMC with opponent modeling
-│   │   ├── opponent_modeling.py        # Opponent modeling network
-│   │   └── random_agent.py     # Random baseline agent
-│   ├── environments/    # Environment wrappers and utilities
-│   │   ├── uno_env.py          # RLCard UNO environment wrapper
-│   │   └── analyze_env.py      # Environment analysis tools
-│   ├── training/        # Training loops and infrastructure
-│   │   ├── train_dqn.py        # DQN training (sparse rewards)
-│   │   ├── train_dqn_new.py    # DQN+MCTS training
-│   │   ├── train_dmc.py        # DMC+MCTS training
-│   │   ├── train_dmc_with_opponent.py  # DMC with opponent modeling training
-│   │   ├── rlcard_dmc_trainer.py        # RLCard DMC training
-│   │   └── rlcard_dmc_mcts_trainer.py   # RLCard DMC+MCTS training
-│   ├── features/           # Opponent feature extraction
-│   │   └── opponent_features.py
-│   ├── evaluation/      # Evaluation and metrics
-│   │   ├── evaluator.py        # Evaluation framework
-│   │   ├── comprehensive_eval.py
-│   │   ├── statistical_analysis.py  # Statistical analysis utilities
-│   │   └── generate_statistical_report.py  # Generate statistical reports
-│   ├── mcts/           # MCTS reward shaping
-│   │   ├── proper_mcts.py      # MCTS implementation for reward shaping
-│   │   └── mcts_tree.py        # MCTS tree structure
-│   └── utils/          # Utility functions and helpers
-│       └── replay_buffer.py    # Experience replay buffer
-├── models/             # Saved model checkpoints
-│   ├── custom/         # Custom model checkpoints
-│   └── rlcard/         # RLCard model checkpoints
-├── experiments/        # Experiment outputs
-│   ├── rlcard_dmc_uno_100M/     # RLCard DMC (100M frames)
-│   ├── rlcard_dmc_mcts_uno_100M/# RLCard DMC+MCTS (100M frames)
-│   └── archived/       # Archived incomplete experiments
-├── logs/              # Training logs and metrics
-├── results/           # Evaluation results
-├── config.yaml        # Configuration file
-├── requirements.txt   # Project dependencies
-├── MODELS.md          # Model registry and documentation
-├── OPPONENT_MODELING.md # Opponent modeling research and implementation plan
-└── LITERATURE_SURVEY.md # Comprehensive literature survey
+ src/
+    agents/          # RL agent implementations
+       dqn_agent_new.py    # Canonical DQN agent ([256,128] architecture)
+       dmc_agent.py        # DMC agent with three-headed architecture
+       dmc_agent_with_opponent.py  # DMC with opponent modeling
+       opponent_modeling.py        # Opponent modeling network
+       random_agent.py     # Random baseline agent
+    environments/    # Environment wrappers and utilities
+       uno_env.py          # RLCard UNO environment wrapper
+       analyze_env.py      # Environment analysis tools
+    training/        # Training loops and infrastructure
+       train_dqn.py        # DQN training (sparse rewards)
+       train_dqn_new.py    # DQN+MCTS training
+       train_dmc.py        # DMC+MCTS training
+       train_dmc_with_opponent.py  # DMC with opponent modeling training
+       rlcard_dmc_trainer.py        # RLCard DMC training
+       rlcard_dmc_mcts_trainer.py   # RLCard DMC+MCTS training
+    features/           # Opponent feature extraction
+       opponent_features.py
+    evaluation/      # Evaluation and metrics
+       evaluator.py        # Evaluation framework
+       comprehensive_eval.py
+       statistical_analysis.py  # Statistical analysis utilities
+       generate_statistical_report.py  # Generate statistical reports
+    mcts/           # MCTS reward shaping
+       proper_mcts.py      # MCTS implementation for reward shaping
+       mcts_tree.py        # MCTS tree structure
+    utils/          # Utility functions and helpers
+        replay_buffer.py    # Experience replay buffer
+ models/             # Saved model checkpoints
+    custom/         # Custom model checkpoints
+    rlcard/         # RLCard model checkpoints
+ experiments/        # Experiment outputs
+    rlcard_dmc_uno_100M/     # RLCard DMC (100M frames)
+    rlcard_dmc_mcts_uno_100M/# RLCard DMC+MCTS (100M frames)
+    archived/       # Archived incomplete experiments
+ logs/              # Training logs and metrics
+ results/           # Evaluation results
+ config.yaml        # Configuration file
+ requirements.txt   # Project dependencies
+ MODELS.md          # Model registry and documentation
+ OPPONENT_MODELING.md # Opponent modeling research and implementation plan
+ LITERATURE_SURVEY.md # Comprehensive literature survey
 ```
 
 ## Setup
@@ -136,13 +136,13 @@ python src/environments/analyze_env.py
 
 | Model | Win Rate | 95% CI | Meets 55%? | Status |
 |-------|----------|--------|------------|--------|
-| RLCard DMC+MCTS (100M) | 61.3% | [59.6%, 63.0%] | ✅ Yes | Best overall |
-| RLCard DMC (100M) | 60.4% | [59.3%, 61.5%] | ✅ Yes | Best overall |
+| RLCard DMC+MCTS (100M) | 61.3% | [59.6%, 63.0%] |  Yes | Best overall |
+| RLCard DMC (100M) | 60.4% | [59.3%, 61.5%] |  Yes | Best overall |
 | DMC with Opponent Modeling | TBD* | TBD | TBD | Stretch goal |
-| DQN+MCTS | 51.2% | [49.9%, 52.4%] | ❌ No | Best custom |
-| DMC Ep10k | 50.0% | [48.7%, 51.4%] | ❌ No | Good performance |
-| DQN Original | 49.8% | [48.2%, 51.4%] | ❌ No | Baseline |
-| DMC Old | 47.4% | [46.3%, 48.6%] | ❌ No | Baseline |
+| DQN+MCTS | 51.2% | [49.9%, 52.4%] |  No | Best custom |
+| DMC Ep10k | 50.0% | [48.7%, 51.4%] |  No | Good performance |
+| DQN Original | 49.8% | [48.2%, 51.4%] |  No | Baseline |
+| DMC Old | 47.4% | [46.3%, 48.6%] |  No | Baseline |
 
 *TBD: To be determined after training and evaluation
 **Results based on 10 evaluation runs with 500 games each (5,000 total games per model). See `results/statistical_analysis_report.md` for detailed analysis.
@@ -172,20 +172,23 @@ For detailed model information, see [MODELS.md](MODELS.md).
 ## Documentation
 
 - **[MODELS.md](MODELS.md)**: Comprehensive model registry with architectures, performance, and checkpoint locations
-- **[OPPONENT_MODELING.md](OPPONENT_MODELING.md)**: Opponent modeling research and implementation plan
-- **[LITERATURE_SURVEY.md](LITERATURE_SURVEY.md)**: Comprehensive literature survey with 20 references
-- **[CLEANUP_SUMMARY.md](CLEANUP_SUMMARY.md)**: Repository cleanup and organization summary
+- **[docs/](docs/)**: Additional documentation including research reports, tournament results, and analysis
+  - **[LITERATURE_SURVEY.md](docs/LITERATURE_SURVEY.md)**: Comprehensive literature survey with 20 references
+  - **[OPPONENT_MODELING.md](docs/OPPONENT_MODELING.md)**: Opponent modeling research and implementation plan
+  - **[SCALING_ANALYSIS.md](docs/SCALING_ANALYSIS.md)**: Complexity scaling analysis across different player counts
+  - **[FINAL_TOURNAMENT_LEADERBOARD.md](docs/FINAL_TOURNAMENT_LEADERBOARD.md)**: Tournament results and rankings
+  - **[FINAL_RESEARCH_REPORT.md](docs/FINAL_RESEARCH_REPORT.md)**: Final research report and findings
 
 ## Roadmap
 
-1. ✅ Project setup and environment configuration
-2. ✅ Basic DQN agent implementation
-3. ✅ Training infrastructure and logging
-4. ✅ MCTS reward reshaping implementation
-5. ✅ Deep Monte Carlo (DMC) implementation
-6. ✅ Comprehensive evaluation framework
-7. ✅ RLCard DMC integration
-8. ✅ Opponent modeling implementation (see OPPONENT_MODELING.md)
+1.  Project setup and environment configuration
+2.  Basic DQN agent implementation
+3.  Training infrastructure and logging
+4.  MCTS reward reshaping implementation
+5.  Deep Monte Carlo (DMC) implementation
+6.  Comprehensive evaluation framework
+7.  RLCard DMC integration
+8.  Opponent modeling implementation (see OPPONENT_MODELING.md)
 9. ⏳ Opponent modeling training and evaluation
 10. ⏳ Multi-agent training and self-play
 

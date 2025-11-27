@@ -1,4 +1,4 @@
-# 🎯 FINAL UNO TOURNAMENT LEADERBOARD
+#  FINAL UNO TOURNAMENT LEADERBOARD
 
 ## Tournament Overview
 - **Total Agents**: 8 (7 trained + 1 baseline)
@@ -20,14 +20,14 @@
 | 8 | Random | 0.0% | 0-21000 | nan | Random action agent (baseline) |
 
 
-## 🏆 KEY CONCLUSIONS
+##  KEY CONCLUSIONS
 
 ### 1. **Opponent Modeling is the Game Changer** ⭐⭐⭐
 - **DRON (53.2%)** dominates all other agents
 - Advanced opponent modeling provides **6-23% win rate improvement** over baseline algorithms
 - This confirms opponent modeling is the most important factor in multi-agent games
 
-### 2. **MCTS Integration Significantly Boosts Performance** 📈
+### 2. **MCTS Integration Significantly Boosts Performance** 
 - **DMC + MCTS (47.3%)** vs **DMC (45.3%)**: +2% improvement
 - **DQN + MCTS (42.2%)** vs **DQN (33.4%)**: +9% improvement
 - MCTS reward shaping enhances learning across different algorithms
@@ -42,12 +42,12 @@
 - Significantly worse than custom implementations
 - Possible issues: different state representation, training parameters, or architecture
 
-### 5. **Baselines Perform as Expected** ✅
+### 5. **Baselines Perform as Expected** 
 - **Heuristic (14.8%)** beats random but loses to all trained agents
 - **Random (0.0%)** wins zero games as expected
 - Good validation of experimental setup
 
-## 📊 PERFORMANCE CATEGORIES
+##  PERFORMANCE CATEGORIES
 
 - **Elite (50%+)**: DRON (53.2%) - Advanced opponent modeling
 - **Strong (40-50%)**: DMC+MCTS (47.3%), DMC (45.3%) - Good algorithms with MCTS
@@ -55,7 +55,7 @@
 - **Weak (10-30%)**: RLCard DMC (30.5%) - Implementation issues
 - **Poor (<20%)**: Heuristic (14.8%), Random (0.0%) - Baselines
 
-## 🔬 RESEARCH INSIGHTS
+##  RESEARCH INSIGHTS
 
 1. **Opponent modeling research direction validated** - This technique should be prioritized
 2. **MCTS integration proven effective** - Should be applied to other multi-agent domains  

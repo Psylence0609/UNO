@@ -235,7 +235,7 @@ class DQNTrainer:
 
 def main():
     """Main function to start DQN+MCTS training."""
-    print("🚀 UNO DQN + MCTS Training")
+    print(" UNO DQN + MCTS Training")
     print("=" * 50)
     
     # Check device
@@ -261,7 +261,7 @@ def main():
     final_eval, model_path = trainer.train()
     
     # Print final results
-    print("\n🏆 TRAINING COMPLETED!")
+    print("\n TRAINING COMPLETED!")
     print("=" * 50)
     print(f"Final win rate vs Random: {final_eval['win_rate']:.1%}")
     print(f"Final model saved to: {model_path}")

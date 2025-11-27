@@ -27,7 +27,7 @@ def load_evaluation_results(results_file='results/model_evaluation_results.csv')
         Dictionary mapping model names to lists of win rates
     """
     if not os.path.exists(results_file):
-        print(f"⚠️  Results file not found: {results_file}")
+        print(f"  Results file not found: {results_file}")
         return None
     
     df = pd.read_csv(results_file)
@@ -216,14 +216,14 @@ def generate_report_from_summary(
     with open(output_file, 'w') as f:
         f.write('\n'.join(report))
     
-    print(f"📄 Statistical analysis report generated: {output_file}")
+    print(f" Statistical analysis report generated: {output_file}")
     return output_file
 
 
 def main():
     """Main function to generate statistical report."""
     print("=" * 80)
-    print("📊 GENERATING STATISTICAL ANALYSIS REPORT")
+    print(" GENERATING STATISTICAL ANALYSIS REPORT")
     print("=" * 80)
     
     # Check if summary files exist
@@ -231,15 +231,15 @@ def main():
     pairwise_file = 'results/pairwise_comparisons.csv'
     
     if not os.path.exists(summary_file):
-        print(f"⚠️  Statistical summary file not found: {summary_file}")
+        print(f"  Statistical summary file not found: {summary_file}")
         print("   Please run evaluate_all_models_comprehensive.py first")
         return
     
     # Generate report
     output_file = generate_report_from_summary(summary_file, pairwise_file)
     
-    print(f"\n✅ Report generated successfully: {output_file}")
-    print("\n💡 Next steps:")
+    print(f"\n Report generated successfully: {output_file}")
+    print("\n Next steps:")
     print("   1. Review the statistical analysis report")
     print("   2. Run RLCard model evaluations if not already done")
     print("   3. Train and evaluate opponent modeling model")

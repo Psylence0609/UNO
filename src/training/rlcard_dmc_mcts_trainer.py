@@ -103,7 +103,7 @@ class MCTSShapedUnoEnv:
                 # Store shaped reward (RLCard's trainer may not use this directly)
                 self._last_shaped_reward = shaped_reward
             except Exception as e:
-                print(f"⚠️  MCTS reward calculation failed: {e}")
+                print(f"  MCTS reward calculation failed: {e}")
                 self._last_shaped_reward = base_reward
         else:
             self._last_shaped_reward = 0.0
@@ -224,9 +224,9 @@ class MCTSShapedUnoEnv:
 
 def main():
     """Main function to start RLCard DMC training with MCTS reward shaping."""
-    print("🚀 RLCard DMC + MCTS Training (Experimental)")
+    print(" RLCard DMC + MCTS Training (Experimental)")
     print("=" * 50)
-    print("⚠️  Note: This is experimental. RLCard's DMCTrainer has its own")
+    print("  Note: This is experimental. RLCard's DMCTrainer has its own")
     print("   training loop, so MCTS integration may be limited.")
     print("=" * 50)
     print()
@@ -237,24 +237,24 @@ def main():
         config = yaml.safe_load(f)
     
     # Initialize base UNO environment
-    print("📦 Initializing UNO environment...")
+    print(" Initializing UNO environment...")
     base_env = rlcard.make('uno', config={'seed': config['environment']['seed']})
-    print(f"✅ Base environment created: {base_env.num_actions} actions")
+    print(f" Base environment created: {base_env.num_actions} actions")
     
     # Initialize MCTS shaper
-    print("🌳 Initializing MCTS reward shaper...")
+    print(" Initializing MCTS reward shaper...")
     # Create a wrapper environment for MCTS (needs UnoEnvironment interface)
     uno_env_wrapper = UnoEnvironment(seed=config['environment']['seed'])
     mcts_shaper = ProperMCTS(
         env=uno_env_wrapper,
         config=config.get('mcts', {})
     )
-    print(f"✅ MCTS shaper created: {mcts_shaper.num_simulations} simulations")
+    print(f" MCTS shaper created: {mcts_shaper.num_simulations} simulations")
     
     # Wrap environment with MCTS reward shaping
-    print("🔧 Wrapping environment with MCTS reward shaping...")
+    print(" Wrapping environment with MCTS reward shaping...")
     env = MCTSShapedUnoEnv(base_env, mcts_shaper, config)
-    print("✅ MCTS-shaped environment created")
+    print(" MCTS-shaped environment created")
     print()
     
     # Check device availability
@@ -262,16 +262,16 @@ def main():
     if torch.cuda.is_available():
         device = "0"
         device_for_rlcard = "0"
-        print(f"✅ Using CUDA GPU")
+        print(f" Using CUDA GPU")
     elif torch.backends.mps.is_available():
         device = ""
         device_for_rlcard = ""  # Fall back to CPU - RLCard doesn't support MPS
-        print(f"⚠️  MPS (Apple Silicon) detected but RLCard's DMCTrainer doesn't support it")
+        print(f"  MPS (Apple Silicon) detected but RLCard's DMCTrainer doesn't support it")
         print(f"   Falling back to CPU (training will be slower)")
     else:
         device = ""
         device_for_rlcard = ""
-        print(f"⚠️  Using CPU (training will be slower)")
+        print(f"  Using CPU (training will be slower)")
     
     print(f"Device for RLCard: {device_for_rlcard if device_for_rlcard else 'CPU'}")
     print()
@@ -280,7 +280,7 @@ def main():
     TOTAL_FRAMES = 100_000_000  # 100M frames
     SAVE_INTERVAL = 30  # minutes
     
-    print("📋 Training Configuration:")
+    print(" Training Configuration:")
     print(f"   Total Frames: {TOTAL_FRAMES:,}")
     print(f"   MCTS Simulations: {mcts_shaper.num_simulations}")
     print(f"   MCTS Max Depth: {config['mcts']['max_depth']}")
@@ -290,7 +290,7 @@ def main():
     print()
     
     # Create RLCard's DMCTrainer with MCTS-shaped environment
-    print("🔧 Creating RLCard DMCTrainer with MCTS...")
+    print(" Creating RLCard DMCTrainer with MCTS...")
     trainer = DMCTrainer(
         env=env,  # Use MCTS-shaped environment
         cuda=device_for_rlcard,
@@ -315,33 +315,33 @@ def main():
         epsilon=1e-05,
     )
     
-    print("✅ Trainer created successfully")
+    print(" Trainer created successfully")
     print()
-    print("⚠️  Important Notes:")
+    print("  Important Notes:")
     print("   - MCTS reward shaping is applied via environment wrapper")
     print("   - RLCard's trainer may not directly use shaped rewards")
     print("   - This is experimental and may require custom modifications")
     print("   - Consider using custom DMCTrainer for full MCTS integration")
     print()
-    print("🎮 Starting training...")
+    print(" Starting training...")
     print("=" * 50)
     
     # Start training
     try:
         trainer.start()
     except KeyboardInterrupt:
-        print("\n⚠️  Training interrupted by user")
-        print("💾 Checkpoint should be saved in experiments/rlcard_dmc_mcts_uno/")
+        print("\n  Training interrupted by user")
+        print(" Checkpoint should be saved in experiments/rlcard_dmc_mcts_uno/")
     except Exception as e:
-        print(f"\n❌ Training error: {e}")
-        print("💡 Tip: RLCard's trainer may not be compatible with MCTS wrapper.")
+        print(f"\n Training error: {e}")
+        print(" Tip: RLCard's trainer may not be compatible with MCTS wrapper.")
         print("   Consider using the custom DMCTrainer for full MCTS support.")
         raise
     
     print("\n" + "=" * 50)
-    print("🏆 TRAINING COMPLETED!")
+    print(" TRAINING COMPLETED!")
     print("=" * 50)
-    print(f"📁 Results saved to: {os.path.join(project_root, 'experiments/rlcard_dmc_mcts_uno')}")
+    print(f" Results saved to: {os.path.join(project_root, 'experiments/rlcard_dmc_mcts_uno')}")
     print("=" * 50)
 
 

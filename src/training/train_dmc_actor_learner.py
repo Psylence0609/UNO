@@ -167,7 +167,7 @@ class ActorLearnerTrainer:
     
     def _signal_handler(self, signum, frame):
         """Handle shutdown signals gracefully."""
-        print("\n⚠️  Shutdown signal received, stopping training...")
+        print("\n  Shutdown signal received, stopping training...")
         self.shutdown_requested = True
     
     def evaluate_agent(self, num_games: int = None) -> Dict:
@@ -235,7 +235,7 @@ class ActorLearnerTrainer:
             filepath: Path to checkpoint file
         """
         if not os.path.exists(filepath):
-            print(f"⚠️  Model file not found: {filepath}")
+            print(f"  Model file not found: {filepath}")
             return False
         
         try:
@@ -261,13 +261,13 @@ class ActorLearnerTrainer:
             if 'epsilon' in checkpoint:
                 self.agent.epsilon = checkpoint['epsilon']
             
-            print(f"✅ Model loaded from: {filepath}")
+            print(f" Model loaded from: {filepath}")
             print(f"   Frames: {self.total_frames:,}")
             print(f"   Updates: {self.total_updates:,}")
             print(f"   Best Win Rate: {self.best_win_rate:.1%}")
             return True
         except Exception as e:
-            print(f"❌ Error loading model: {e}")
+            print(f" Error loading model: {e}")
             import traceback
             traceback.print_exc()
             return False
@@ -304,16 +304,16 @@ class ActorLearnerTrainer:
         if resume_from_best:
             best_model = self.find_best_model()
             if best_model:
-                print(f"\n📂 Resuming from best model: {best_model}")
+                print(f"\n Resuming from best model: {best_model}")
                 self.load_model(best_model)
                 self.best_model_path = best_model
             else:
-                print("\n📂 No existing model found, starting from scratch")
+                print("\n No existing model found, starting from scratch")
         
         self.logger.start_training(self.config)
         self.training_start_time = time.time()  # Track training start
         
-        print(f"\n🚀 ACTOR-LEARNER DMC TRAINING")
+        print(f"\n ACTOR-LEARNER DMC TRAINING")
         print(f"{'='*80}")
         print(f"Device: {self.agent.device}")
         print(f"State Size: {self.state_size}")
@@ -330,7 +330,7 @@ class ActorLearnerTrainer:
         print(f"{'='*80}\n")
         
         # Start actors and learners
-        print("🎬 Starting actors and learners...")
+        print(" Starting actors and learners...")
         try:
             self.actor_manager.start()
             # Wait a moment to ensure actors start
@@ -338,7 +338,7 @@ class ActorLearnerTrainer:
             
             # Check if actors are alive
             if not self.actor_manager.is_alive():
-                print("⚠️  WARNING: Actors failed to start!")
+                print("  WARNING: Actors failed to start!")
                 raise RuntimeError("Actor processes failed to start")
             
             for learner in self.learner_threads:
@@ -347,17 +347,17 @@ class ActorLearnerTrainer:
             # Wait a moment for learners to start
             time.sleep(1.0)
             
-            print("✅ All actors and learners started")
+            print(" All actors and learners started")
             print(f"   Actors alive: {self.actor_manager.is_alive()}")
             print(f"   Learners alive: {all(lt.is_alive() for lt in self.learner_threads)}\n")
         except Exception as e:
-            print(f"❌ ERROR starting actors/learners: {e}")
+            print(f" ERROR starting actors/learners: {e}")
             import traceback
             traceback.print_exc()
             raise
         
         # Initial evaluation
-        print("📊 Initial Evaluation...")
+        print(" Initial Evaluation...")
         initial_eval = self.evaluate_agent(num_games=self.eval_episodes)
         initial_win_rate = initial_eval['vs_random']['win_rate']
         print(f"Initial Win Rate: {initial_win_rate:.1%}\n")
@@ -396,12 +396,12 @@ class ActorLearnerTrainer:
                 if not self.actor_stats_queue.empty():
                     break
                 if not self.actor_manager.is_alive():
-                    print("❌ ERROR: Actors died during startup!")
+                    print(" ERROR: Actors died during startup!")
                     raise RuntimeError("Actor processes died")
                 time.sleep(0.5)
             
             if self.actor_stats_queue.empty():
-                print("⚠️  WARNING: No actor statistics received after 30 seconds")
+                print("  WARNING: No actor statistics received after 30 seconds")
                 print("   This might indicate actors are not running properly")
                 print("   Continuing anyway, but training may not progress...")
             
@@ -415,14 +415,14 @@ class ActorLearnerTrainer:
                     
                     # Check if actors are still alive
                     if not self.actor_manager.is_alive():
-                        print("\n❌ ERROR: Actor processes died!")
+                        print("\n ERROR: Actor processes died!")
                         print("   Stopping training...")
                         break
                     
                     # Check for stuck training (no frames collected for 60 seconds)
                     if time.time() - stuck_check_time > 60.0:
                         if self.total_frames == last_frame_count:
-                            print(f"\n⚠️  WARNING: No frames collected in last 60 seconds")
+                            print(f"\n  WARNING: No frames collected in last 60 seconds")
                             print(f"   Current frames: {self.total_frames:,}")
                             print(f"   Buffer stats: {self.shared_buffer.get_stats()}")
                             print(f"   Actors alive: {self.actor_manager.is_alive()}")
@@ -439,7 +439,7 @@ class ActorLearnerTrainer:
                             
                             # Check for errors
                             if 'error' in stats:
-                                print(f"\n❌ ERROR from Actor {stats.get('actor_id', 'unknown')}: {stats.get('error', 'Unknown error')}")
+                                print(f"\n ERROR from Actor {stats.get('actor_id', 'unknown')}: {stats.get('error', 'Unknown error')}")
                                 print(f"   Error type: {stats.get('error_type', 'Unknown')}")
                             
                             if 'steps_collected' in stats:
@@ -459,7 +459,7 @@ class ActorLearnerTrainer:
                                     self.total_game_episodes += (new_episodes - old_episodes)
                                     actor_episode_counts[actor_id] = new_episodes
                         except Exception as e:
-                            print(f"\n⚠️  Error processing actor stats: {e}")
+                            print(f"\n  Error processing actor stats: {e}")
                             break
                     
                     # Check for learner statistics
@@ -546,15 +546,15 @@ class ActorLearnerTrainer:
                         else:
                             updates_per_second = 0.0
                         
-                        print(f"\n📊 Statistics (Frames: {self.total_frames:,}, Updates: {self.total_updates:,})")
+                        print(f"\n Statistics (Frames: {self.total_frames:,}, Updates: {self.total_updates:,})")
                         print(f"   Game Episodes: {self.total_game_episodes:,}")
                         print(f"   Update Rate: {frames_per_update:.0f} frames/update (target: <2000)")
                         print(f"   Updates/sec: {updates_per_second:.2f}")
                         print(f"   Buffer: {buffer_stats['current_size']} sequences, {buffer_stats['total_sequences']} total, {buffer_stats['total_dropped']} dropped")
                         if buffer_stats['total_dropped'] > 0:
-                            print(f"   ⚠️  WARNING: {buffer_stats['total_dropped']} sequences dropped (buffer may be too small)")
+                            print(f"     WARNING: {buffer_stats['total_dropped']} sequences dropped (buffer may be too small)")
                         if buffer_stats['current_size'] == 0:
-                            print(f"   ⚠️  WARNING: Buffer is empty - actors are too slow! Need more actors or shorter unroll_length")
+                            print(f"     WARNING: Buffer is empty - actors are too slow! Need more actors or shorter unroll_length")
                         
                         # Calculate actor production rate
                         if self.total_frames > 0:
@@ -574,20 +574,20 @@ class ActorLearnerTrainer:
                         
                         # Warning if update rate is too high
                         if frames_per_update > 5000:
-                            print(f"   ⚠️  WARNING: Update rate too high ({frames_per_update:.0f} frames/update). Learners may be too slow!")
+                            print(f"     WARNING: Update rate too high ({frames_per_update:.0f} frames/update). Learners may be too slow!")
                         elif frames_per_update < 1000:
-                            print(f"   ✅ Update rate good ({frames_per_update:.0f} frames/update)")
+                            print(f"    Update rate good ({frames_per_update:.0f} frames/update)")
                         print()
                         last_stats_time = current_time
                     
                     # Evaluation
                     if self.total_frames >= self.eval_freq and (self.total_frames % self.eval_freq == 0 or current_time - last_eval_time >= 300):
                         frames_per_update = self.total_frames / max(1, self.total_updates)
-                        print(f"\n📊 Evaluation at {self.total_frames:,} frames...")
+                        print(f"\n Evaluation at {self.total_frames:,} frames...")
                         print(f"   Game Episodes: {self.total_game_episodes:,}")
                         print(f"   Updates: {self.total_updates:,} (avg {frames_per_update:.0f} frames/update)")
                         if frames_per_update > 5000:
-                            print(f"   ⚠️  WARNING: Update frequency too low! Only {self.total_updates} updates for {self.total_frames:,} frames")
+                            print(f"     WARNING: Update frequency too low! Only {self.total_updates} updates for {self.total_frames:,} frames")
                         eval_results = self.evaluate_agent(num_games=self.eval_episodes)
                         win_rate = eval_results['vs_random']['win_rate']
                         
@@ -609,11 +609,11 @@ class ActorLearnerTrainer:
                                 ),
                                 include_training_state=True
                             )
-                            print(f"✅ New best model saved: {self.best_win_rate:.1%}")
+                            print(f" New best model saved: {self.best_win_rate:.1%}")
                         
                         # Check early stopping
                         if not progress_result['should_continue']:
-                            print(f"\n⛔ Early stopping triggered: {progress_result['reason']}")
+                            print(f"\n Early stopping triggered: {progress_result['reason']}")
                             break
                         
                         self.episode += 1
@@ -623,21 +623,21 @@ class ActorLearnerTrainer:
                     time.sleep(0.01)
         
         except Exception as e:
-            print(f"\n❌ Training error: {e}")
+            print(f"\n Training error: {e}")
             import traceback
             traceback.print_exc()
         except KeyboardInterrupt:
-            print("\n⚠️  Training interrupted by user")
+            print("\n  Training interrupted by user")
         finally:
             # Stop actors and learners
-            print("\n🛑 Stopping actors and learners...")
+            print("\n Stopping actors and learners...")
             self.actor_manager.stop()
             for learner in self.learner_threads:
                 learner.stop()
-            print("✅ All stopped")
+            print(" All stopped")
             
             # Save final model
-            print("\n💾 Saving final model...")
+            print("\n Saving final model...")
             final_model_path = self.save_model(
                 os.path.join(
                     self.config['paths']['models'],
@@ -646,10 +646,10 @@ class ActorLearnerTrainer:
                 ),
                 include_training_state=True
             )
-            print(f"✅ Final model saved: {final_model_path}")
+            print(f" Final model saved: {final_model_path}")
             
             # Final evaluation
-            print("\n📊 Final Evaluation...")
+            print("\n Final Evaluation...")
             final_eval = self.evaluate_agent(num_games=self.eval_episodes)
             final_win_rate = final_eval['vs_random']['win_rate']
             print(f"Final Win Rate: {final_win_rate:.1%}")
@@ -657,7 +657,7 @@ class ActorLearnerTrainer:
             
             self.logger.end_training()
             
-            print(f"\n🏆 TRAINING SUMMARY")
+            print(f"\n TRAINING SUMMARY")
             print(f"{'='*80}")
             print(f"Total Frames: {self.total_frames:,}")
             print(f"Total Updates: {self.total_updates:,}")
@@ -678,7 +678,7 @@ def main():
     trainer = ActorLearnerTrainer(config_path=args.config)
     trainer.train(total_frames=args.total_frames, resume_from_best=True)
     
-    print("\n🎉 TRAINING COMPLETED!")
+    print("\n TRAINING COMPLETED!")
 
 
 if __name__ == '__main__':

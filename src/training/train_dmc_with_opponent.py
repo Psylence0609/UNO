@@ -300,7 +300,7 @@ class DMCTrainerWithOpponent:
 
 def main():
     """Main function to start training."""
-    print("🚀 UNO DMC + Opponent Modeling Training")
+    print(" UNO DMC + Opponent Modeling Training")
     print("=" * 50)
     
     # Check device
@@ -331,7 +331,7 @@ def main():
     final_eval, model_path = trainer.train()
     
     # Print final results
-    print("\n🏆 TRAINING COMPLETED!")
+    print("\n TRAINING COMPLETED!")
     print("=" * 50)
     print(f"Final win rate vs Random: {final_eval['vs_random']['win_rate']:.1%}")
     print(f"Final model saved to: {model_path}")

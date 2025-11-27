@@ -81,14 +81,14 @@ class ComprehensiveEvaluation:
                     dqn_agent.load(model_path)
                     dqn_agent.epsilon = 0.0  # No exploration during evaluation
                     self.agents['DQN'] = dqn_agent
-                    print(f"✅ Loaded DQN from {model_path}")
+                    print(f" Loaded DQN from {model_path}")
                     break
             
             if 'DQN' not in self.agents:
-                print("⚠️  No trained DQN model found")
+                print("  No trained DQN model found")
                 
         except Exception as e:
-            print(f"❌ Failed to load DQN: {e}")
+            print(f" Failed to load DQN: {e}")
         
         # DMC agent (if model exists)
         try:
@@ -110,14 +110,14 @@ class ComprehensiveEvaluation:
                     dmc_agent.epsilon = 0.0  # No exploration during evaluation
                     dmc_agent.eval()  # Set to evaluation mode
                     self.agents['DMC+MCTS'] = dmc_agent
-                    print(f"✅ Loaded DMC+MCTS from {model_path}")
+                    print(f" Loaded DMC+MCTS from {model_path}")
                     break
             
             if 'DMC+MCTS' not in self.agents:
-                print("⚠️  No trained DMC+MCTS model found")
+                print("  No trained DMC+MCTS model found")
                 
         except Exception as e:
-            print(f"❌ Failed to load DMC+MCTS: {e}")
+            print(f" Failed to load DMC+MCTS: {e}")
         
         print(f"Available agents: {list(self.agents.keys())}")
     
@@ -136,7 +136,7 @@ class ComprehensiveEvaluation:
         agent1 = self.agents[agent1_name]
         agent2 = self.agents[agent2_name]
         
-        print(f"🎮 Evaluating {agent1_name} vs {agent2_name} ({num_games} games)")
+        print(f" Evaluating {agent1_name} vs {agent2_name} ({num_games} games)")
         
         # Play games in both positions
         results_p1 = self.evaluator.evaluate_agents(
@@ -177,7 +177,7 @@ class ComprehensiveEvaluation:
         Returns:
             dict: Tournament results
         """
-        print("🏆 Running Round-Robin Tournament")
+        print(" Running Round-Robin Tournament")
         print("=" * 50)
         
         agent_names = list(self.agents.keys())
@@ -232,7 +232,7 @@ class ComprehensiveEvaluation:
         Returns:
             dict: Comprehensive analysis results
         """
-        print("📊 Running Detailed Analysis")
+        print(" Running Detailed Analysis")
         print("=" * 50)
         
         analysis_results = {}
@@ -244,7 +244,7 @@ class ComprehensiveEvaluation:
         # Individual agent analysis
         for agent_name in self.agents.keys():
             if agent_name != 'Random':  # Skip random for individual analysis
-                print(f"\n🔍 Analyzing {agent_name}")
+                print(f"\n Analyzing {agent_name}")
                 
                 # Performance vs Random
                 vs_random = self.pairwise_evaluation(agent_name, 'Random', num_games)
@@ -290,11 +290,11 @@ class ComprehensiveEvaluation:
     
     def generate_report(self, analysis_results):
         """Generate a comprehensive report."""
-        print("\n📋 COMPREHENSIVE EVALUATION REPORT")
+        print("\n COMPREHENSIVE EVALUATION REPORT")
         print("=" * 60)
         
         # Tournament standings
-        print("\n🏆 TOURNAMENT STANDINGS")
+        print("\n TOURNAMENT STANDINGS")
         print("-" * 30)
         standings = analysis_results['tournament']['standings']
         sorted_agents = sorted(standings.items(), key=lambda x: x[1]['win_rate'], reverse=True)
@@ -304,7 +304,7 @@ class ComprehensiveEvaluation:
                   f"Record: {stats['wins']}-{stats['losses']}")
         
         # Detailed performance analysis
-        print("\n📊 PERFORMANCE ANALYSIS")
+        print("\n PERFORMANCE ANALYSIS")
         print("-" * 30)
         
         for agent_name in ['DQN', 'DMC+MCTS']:
@@ -317,7 +317,7 @@ class ComprehensiveEvaluation:
                 print(f"  Avg Game Length: {metrics['avg_game_length']:.1f}")
         
         # Head-to-head comparison
-        print("\n⚔️ HEAD-TO-HEAD COMPARISONS")
+        print("\n HEAD-TO-HEAD COMPARISONS")
         print("-" * 30)
         
         pairwise_results = analysis_results['tournament']['pairwise_results']
@@ -327,7 +327,7 @@ class ComprehensiveEvaluation:
                       f"{result['agent1_win_rate']:.1%} - {result['agent2_win_rate']:.1%}")
         
         # Research insights
-        print("\n🔬 RESEARCH INSIGHTS")
+        print("\n RESEARCH INSIGHTS")
         print("-" * 30)
         
         if 'DMC+MCTS' in analysis_results and 'DQN' in analysis_results:
@@ -336,10 +336,10 @@ class ComprehensiveEvaluation:
             
             if dmc_wr > dqn_wr:
                 improvement = ((dmc_wr - dqn_wr) / dqn_wr) * 100
-                print(f"✅ DMC+MCTS outperforms DQN by {improvement:.1f}% relative improvement")
-                print("✅ MCTS reward shaping successfully enhances learning")
+                print(f" DMC+MCTS outperforms DQN by {improvement:.1f}% relative improvement")
+                print(" MCTS reward shaping successfully enhances learning")
             else:
-                print("⚠️  DMC+MCTS did not outperform DQN baseline")
+                print("  DMC+MCTS did not outperform DQN baseline")
         
         # Save results
         self._save_results(analysis_results)
@@ -378,11 +378,11 @@ class ComprehensiveEvaluation:
         df_pairwise = pd.DataFrame(pairwise_data)
         df_pairwise.to_csv(os.path.join(self.results_dir, 'pairwise_results.csv'), index=False)
         
-        print(f"📁 Results saved to {self.results_dir}/")
+        print(f" Results saved to {self.results_dir}/")
     
     def create_visualizations(self, analysis_results):
         """Create visualizations of the results."""
-        print("📈 Creating visualizations...")
+        print(" Creating visualizations...")
         
         # Set style
         plt.style.use('seaborn-v0_8')
@@ -437,12 +437,12 @@ class ComprehensiveEvaluation:
                    dpi=300, bbox_inches='tight')
         plt.show()
         
-        print(f"📊 Visualizations saved to {self.results_dir}/")
+        print(f" Visualizations saved to {self.results_dir}/")
 
 
 def main():
     """Main function to run comprehensive evaluation."""
-    print("🎯 UNO Agents Comprehensive Evaluation")
+    print(" UNO Agents Comprehensive Evaluation")
     print("=" * 50)
     
     # Check if CUDA is available
@@ -453,7 +453,7 @@ def main():
     evaluator = ComprehensiveEvaluation()
     
     if len(evaluator.agents) < 2:
-        print("❌ Need at least 2 agents for evaluation")
+        print(" Need at least 2 agents for evaluation")
         return
     
     print(f"Agents loaded: {list(evaluator.agents.keys())}")
@@ -468,7 +468,7 @@ def main():
     # Create visualizations
     evaluator.create_visualizations(analysis_results)
     
-    print("\n🎉 EVALUATION COMPLETED!")
+    print("\n EVALUATION COMPLETED!")
     print("=" * 50)
     print("Check the 'results/' directory for detailed outputs")
 

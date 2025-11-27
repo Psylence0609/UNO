@@ -53,13 +53,11 @@ class RLCardDMCAgentWrapper:
 
 
 def load_config():
-    """Load configuration."""
     with open('config.yaml', 'r') as f:
         return yaml.safe_load(f)
 
 
 def load_rlcard_dmc_model(model_path, state_shape, action_shape, device="cpu"):
-    """Load RLCard DMC model from checkpoint."""
     if device == "cpu":
         map_location = "cpu"
     else:
@@ -84,8 +82,6 @@ def load_rlcard_dmc_model(model_path, state_shape, action_shape, device="cpu"):
 
 
 def evaluate_vs_random(agent, num_games=500, seed=42):
-    """Evaluate agent against random baseline."""
-    # Create environment with specified seed
     env = UnoEnvironment(seed=seed)
     evaluator = Evaluator(env)
     random_agent = RandomAgent(evaluator.env.num_actions)
@@ -97,18 +93,6 @@ def evaluate_vs_random(agent, num_games=500, seed=42):
 
 
 def evaluate_model_multiple_runs(agent, num_runs=10, num_games_per_run=500, base_seed=42):
-    """
-    Evaluate a model multiple times with different seeds for statistical robustness.
-    
-    Args:
-        agent: Agent to evaluate
-        num_runs: Number of evaluation runs
-        num_games_per_run: Number of games per run
-        base_seed: Base seed for randomization
-        
-    Returns:
-        Tuple of (win_rates_list, avg_turns_list)
-    """
     win_rates = []
     avg_turns_list = []
     
@@ -122,33 +106,28 @@ def evaluate_model_multiple_runs(agent, num_runs=10, num_games_per_run=500, base
 
 
 def main():
-    """Evaluate all available models with statistical analysis."""
     print("=" * 80)
-    print("🏆 COMPREHENSIVE MODEL EVALUATION WITH STATISTICAL ANALYSIS")
+    print("COMPREHENSIVE MODEL EVALUATION WITH STATISTICAL ANALYSIS")
     print("=" * 80)
     
-    # Configuration
     num_runs = 10
     num_games_per_run = 500
     base_seed = 42
     
-    print(f"\n📊 Evaluation Configuration:")
+    print(f"\nEvaluation Configuration:")
     print(f"   Number of runs per model: {num_runs}")
     print(f"   Games per run: {num_games_per_run}")
     print(f"   Total games per model: {num_runs * num_games_per_run}")
     
-    # Initialize environment
     env = UnoEnvironment(seed=base_seed)
     evaluator = Evaluator(env)
     config = load_config()
     
-    # Calculate state dimension
     sample_state, _ = env.reset()
     state_dim = sample_state['obs'].flatten().shape[0] + env.num_actions
     state_shape = sample_state['obs'].shape
     action_shape = (env.num_actions,)
     
-    # Check device
     if torch.cuda.is_available():
         device = "0"
     elif torch.backends.mps.is_available():
@@ -156,7 +135,6 @@ def main():
     else:
         device = "cpu"
     
-    # Model configurations
     models = {
         'DQN Original': {
             'file': 'models/custom/dqn_final.pth',
@@ -190,22 +168,20 @@ def main():
         }
     }
     
-    # Load agents and evaluate with multiple runs
     agents = {}
     win_rates_dict = {}
     avg_turns_dict = {}
     results = {}
     
-    print("\n📦 Loading Models...")
+    print("\nLoading Models...")
     print("-" * 80)
     
-    # First, load all agents
     for name, info in models.items():
         if not os.path.exists(info['file']):
-            print(f"⚠️  {name:30s} - File not found: {info['file']}")
+            print(f"  {name:30s} - File not found: {info['file']}")
             continue
         
-        print(f"\n📥 Loading {name}...")
+        print(f"\nLoading {name}...")
         try:
             if info['type'] == 'dqn':
                 agent = DQNAgent(state_dim, env.num_actions, config)
@@ -221,20 +197,19 @@ def main():
                 )
             
             agents[name] = agent
-            print(f"   ✅ Loaded successfully")
+            print(f"   Loaded successfully")
             
         except Exception as e:
-            print(f"   ❌ Error loading: {e}")
+            print(f"   Error loading: {e}")
             import traceback
             traceback.print_exc()
             continue
     
-    # Evaluate each agent with multiple runs
-    print("\n🎮 Evaluating Models (Multiple Runs)...")
+    print("\nEvaluating Models (Multiple Runs)...")
     print("-" * 80)
     
     for name, agent in tqdm(agents.items(), desc="Evaluating models"):
-        print(f"\n🔄 Evaluating {name} ({num_runs} runs)...")
+        print(f"\nEvaluating {name} ({num_runs} runs)...")
         try:
             win_rates, avg_turns_array = evaluate_model_multiple_runs(
                 agent, num_runs=num_runs, 
@@ -244,11 +219,10 @@ def main():
             win_rates_dict[name] = win_rates.tolist()
             avg_turns_dict[name] = avg_turns_array.tolist()
             
-            # Compute statistics
             mean_wr, ci_lower_wr, ci_upper_wr = compute_confidence_interval(win_rates)
             mean_turns = np.mean(avg_turns_array)
             std_wr = np.std(win_rates)
-            meets_threshold = ci_lower_wr >= 0.55  # Conservative: CI lower bound >= 55%
+            meets_threshold = ci_lower_wr >= 0.55
             
             results[name] = {
                 'mean_win_rate': mean_wr,
@@ -263,37 +237,33 @@ def main():
                 'num_runs': num_runs
             }
             
-            status = "✅ MEETS 55%" if meets_threshold else "❌ Below 55%"
+            status = "MEETS 55%" if meets_threshold else "Below 55%"
             print(f"   Mean Win Rate: {mean_wr:.1%} ± {std_wr:.1%} {status}")
             print(f"   95% CI: [{ci_lower_wr:.1%}, {ci_upper_wr:.1%}]")
             print(f"   Avg Turns: {mean_turns:.1f}")
             
         except Exception as e:
-            print(f"   ❌ Error during evaluation: {e}")
+            print(f"   Error during evaluation: {e}")
             import traceback
             traceback.print_exc()
             continue
     
-    # Statistical Analysis
     print("\n" + "=" * 80)
-    print("📊 STATISTICAL ANALYSIS")
+    print("STATISTICAL ANALYSIS")
     print("=" * 80)
     
     if len(win_rates_dict) > 0:
-        # Generate statistical summary
         statistical_summary = generate_statistical_summary(win_rates_dict)
         
-        # Print formatted results
         print(format_statistical_results(statistical_summary))
         
-        # Summary table with confidence intervals
         print("\n" + "=" * 80)
-        print("📊 EVALUATION RESULTS SUMMARY (with 95% Confidence Intervals)")
+        print("EVALUATION RESULTS SUMMARY (with 95% Confidence Intervals)")
         print("=" * 80)
         
-        print("\n┌──────────────────────────────────┬──────────────┬──────────────┬──────────────┬──────────────┐")
-        print("│ Model                            │ Mean Win Rate│ 95% CI       │ Avg Turns    │ Meets 55%?   │")
-        print("├──────────────────────────────────┼──────────────┼──────────────┼──────────────┼──────────────┤")
+        print("\n")
+        print(" Model                             Mean Win Rate 95% CI        Avg Turns     Meets 55%?   ")
+        print("")
         
         for name in sorted(results.keys(), key=lambda x: results[x]['mean_win_rate'], reverse=True):
             r = results[name]
@@ -301,29 +271,27 @@ def main():
             ci_lower = r['ci_lower']
             ci_upper = r['ci_upper']
             turns = r['mean_avg_turns']
-            meets = "✅ YES" if r['meets_55_threshold'] else "❌ NO"
-            print(f"│ {name:32s} │ {mean_wr:11.1%} │ [{ci_lower:5.1%},{ci_upper:5.1%}] │ {turns:11.1f} │ {meets:12s} │")
+            meets = "YES" if r['meets_55_threshold'] else "NO"
+            print(f" {name:32s}  {mean_wr:11.1%}  [{ci_lower:5.1%},{ci_upper:5.1%}]  {turns:11.1f}  {meets:12s} ")
         
-        print("└──────────────────────────────────┴──────────────┴──────────────┴──────────────┴──────────────┘")
+        print("")
     
-    # Models meeting threshold
     print("\n" + "=" * 80)
-    print("🎯 MODELS MEETING 55% THRESHOLD")
+    print("MODELS MEETING 55% THRESHOLD")
     print("=" * 80)
     
     meeting_threshold = [name for name, r in results.items() if r['meets_55_threshold']]
     if meeting_threshold:
         for name in meeting_threshold:
             r = results[name]
-            print(f"\n✅ {name}")
+            print(f"\n{name}")
             print(f"   Mean Win Rate: {r['mean_win_rate']:.1%} (95% CI: [{r['ci_lower']:.1%}, {r['ci_upper']:.1%}])")
             print(f"   Architecture: {r['architecture']}")
             print(f"   File: {r['file']}")
     else:
-        print("\n⚠️  No models currently meet the 55% threshold (using conservative CI lower bound >= 55%).")
+        print("\nNo models currently meet the 55% threshold (using conservative CI lower bound >= 55%).")
         print("   Consider retraining or using best available models.")
     
-    # Save results to CSV
     output_file = 'results/model_evaluation_results.csv'
     os.makedirs('results', exist_ok=True)
     
@@ -348,21 +316,19 @@ def main():
                 r['num_runs']
             ])
     
-    # Save statistical summary
     if len(win_rates_dict) > 0:
         summary_file = 'results/statistical_summary.csv'
         statistical_summary['model_summary'].to_csv(summary_file, index=False)
-        print(f"\n💾 Statistical summary saved to: {summary_file}")
+        print(f"\nStatistical summary saved to: {summary_file}")
         
         pairwise_file = 'results/pairwise_comparisons.csv'
         statistical_summary['pairwise_comparisons'].to_csv(pairwise_file, index=False)
-        print(f"💾 Pairwise comparisons saved to: {pairwise_file}")
+        print(f"Pairwise comparisons saved to: {pairwise_file}")
     
-    print(f"💾 Results saved to: {output_file}")
+    print(f"Results saved to: {output_file}")
     
-    # Final summary
     print("\n" + "=" * 80)
-    print("📈 FINAL SUMMARY")
+    print("FINAL SUMMARY")
     print("=" * 80)
     print(f"   Total models evaluated: {len(results)}")
     print(f"   Models meeting 55% threshold: {len(meeting_threshold)}")
@@ -381,4 +347,3 @@ def main():
 
 if __name__ == "__main__":
     main()
-

@@ -1,6 +1,6 @@
 # UNO Model Evaluation Results - Comprehensive Interpretation
 
-## 📊 Overview
+##  Overview
 
 This document interprets the comprehensive evaluation results for all trained UNO models. The evaluation tested 4 different models against a random baseline and in head-to-head matchups.
 
@@ -49,7 +49,7 @@ This document interprets the comprehensive evaluation results for all trained UN
 
 ---
 
-## 📈 Performance Analysis
+##  Performance Analysis
 
 ### Performance vs Random Baseline
 
@@ -121,7 +121,7 @@ This document interprets the comprehensive evaluation results for all trained UN
 
 ---
 
-## 🎯 Research Implications
+##  Research Implications
 
 ### What This Tells Us:
 
@@ -147,7 +147,7 @@ This document interprets the comprehensive evaluation results for all trained UN
 
 ---
 
-## 📊 Statistical Significance
+##  Statistical Significance
 
 ### Win Rate Differences:
 - **DMC Ep10k vs Random**: +2.6% (52.6% - 50.0%)
@@ -163,7 +163,7 @@ This document interprets the comprehensive evaluation results for all trained UN
 
 ---
 
-## 🏆 Final Rankings
+##  Final Rankings
 
 ### Overall Performance (vs Random):
 1. **🥇 DMC Ep10k** - 52.6% (Best overall)

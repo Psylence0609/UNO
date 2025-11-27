@@ -43,7 +43,7 @@ def head_to_head(evaluator, agent1, agent2, num_games=300):
 def main():
     """Evaluate all available models."""
     print("=" * 80)
-    print("🏆 COMPREHENSIVE MODEL EVALUATION")
+    print("COMPREHENSIVE MODEL EVALUATION")
     print("=" * 80)
     
     # Initialize environment
@@ -81,7 +81,7 @@ def main():
     
     # Load available models
     agents = {}
-    print("\n📦 Loading Models...")
+    print("\nLoading Models...")
     print("-" * 80)
     
     for name, info in models.items():
@@ -97,24 +97,24 @@ def main():
                 # Set to evaluation mode
                 agent.epsilon = 0.0
                 agents[name] = agent
-                print(f"✅ {name:20s} loaded from {info['file']}")
+                print(f"{name:20s} loaded from {info['file']}")
             except Exception as e:
-                print(f"❌ {name:20s} failed to load: {e}")
+                print(f"{name:20s} failed to load: {e}")
         else:
-            print(f"⚠️  {name:20s} file not found: {info['file']}")
+            print(f"{name:20s} file not found: {info['file']}")
     
     if len(agents) == 0:
-        print("\n❌ No models loaded!")
+        print("\nNo models loaded!")
         return
     
     # Evaluate vs Random
     print("\n" + "=" * 80)
-    print("📊 PERFORMANCE VS RANDOM BASELINE")
+    print("PERFORMANCE VS RANDOM BASELINE")
     print("=" * 80)
     
     results = {}
     for name, agent in agents.items():
-        print(f"\n🎮 Evaluating {name}... (500 games)")
+        print(f"\nEvaluating {name}... (500 games)")
         try:
             win_rate, avg_turns = evaluate_vs_random(evaluator, agent, num_games=500)
             results[name] = {
@@ -124,13 +124,13 @@ def main():
             print(f"   Win Rate: {win_rate:.1%}")
             print(f"   Avg Turns: {avg_turns:.1f}")
         except Exception as e:
-            print(f"   ❌ Error: {e}")
+            print(f"   Error: {e}")
             results[name] = {'vs_random_wr': 0, 'avg_turns': 0}
     
     # Head-to-head comparisons
     if len(agents) > 1:
         print("\n" + "=" * 80)
-        print("⚔️  HEAD-TO-HEAD COMPARISONS")
+        print("HEAD-TO-HEAD COMPARISONS")
         print("=" * 80)
         
         agent_names = list(agents.keys())
@@ -141,36 +141,36 @@ def main():
                 name1, name2 = agent_names[i], agent_names[j]
                 agent1, agent2 = agents[name1], agents[name2]
                 
-                print(f"\n🥊 {name1} vs {name2} (300 games)")
+                print(f"\n{name1} vs {name2} (300 games)")
                 try:
                     win_rate = head_to_head(evaluator, agent1, agent2, num_games=300)
                     h2h_results[f"{name1} vs {name2}"] = win_rate
                     print(f"   {name1} wins: {win_rate:.1%}")
                     print(f"   {name2} wins: {1-win_rate:.1%}")
                 except Exception as e:
-                    print(f"   ❌ Error: {e}")
+                    print(f"   Error: {e}")
     
     # Generate comparison table
     print("\n" + "=" * 80)
-    print("📋 COMPLETE COMPARISON TABLE")
+    print("COMPLETE COMPARISON TABLE")
     print("=" * 80)
     
-    print("\n┌────────────────────┬─────────────┬─────────────┐")
-    print("│ Model              │ vs Random   │ Avg Turns   │")
-    print("├────────────────────┼─────────────┼─────────────┤")
+    print("\n")
+    print(" Model               vs Random    Avg Turns   ")
+    print("")
     
     for name in sorted(results.keys(), key=lambda x: results[x]['vs_random_wr'], reverse=True):
         wr = results[name]['vs_random_wr']
         turns = results[name]['avg_turns']
-        print(f"│ {name:18s} │ {wr:10.1%} │ {turns:10.1f} │")
+        print(f" {name:18s}  {wr:10.1%}  {turns:10.1f} ")
     
-    print("└────────────────────┴─────────────┴─────────────┘")
+    print("")
     
     # Head-to-head matrix
     if 'h2h_results' in locals() and h2h_results:
-        print("\n┌─────────────────────────────────────────────────┐")
-        print("│           HEAD-TO-HEAD RESULTS                  │")
-        print("└─────────────────────────────────────────────────┘")
+        print("\n")
+        print("           HEAD-TO-HEAD RESULTS                  ")
+        print("")
         
         for matchup, wr in sorted(h2h_results.items()):
             parts = matchup.split(' vs ')
@@ -178,14 +178,14 @@ def main():
     
     # Summary
     print("\n" + "=" * 80)
-    print("🎯 SUMMARY")
+    print("SUMMARY")
     print("=" * 80)
     
     if results:
         best = max(results.items(), key=lambda x: x[1]['vs_random_wr'])
-        print(f"\n🏆 Best Overall: {best[0]} ({best[1]['vs_random_wr']:.1%} vs Random)")
+        print(f"\nBest Overall: {best[0]} ({best[1]['vs_random_wr']:.1%} vs Random)")
         
-        print("\n💡 Key Insights:")
+        print("\nKey Insights:")
         print(f"   • Total models evaluated: {len(results)}")
         if 'h2h_results' in locals():
             print(f"   • Head-to-head matchups: {len(h2h_results)}")

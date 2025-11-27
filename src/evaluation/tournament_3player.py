@@ -128,9 +128,9 @@ class TournamentMultiPlayer:
             normalized_completed = {self._normalize_matchup_key(eval(k)) for k in skip_completed}
             matchups = [m for m in matchups if self._normalize_matchup_key(m) not in normalized_completed]
             skipped_count = original_count - len(matchups)
-            print(f"⏭️  Skipping {skipped_count} completed matchups")
+            print(f"⏭  Skipping {skipped_count} completed matchups")
 
-        print(f"\n🏆 Starting {self.num_players}-Player Tournament")
+        print(f"\n Starting {self.num_players}-Player Tournament")
         print(f"{'='*80}")
         print(f"Agents: {len(agent_names)}")
         print(f"Matchups: {len(matchups)}")
@@ -159,7 +159,7 @@ class TournamentMultiPlayer:
         )
         
         print(f"\n{'='*80}")
-        print(f"🏆 TOURNAMENT LEADERBOARD")
+        print(f" TOURNAMENT LEADERBOARD")
         print(f"{'='*80}")
         print(f"{'Rank':<6} {'Agent':<25} {'Win Rate':<12} {'Avg Place':<12} {'Wins':<10}")
         print(f"{'-'*80}")
@@ -180,7 +180,7 @@ class TournamentMultiPlayer:
         )
 
         print(f"\n{'='*80}")
-        print(f"🏆 TOURNAMENT LEADERBOARD")
+        print(f" TOURNAMENT LEADERBOARD")
         print(f"{'='*80}")
         print(f"{'Rank':<6} {'Agent':<25} {'Win Rate':<12} {'Avg Place':<12} {'Wins':<10}")
         print(f"{'-'*80}")
@@ -197,7 +197,7 @@ class TournamentMultiPlayer:
                 'overall': self.results,
                 'matchups': {str(self._normalize_matchup_key(k)): v for k, v in self.matchup_results.items()}
             }, f, indent=2)
-        print(f"✅ Results saved to {filepath}")
+        print(f" Results saved to {filepath}")
 
 
 def load_agent(agent_type, model_path=None, config=None):
@@ -254,13 +254,13 @@ def load_agent(agent_type, model_path=None, config=None):
             agent = load_rlcard_dmc_model(model_path, state_shape, action_shape, device)
             return agent
         except ImportError:
-            print(f"⚠️  RLCard not available, cannot load {model_path}")
+            print(f"  RLCard not available, cannot load {model_path}")
             raise ValueError("RLCard not installed")
 
     elif agent_type == 'rlcard_dqn':
         # For now, we'll use the custom DQN as RLCard DQN placeholder
         # since we don't have a separate RLCard DQN wrapper
-        print("⚠️  RLCard DQN not implemented yet, using custom DQN")
+        print("  RLCard DQN not implemented yet, using custom DQN")
         agent = DQNAgent(
             state_size=301,
             action_size=env.num_actions,
@@ -320,7 +320,7 @@ def main():
     completed_matchups = set()
 
     if os.path.exists(existing_results_file):
-        print(f"📂 Found existing results file: {existing_results_file}")
+        print(f" Found existing results file: {existing_results_file}")
         try:
             with open(existing_results_file, 'r') as f:
                 existing_data = json.load(f)
@@ -337,9 +337,9 @@ def main():
                             normalized_matchups[key_str] = value
                     existing_data['matchups'] = normalized_matchups
                     completed_matchups = set(existing_data['matchups'].keys())
-                    print(f"✅ Found {len(completed_matchups)} completed matchups to skip")
+                    print(f" Found {len(completed_matchups)} completed matchups to skip")
         except Exception as e:
-            print(f"⚠️  Could not read existing results: {e}")
+            print(f"  Could not read existing results: {e}")
             existing_data = {'overall': {}, 'matchups': {}}
 
     # Run tournament with skip logic
@@ -347,7 +347,7 @@ def main():
     new_overall_results = tournament.run_tournament(skip_completed=completed_matchups)
 
     # Merge results with existing data
-    print("🔄 Merging new results with existing data...")
+    print(" Merging new results with existing data...")
 
     # Merge overall statistics
     for agent_name, agent_stats in new_overall_results.items():
@@ -370,7 +370,7 @@ def main():
     # Add new matchups
     existing_data['matchups'].update({str(k): v for k, v in tournament.matchup_results.items()})
 
-    print(f"📊 Final results: {len(existing_data['overall'])} agents, {len(existing_data['matchups'])} matchups")
+    print(f" Final results: {len(existing_data['overall'])} agents, {len(existing_data['matchups'])} matchups")
 
     # Print leaderboard with merged results
     tournament.print_leaderboard_from_data(existing_data)
@@ -378,7 +378,7 @@ def main():
     # Save merged results back to the same file
     with open(existing_results_file, 'w') as f:
         json.dump(existing_data, f, indent=2)
-    print(f"💾 Results saved to {existing_results_file}")
+    print(f" Results saved to {existing_results_file}")
 
 
 if __name__ == "__main__":

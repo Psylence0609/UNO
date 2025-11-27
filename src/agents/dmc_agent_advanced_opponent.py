@@ -476,9 +476,9 @@ class AdvancedDMCAgentWithOpponent(DMCAgent):
             # If we got here, types match - load the state
             self.optimizer.load_state_dict(saved_state)
             optimizer_loaded = True
-            print("✅ Successfully loaded optimizer state")
+            print(" Successfully loaded optimizer state")
         except (KeyError, ValueError, RuntimeError) as e:
-            print(f"⚠️  Warning: Could not load optimizer state: {e}")
+            print(f"  Warning: Could not load optimizer state: {e}")
             print("   Initializing fresh optimizer state (this is normal when changing optimizer types)")
         
         # If optimizer wasn't loaded or there was an error, ensure clean state
@@ -492,7 +492,7 @@ class AdvancedDMCAgentWithOpponent(DMCAgent):
             try:
                 self.scheduler.load_state_dict(checkpoint['scheduler_state_dict'])
             except (KeyError, ValueError, RuntimeError) as e:
-                print(f"⚠️  Warning: Could not load scheduler state: {e}")
+                print(f"  Warning: Could not load scheduler state: {e}")
                 print("   Initializing fresh scheduler state")
         
         self.epsilon = checkpoint.get('epsilon', 0.0)

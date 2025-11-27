@@ -35,7 +35,6 @@ class AggressiveAgent:
         self.num_actions = num_actions
     
     def use_raw(self, state):
-        """Select action - prefer playing cards over drawing."""
         if 'legal_actions' in state:
             legal_actions = list(state['legal_actions'].keys())
             # Prefer non-draw actions (action 60 is draw)
@@ -57,7 +56,6 @@ class ConservativeAgent:
         self.num_actions = num_actions
     
     def use_raw(self, state):
-        """Select action - prefer drawing over playing."""
         if 'legal_actions' in state:
             legal_actions = list(state['legal_actions'].keys())
             # Prefer draw action if available (action 60 is draw)
@@ -69,7 +67,6 @@ class ConservativeAgent:
 
 
 def load_config():
-    """Load configuration."""
     with open('config.yaml', 'r') as f:
         return yaml.safe_load(f)
 
@@ -82,20 +79,6 @@ def evaluate_against_opponent(
     num_runs: int = 5,
     base_seed: int = 42
 ) -> dict:
-    """
-    Evaluate agent against a specific opponent type with multiple runs.
-    
-    Args:
-        agent: Agent to evaluate
-        opponent: Opponent agent
-        opponent_name: Name of opponent type
-        num_games: Number of games per run
-        num_runs: Number of evaluation runs
-        base_seed: Base seed for randomization
-        
-    Returns:
-        Dictionary with evaluation results
-    """
     win_rates = []
     avg_turns_list = []
     
@@ -104,7 +87,6 @@ def evaluate_against_opponent(
         env = UnoEnvironment(seed=seed)
         evaluator = Evaluator(env)
         
-        # Reset opponent tracking for agent with opponent modeling
         if hasattr(agent, 'reset_opponent_tracking'):
             agent.reset_opponent_tracking(num_players=env.num_players)
         
@@ -115,7 +97,6 @@ def evaluate_against_opponent(
         win_rates.append(win_rate)
         avg_turns_list.append(avg_turns)
     
-    # Compute statistics
     win_rates_array = np.array(win_rates)
     mean_wr, ci_lower, ci_upper = compute_confidence_interval(win_rates_array)
     std_wr = np.std(win_rates_array)
@@ -134,23 +115,18 @@ def evaluate_against_opponent(
 
 
 def main():
-    """Main evaluation function."""
     print("=" * 80)
-    print("🏆 OPPONENT MODELING EVALUATION")
+    print("OPPONENT MODELING EVALUATION")
     print("=" * 80)
     
-    # Load configuration
     config = load_config()
     
-    # Initialize environment
     env = UnoEnvironment(seed=42)
     evaluator = Evaluator(env)
     
-    # Calculate state dimension
     sample_state, _ = env.reset()
     state_dim = sample_state['obs'].flatten().shape[0] + env.num_actions
     
-    # Check device
     if torch.cuda.is_available():
         device = "cuda"
     elif torch.backends.mps.is_available():
@@ -158,13 +134,12 @@ def main():
     else:
         device = "cpu"
     
-    print(f"\n📦 Loading Models...")
+    print(f"\nLoading Models...")
     print("-" * 80)
     
-    # Load baseline DMC agent (without opponent modeling)
     baseline_model_path = 'models/custom/dmc_episode_10000.pth'
     if not os.path.exists(baseline_model_path):
-        print(f"⚠️  Baseline model not found: {baseline_model_path}")
+        print(f"  Baseline model not found: {baseline_model_path}")
         print("   Skipping baseline comparison")
         baseline_agent = None
     else:
@@ -172,15 +147,14 @@ def main():
             baseline_agent = DMCAgent(state_dim, env.num_actions, config)
             baseline_agent.load(baseline_model_path)
             baseline_agent.epsilon = 0.0
-            print(f"✅ Baseline DMC agent loaded")
+            print(f"Baseline DMC agent loaded")
         except Exception as e:
-            print(f"⚠️  Failed to load baseline: {e}")
+            print(f"  Failed to load baseline: {e}")
             baseline_agent = None
     
-    # Load DMC agent with opponent modeling
     opponent_model_path = 'models/custom/dmc_opponent_modeling_final.pth'
     if not os.path.exists(opponent_model_path):
-        print(f"⚠️  Opponent modeling model not found: {opponent_model_path}")
+        print(f"  Opponent modeling model not found: {opponent_model_path}")
         print("   Please train the model first using train_dmc_with_opponent.py")
         opponent_agent = None
     else:
@@ -192,45 +166,41 @@ def main():
             )
             opponent_agent.load(opponent_model_path)
             opponent_agent.epsilon = 0.0
-            print(f"✅ DMC with opponent modeling loaded")
+            print(f"DMC with opponent modeling loaded")
         except Exception as e:
-            print(f"⚠️  Failed to load opponent modeling agent: {e}")
+            print(f"  Failed to load opponent modeling agent: {e}")
             import traceback
             traceback.print_exc()
             opponent_agent = None
     
     if opponent_agent is None:
-        print("\n❌ Cannot proceed without opponent modeling agent")
+        print("\nCannot proceed without opponent modeling agent")
         return
     
-    # Define opponents
     opponents = {
         'Random': RandomAgent(env.num_actions),
         'Aggressive': AggressiveAgent(env.num_actions),
         'Conservative': ConservativeAgent(env.num_actions)
     }
     
-    # Add baseline DMC as strategic opponent if available
     if baseline_agent is not None:
         opponents['Strategic (DMC)'] = baseline_agent
     
-    # Evaluation configuration
     num_games_per_run = 300
     num_runs = 5
     
-    print(f"\n🎮 Evaluation Configuration:")
+    print(f"\nEvaluation Configuration:")
     print(f"   Games per run: {num_games_per_run}")
     print(f"   Number of runs: {num_runs}")
     print(f"   Total games per opponent: {num_runs * num_games_per_run}")
     
-    # Evaluate against each opponent type
-    print(f"\n📊 Evaluating DMC with Opponent Modeling...")
+    print(f"\nEvaluating DMC with Opponent Modeling...")
     print("-" * 80)
     
     results_opponent_modeling = {}
     
     for opponent_name, opponent in opponents.items():
-        print(f"\n🔄 Evaluating against {opponent_name}...")
+        print(f"\nEvaluating against {opponent_name}...")
         try:
             result = evaluate_against_opponent(
                 opponent_agent, opponent, opponent_name,
@@ -242,22 +212,21 @@ def main():
             print(f"   95% CI: [{result['ci_lower']:.1%}, {result['ci_upper']:.1%}]")
             print(f"   Avg Turns: {result['mean_avg_turns']:.1f}")
         except Exception as e:
-            print(f"   ❌ Error: {e}")
+            print(f"   Error: {e}")
             import traceback
             traceback.print_exc()
     
-    # Evaluate baseline DMC against same opponents (if available)
     results_baseline = {}
     
     if baseline_agent is not None:
-        print(f"\n📊 Evaluating Baseline DMC (for comparison)...")
+        print(f"\nEvaluating Baseline DMC (for comparison)...")
         print("-" * 80)
         
         for opponent_name, opponent in opponents.items():
             if opponent_name == 'Strategic (DMC)':
-                continue  # Skip self-comparison
+                continue
             
-            print(f"\n🔄 Evaluating baseline against {opponent_name}...")
+            print(f"\nEvaluating baseline against {opponent_name}...")
             try:
                 result = evaluate_against_opponent(
                     baseline_agent, opponent, opponent_name,
@@ -268,18 +237,17 @@ def main():
                 print(f"   Mean Win Rate: {result['mean_win_rate']:.1%} ± {result['std_win_rate']:.1%}")
                 print(f"   95% CI: [{result['ci_lower']:.1%}, {result['ci_upper']:.1%}]")
             except Exception as e:
-                print(f"   ❌ Error: {e}")
+                print(f"   Error: {e}")
                 import traceback
                 traceback.print_exc()
     
-    # Comparison table
     print("\n" + "=" * 80)
-    print("📊 PERFORMANCE COMPARISON")
+    print("PERFORMANCE COMPARISON")
     print("=" * 80)
     
-    print("\n┌──────────────────────────┬──────────────────────┬──────────────────────┬──────────────┐")
-    print("│ Opponent Type            │ With Opponent Model  │ Baseline DMC         │ Improvement  │")
-    print("├──────────────────────────┼──────────────────────┼──────────────────────┼──────────────┤")
+    print("\n")
+    print(" Opponent Type             With Opponent Model   Baseline DMC          Improvement  ")
+    print("")
     
     for opponent_name in results_opponent_modeling.keys():
         if opponent_name == 'Strategic (DMC)':
@@ -297,18 +265,17 @@ def main():
             baseline_wr = None
             improvement_str = "N/A"
         
-        print(f"│ {opponent_name:24s} │ {om_wr:18.1%} │ ", end="")
+        print(f" {opponent_name:24s}  {om_wr:18.1%}  ", end="")
         if baseline_wr is not None:
-            print(f"{baseline_wr:18.1%} │ {improvement_str:12s} │")
+            print(f"{baseline_wr:18.1%}  {improvement_str:12s} ")
         else:
-            print(f"{'N/A':18s} │ {improvement_str:12s} │")
+            print(f"{'N/A':18s}  {improvement_str:12s} ")
     
-    print("└──────────────────────────┴──────────────────────┴──────────────────────┴──────────────┘")
+    print("")
     
-    # Statistical comparison
     if results_baseline:
         print("\n" + "=" * 80)
-        print("📈 STATISTICAL COMPARISON")
+        print("STATISTICAL COMPARISON")
         print("=" * 80)
         
         for opponent_name in results_opponent_modeling.keys():
@@ -326,7 +293,6 @@ def main():
             print(f"   Baseline DMC: {baseline_result['mean_win_rate']:.1%} (CI: [{baseline_result['ci_lower']:.1%}, {baseline_result['ci_upper']:.1%}])")
             print(f"   Improvement: {improvement:+.1%} ({improvement_pct:+.2f} percentage points)")
     
-    # Save results
     output_file = 'results/opponent_modeling_evaluation.csv'
     os.makedirs('results', exist_ok=True)
     
@@ -365,11 +331,10 @@ def main():
                     result['num_games_per_run']
                 ])
     
-    print(f"\n💾 Results saved to: {output_file}")
+    print(f"\nResults saved to: {output_file}")
     
-    # Summary
     print("\n" + "=" * 80)
-    print("🎯 SUMMARY")
+    print("SUMMARY")
     print("=" * 80)
     print(f"   Opponent types tested: {len(results_opponent_modeling)}")
     print(f"   Total games played: {len(results_opponent_modeling) * num_runs * num_games_per_run}")
@@ -393,4 +358,3 @@ def main():
 
 if __name__ == "__main__":
     main()
-

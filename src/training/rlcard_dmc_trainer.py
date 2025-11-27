@@ -19,27 +19,27 @@ from rlcard.agents.dmc_agent.trainer import DMCTrainer
 
 def main():
     """Main function to start RLCard's built-in DMC training."""
-    print("🚀 RLCard Built-in DMC Training")
+    print(" RLCard Built-in DMC Training")
     print("=" * 50)
     
     # Initialize UNO environment
-    print("📦 Initializing UNO environment...")
+    print(" Initializing UNO environment...")
     env = rlcard.make('uno', config={'seed': 42})
-    print(f"✅ Environment created: {env.num_actions} actions, {env.num_players} players")
+    print(f" Environment created: {env.num_actions} actions, {env.num_players} players")
     print()
     
     # Check device availability
     # Note: RLCard's DMCTrainer only supports CUDA or CPU, not MPS
     if torch.cuda.is_available():
         device = "0"  # RLCard uses string "0" for first GPU
-        print(f"✅ Using CUDA GPU")
+        print(f" Using CUDA GPU")
     elif torch.backends.mps.is_available():
         device = ""  # Fall back to CPU - RLCard doesn't support MPS
-        print(f"⚠️  MPS (Apple Silicon) detected but RLCard's DMCTrainer doesn't support it")
+        print(f"  MPS (Apple Silicon) detected but RLCard's DMCTrainer doesn't support it")
         print(f"   Falling back to CPU (training will be slower)")
     else:
         device = ""  # Empty string for CPU in RLCard
-        print(f"⚠️  Using CPU (training will be slower)")
+        print(f"  Using CPU (training will be slower)")
     
     print(f"Device for RLCard: {device if device else 'CPU'}")
     print()
@@ -49,7 +49,7 @@ def main():
     TOTAL_FRAMES = 100_000_000  # 10M frames (adjust based on your needs)
     SAVE_INTERVAL = 30  # minutes between checkpoints
     
-    print("📋 Training Configuration:")
+    print(" Training Configuration:")
     print(f"   Total Frames: {TOTAL_FRAMES:,}")
     print(f"   Save Interval: {SAVE_INTERVAL} minutes")
     print(f"   Batch Size: 32")
@@ -60,7 +60,7 @@ def main():
     print()
     
     # Create RLCard's DMCTrainer
-    print("🔧 Creating RLCard DMCTrainer...")
+    print(" Creating RLCard DMCTrainer...")
     trainer = DMCTrainer(
         env=env,
         cuda=device,  # Device string for RLCard
@@ -85,9 +85,9 @@ def main():
         epsilon=1e-05,  # RMSProp epsilon
     )
     
-    print("✅ Trainer created successfully")
+    print(" Trainer created successfully")
     print()
-    print("🎮 Starting training...")
+    print(" Starting training...")
     print("=" * 50)
     print("Note: RLCard's DMCTrainer uses an actor-learner architecture")
     print("      with parallel actors for efficient training.")
@@ -99,16 +99,16 @@ def main():
     try:
         trainer.start()
     except KeyboardInterrupt:
-        print("\n⚠️  Training interrupted by user")
-        print("💾 Checkpoint should be saved in experiments/rlcard_dmc_uno/")
+        print("\n  Training interrupted by user")
+        print(" Checkpoint should be saved in experiments/rlcard_dmc_uno/")
     except Exception as e:
-        print(f"\n❌ Training error: {e}")
+        print(f"\n Training error: {e}")
         raise
     
     print("\n" + "=" * 50)
-    print("🏆 TRAINING COMPLETED!")
+    print(" TRAINING COMPLETED!")
     print("=" * 50)
-    print(f"📁 Results saved to: {os.path.join(project_root, 'experiments/rlcard_dmc_uno')}")
+    print(f" Results saved to: {os.path.join(project_root, 'experiments/rlcard_dmc_uno')}")
     print("=" * 50)
 
 

@@ -251,7 +251,7 @@ class DQNTrainer:
 
 def main():
     """Main function to start training."""
-    print("🎮 UNO DQN Training")
+    print(" UNO DQN Training")
     print("=" * 50)
     
     # Check if CUDA is available
@@ -273,7 +273,7 @@ def main():
     final_eval, model_path = trainer.train()
     
     # Print final results
-    print("\n🏆 TRAINING COMPLETED!")
+    print("\n TRAINING COMPLETED!")
     print("=" * 50)
     print(f"Final win rate: {final_eval['win_rate']:.1%}")
     print(f"Final model saved to: {model_path}")

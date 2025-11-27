@@ -18,13 +18,13 @@ We have implemented and evaluated 7 core models for playing UNO:
 
 | Model | Win Rate vs Random | 95% CI | Meets 55% Threshold? | Status |
 |-------|-------------------|--------|---------------------|--------|
-| RLCard DMC+MCTS (100M) | 61.3% | [59.6%, 63.0%] | ✅ Yes | Best overall |
-| RLCard DMC (100M) | 60.4% | [59.3%, 61.5%] | ✅ Yes | Best overall |
+| RLCard DMC+MCTS (100M) | 61.3% | [59.6%, 63.0%] | Yes | Best overall |
+| RLCard DMC (100M) | 60.4% | [59.3%, 61.5%] | Yes | Best overall |
 | DMC with Opponent Modeling | TBD* | TBD | TBD | Stretch goal |
-| DQN+MCTS | 51.2% | [49.9%, 52.4%] | ❌ No | Improved over baseline |
-| DMC Ep10k | 50.0% | [48.7%, 51.4%] | ❌ No | Best custom model |
-| DQN Original | 49.8% | [48.2%, 51.4%] | ❌ No | Baseline |
-| DMC Old | 47.4% | [46.3%, 48.6%] | ❌ No | Good performance |
+| DQN+MCTS | 51.2% | [49.9%, 52.4%] | No | Improved over baseline |
+| DMC Ep10k | 50.0% | [48.7%, 51.4%] | No | Best custom model |
+| DQN Original | 49.8% | [48.2%, 51.4%] | No | Baseline |
+| DMC Old | 47.4% | [46.3%, 48.6%] | No | Good performance |
 
 *TBD: To be determined after training and evaluation
 **Results based on 10 evaluation runs with 500 games each (5,000 total games per model). Statistical analysis performed with 95% confidence intervals.
@@ -58,7 +58,7 @@ We have implemented and evaluated 7 core models for playing UNO:
 **Performance**:
 - Win Rate vs Random: 49.8% (95% CI: [48.2%, 51.4%])
 - Average Game Length: 47.1 turns
-- Meets 55% Threshold: ❌ No
+- Meets 55% Threshold: No
 - Statistical Significance: Not significantly different from DQN+MCTS (p=0.14)
 
 **Checkpoint Location**: `models/dqn_final.pth`
@@ -98,7 +98,7 @@ We have implemented and evaluated 7 core models for playing UNO:
 **Performance**:
 - Win Rate vs Random: 51.2% (95% CI: [49.9%, 52.4%])
 - Average Game Length: 47.4 turns
-- Meets 55% Threshold: ❌ No
+- Meets 55% Threshold: No
 - Statistical Significance: Significantly better than DMC Old (p<0.001, large effect)
 
 **Checkpoint Location**: `models/dqn_mcts_final.pth`
@@ -136,7 +136,7 @@ We have implemented and evaluated 7 core models for playing UNO:
 **Performance**:
 - Win Rate vs Random: 47.4% (DMC Old, 95% CI: [46.3%, 48.6%]), 50.0% (DMC Ep10k, 95% CI: [48.7%, 51.4%])
 - Average Game Length: 46.5 turns (DMC Old), 47.6 turns (DMC Ep10k)
-- Meets 55% Threshold: ❌ No
+- Meets 55% Threshold: No
 - Statistical Significance: DMC Ep10k significantly better than DMC Old (p=0.004, large effect)
 
 **Checkpoint Locations**:
@@ -241,7 +241,7 @@ We have implemented and evaluated 7 core models for playing UNO:
 **Performance**:
 - Win Rate vs Random: 60.4% (95% CI: [59.3%, 61.5%])
 - Average Game Length: 39.3 turns
-- Meets 55% Threshold: ✅ Yes
+- Meets 55% Threshold:  Yes
 - Statistical Significance: Significantly better than all custom models (p<0.001, large effect sizes: d=-5.5 to -8.2)
 - Performance Gap: 10.2% improvement over best custom model (DQN+MCTS)
 
@@ -263,7 +263,7 @@ We have implemented and evaluated 7 core models for playing UNO:
 **Performance**:
 - Win Rate vs Random: 61.3% (95% CI: [59.6%, 63.0%])
 - Average Game Length: 39.2 turns
-- Meets 55% Threshold: ✅ Yes
+- Meets 55% Threshold:  Yes
 - Statistical Significance: Significantly better than all custom models (p<0.001, large effect sizes: d=-4.8 to -6.9)
 - Performance Gap: 10.1% improvement over best custom model (DQN+MCTS)
 - vs RLCard DMC: Not significantly different (p=0.30, small effect: d=-0.47)
@@ -280,13 +280,13 @@ We have implemented and evaluated 7 core models for playing UNO:
 
 ### Performance Ranking (vs Random)
 
-1. **RLCard DMC+MCTS (100M)** - 61.3% (95% CI: [59.6%, 63.0%]) ✅
-2. **RLCard DMC (100M)** - 60.4% (95% CI: [59.3%, 61.5%]) ✅
+1. **RLCard DMC+MCTS (100M)** - 61.3% (95% CI: [59.6%, 63.0%]) Yes
+2. **RLCard DMC (100M)** - 60.4% (95% CI: [59.3%, 61.5%]) Yes
 3. **DMC with Opponent Modeling** - TBD (requires training) *
-4. **DQN+MCTS** - 51.2% (95% CI: [49.9%, 52.4%]) ❌
-5. **DMC Ep10k** - 50.0% (95% CI: [48.7%, 51.4%]) ❌
-6. **DQN Original** - 49.8% (95% CI: [48.2%, 51.4%]) ❌
-7. **DMC Old** - 47.4% (95% CI: [46.3%, 48.6%]) ❌
+4. **DQN+MCTS** - 51.2% (95% CI: [49.9%, 52.4%]) No
+5. **DMC Ep10k** - 50.0% (95% CI: [48.7%, 51.4%]) No
+6. **DQN Original** - 49.8% (95% CI: [48.2%, 51.4%]) No
+7. **DMC Old** - 47.4% (95% CI: [46.3%, 48.6%]) No
 
 *Expected to outperform baseline DMC after training
 **All results based on 10 evaluation runs with 500 games each (5,000 total games per model)
@@ -315,8 +315,8 @@ Results from `results/model_evaluation_results.csv` (10 runs × 500 games = 5,00
 
 | Model | Win Rate | 95% CI | Avg Turns | Ranking |
 |-------|----------|--------|-----------|---------|
-| RLCard DMC+MCTS (100M) | 61.3% | [59.6%, 63.0%] | 39.2 | 1 ✅ |
-| RLCard DMC (100M) | 60.4% | [59.3%, 61.5%] | 39.3 | 2 ✅ |
+| RLCard DMC+MCTS (100M) | 61.3% | [59.6%, 63.0%] | 39.2 | 1 |
+| RLCard DMC (100M) | 60.4% | [59.3%, 61.5%] | 39.3 | 2 |
 | DQN+MCTS | 51.2% | [49.9%, 52.4%] | 47.4 | 3 |
 | DMC Ep10k | 50.0% | [48.7%, 51.4%] | 47.6 | 4 |
 | DQN Original | 49.8% | [48.2%, 51.4%] | 47.1 | 5 |
@@ -330,19 +330,19 @@ Results from `results/model_evaluation_results.csv` (10 runs × 500 games = 5,00
 
 ```
 models/
-├── dqn_final.pth                    # DQN Original
-├── dqn_mcts_final.pth               # DQN+MCTS
-├── dqn_mcts_episode_10000.pth       # DQN+MCTS checkpoint
-├── dmc_mcts_final.pth               # DMC Old (final)
-└── dmc_episode_10000.pth            # DMC Ep10k (best)
+ dqn_final.pth                    # DQN Original
+ dqn_mcts_final.pth               # DQN+MCTS
+ dqn_mcts_episode_10000.pth       # DQN+MCTS checkpoint
+ dmc_mcts_final.pth               # DMC Old (final)
+ dmc_episode_10000.pth            # DMC Ep10k (best)
 
 experiments/
-├── rlcard_dmc_uno_100M/
-│   └── uno_rlcard_dmc/
-│       └── model.tar                # RLCard DMC (100M frames)
-└── rlcard_dmc_mcts_uno_100M/
-    └── uno_rlcard_dmc_mcts/
-        └── model.tar                # RLCard DMC+MCTS (100M frames)
+ rlcard_dmc_uno_100M/
+    uno_rlcard_dmc/
+        model.tar                # RLCard DMC (100M frames)
+ rlcard_dmc_mcts_uno_100M/
+     uno_rlcard_dmc_mcts/
+         model.tar                # RLCard DMC+MCTS (100M frames)
 ```
 
 ---

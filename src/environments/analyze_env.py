@@ -8,13 +8,13 @@ from collections import Counter
 
 def analyze_uno_environment():
     """Comprehensive analysis of the UNO environment."""
-    print("🔍 COMPREHENSIVE UNO ENVIRONMENT ANALYSIS")
+    print(" COMPREHENSIVE UNO ENVIRONMENT ANALYSIS")
     print("=" * 70)
     
     env = rlcard.make('uno')
     
     # Basic environment info
-    print("📊 BASIC ENVIRONMENT INFORMATION")
+    print(" BASIC ENVIRONMENT INFORMATION")
     print("-" * 40)
     print(f"Number of actions: {env.num_actions}")
     print(f"Number of players: {env.num_players}")  
@@ -22,7 +22,7 @@ def analyze_uno_environment():
     print()
     
     # Action space analysis
-    print("🎯 ACTION SPACE ANALYSIS")
+    print(" ACTION SPACE ANALYSIS")
     print("-" * 40)
     
     # Run multiple games to see action space
@@ -92,7 +92,7 @@ def analyze_uno_environment():
     print()
     
     # State representation analysis
-    print("🎲 STATE REPRESENTATION ANALYSIS")
+    print(" STATE REPRESENTATION ANALYSIS")
     print("-" * 40)
     
     state, player_id = env.reset()
@@ -122,7 +122,7 @@ def analyze_uno_environment():
     print()
     
     # Game dynamics analysis
-    print("⚡ GAME DYNAMICS ANALYSIS")
+    print(" GAME DYNAMICS ANALYSIS")
     print("-" * 40)
     
     game_lengths = []
@@ -152,7 +152,7 @@ def analyze_uno_environment():
     print()
     
     # Action frequency analysis
-    print("📈 ACTION FREQUENCY ANALYSIS")
+    print(" ACTION FREQUENCY ANALYSIS")
     print("-" * 40)
     
     action_frequency = Counter()
@@ -173,8 +173,8 @@ def analyze_uno_environment():
     for action, count in action_frequency.most_common(10):
         print(f"  {action}: {count} times")
     
-    print("\n✅ Environment analysis completed!")
-    print("\n📝 KEY INSIGHTS:")
+    print("\n Environment analysis completed!")
+    print("\n KEY INSIGHTS:")
     print("  • Action space: 61 discrete actions (cards + special moves)")
     print("  • State representation: 4x4x15 tensor + additional info")
     print("  • Game length: Highly variable (short games possible)")

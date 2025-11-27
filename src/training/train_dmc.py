@@ -72,9 +72,9 @@ class DMCTrainer:
             if os.path.exists("models/custom/dqn_mcts_final.pth"):
                 self.dqn_agent.load("models/custom/dqn_mcts_final.pth")
                 self.dqn_agent.epsilon = 0.0  # No exploration for comparison
-                print("✅ Loaded pre-trained DQN for comparison")
+                print(" Loaded pre-trained DQN for comparison")
         except Exception as e:
-            print(f"⚠️  Could not load DQN baseline: {e}")
+            print(f"  Could not load DQN baseline: {e}")
             self.dqn_agent = None
         
         # Setup logger
@@ -301,7 +301,7 @@ class DMCTrainer:
 
 def main():
     """Main function to start DMC+MCTS training."""
-    print("🚀 UNO DMC + MCTS Training")
+    print(" UNO DMC + MCTS Training")
     print("=" * 50)
     
     # Check if CUDA is available
@@ -323,7 +323,7 @@ def main():
     final_eval, model_path = trainer.train()
     
     # Print final results
-    print("\n🏆 TRAINING COMPLETED!")
+    print("\n TRAINING COMPLETED!")
     print("=" * 50)
     print(f"Final win rate vs Random: {final_eval['vs_random']['win_rate']:.1%}")
     if 'vs_dqn' in final_eval:

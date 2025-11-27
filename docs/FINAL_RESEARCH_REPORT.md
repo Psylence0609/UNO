@@ -87,11 +87,11 @@ Build and evaluate a DMC + MCTS intermediate reward function system for UNO and 
 - **Exploration**: Limited exploration in complex card game state space
 
 ### 3. Technical Achievements
-- ✅ Successful DMC agent implementation with triple-head architecture
-- ✅ MCTS-inspired reward shaping for intermediate learning signals
-- ✅ Episode-based learning for sequence-aware training
-- ✅ Efficient training pipeline completing in under 3 minutes
-- ✅ Comprehensive evaluation framework with statistical analysis
+-  Successful DMC agent implementation with triple-head architecture
+-  MCTS-inspired reward shaping for intermediate learning signals
+-  Episode-based learning for sequence-aware training
+-  Efficient training pipeline completing in under 3 minutes
+-  Comprehensive evaluation framework with statistical analysis
 
 ### 4. Limitations and Future Work
 - **Performance Gap**: DMC+MCTS did not significantly outperform random baseline
@@ -105,12 +105,12 @@ Build and evaluate a DMC + MCTS intermediate reward function system for UNO and 
 Implement DMC + MCTS intermediate reward function as described in https://arxiv.org/html/2410.11642v1 and compare with DQN and random baselines.
 
 ### Achievement Assessment
-- ✅ **DMC Implementation**: Successfully created DMC agent with appropriate architecture
-- ✅ **MCTS Reward Shaping**: Implemented reward shaping inspired by MCTS principles  
-- ✅ **Training Pipeline**: Complete training and evaluation infrastructure
-- ✅ **Baseline Comparison**: Comprehensive evaluation against random agent
-- ⚠️ **DQN Comparison**: Limited by model compatibility issues
-- ⚠️ **Performance**: Results show marginal improvement over random baseline
+-  **DMC Implementation**: Successfully created DMC agent with appropriate architecture
+-  **MCTS Reward Shaping**: Implemented reward shaping inspired by MCTS principles  
+-  **Training Pipeline**: Complete training and evaluation infrastructure
+-  **Baseline Comparison**: Comprehensive evaluation against random agent
+-  **DQN Comparison**: Limited by model compatibility issues
+-  **Performance**: Results show marginal improvement over random baseline
 
 ## Technical Specifications
 

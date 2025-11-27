@@ -1,4 +1,4 @@
-# 🎯 4-PLAYER UNO TOURNAMENT LEADERBOARD
+#  4-PLAYER UNO TOURNAMENT LEADERBOARD
 
 ## Tournament Overview
 - **Total Agents**: 8 (7 trained + 1 baseline)
@@ -20,19 +20,19 @@
 | 8 | Random | 0.0% | 0-35000 | nan | Random action agent (baseline) |
 
 
-## 🏆 KEY CONCLUSIONS (4-PLAYER MAXIMUM COMPLEXITY)
+##  KEY CONCLUSIONS (4-PLAYER MAXIMUM COMPLEXITY)
 
-### 1. **DRON Maintains Dominance in Maximum Complexity** 🏆
+### 1. **DRON Maintains Dominance in Maximum Complexity** 
 - **DRON (54.2%)** still leads despite 4-player complexity
 - Only **0.5% drop** from 3-player performance (54.7% → 54.2%)
 - Advanced opponent modeling scales well to maximum complexity
 
-### 2. **DMC + MCTS Shows Strength in Complex Scenarios** 💪
+### 2. **DMC + MCTS Shows Strength in Complex Scenarios** 
 - **DMC + MCTS (47.4%)** maintains strong performance
 - **DMC (41.6%)** shows **-3.7% drop** from 3-player (45.3% → 41.6%)
 - MCTS integration becomes more valuable with complexity
 
-### 3. **DQN Variants Struggle Significantly** 📉
+### 3. **DQN Variants Struggle Significantly** 
 - **DQN + MCTS (30.8%)** drops **-11.4%** from 3-player (42.2% → 30.8%)
 - **DQN (17.6%)** drops **-15.8%** from 3-player (33.4% → 17.6%)
 - Deep Q-Learning doesn't scale well to maximum complexity
@@ -42,12 +42,12 @@
 - Drops **-22.2%** from 3-player (30.5% → 8.3%)
 - Cannot handle maximum complexity scenarios
 
-### 5. **Baselines Completely Fail** ❌
+### 5. **Baselines Completely Fail** 
 - **Heuristic (0.0%)** and **Random (0.0%)** win zero games
 - 4-player UNO is too complex for rule-based or random strategies
 - Even trained agents struggle in maximum complexity
 
-## 📊 PERFORMANCE CATEGORIES (4-PLAYER)
+##  PERFORMANCE CATEGORIES (4-PLAYER)
 
 - **Elite (50%+)**: DRON (54.2%) - Only agent maintaining elite performance
 - **Strong (40-50%)**: DMC+MCTS (47.4%) - Strong in complex scenarios
@@ -56,20 +56,20 @@
 - **Poor (<20%)**: DQN (17.6%), RLCard DMC (8.3%) - Implementation issues
 - **Failing (0%)**: Heuristic, Random - Cannot handle complexity
 
-## 🔬 RESEARCH INSIGHTS (SCALING ACROSS COMPLEXITY)
+##  RESEARCH INSIGHTS (SCALING ACROSS COMPLEXITY)
 
 ### Performance Scaling Analysis:
 
 | Agent | 2-Player | 3-Player | 4-Player | Trend |
 |-------|-----------|-----------|-----------|--------|
-| DRON | 53.4% | 53.2% | **54.2%** | 📈 **Improves** |
-| DMC+MCTS | 45.9% | 47.3% | **47.4%** | 📈 **Improves** |
-| DMC | 47.9% | 45.3% | **41.6%** | 📉 **Declines** |
-| DQN+MCTS | 48.4% | 42.2% | **30.8%** | 📉 **Declines sharply** |
-| DQN | 47.1% | 33.4% | **17.6%** | 📉 **Declines sharply** |
-| RLCard DMC | 57.7% | 30.5% | **8.3%** | 📉 **Fails catastrophically** |
-| Heuristic | 52.0% | 14.8% | **0.0%** | 📉 **Fails catastrophically** |
-| Random | 47.6% | 0.0% | **0.0%** | 📉 **Fails catastrophically** |
+| DRON | 53.4% | 53.2% | **54.2%** |  **Improves** |
+| DMC+MCTS | 45.9% | 47.3% | **47.4%** |  **Improves** |
+| DMC | 47.9% | 45.3% | **41.6%** |  **Declines** |
+| DQN+MCTS | 48.4% | 42.2% | **30.8%** |  **Declines sharply** |
+| DQN | 47.1% | 33.4% | **17.6%** |  **Declines sharply** |
+| RLCard DMC | 57.7% | 30.5% | **8.3%** |  **Fails catastrophically** |
+| Heuristic | 52.0% | 14.8% | **0.0%** |  **Fails catastrophically** |
+| Random | 47.6% | 0.0% | **0.0%** |  **Fails catastrophically** |
 
 ### Key Scaling Insights:
 
@@ -87,7 +87,7 @@
 4. **Need complexity-aware evaluation** - Test across different player counts
 5. **4-player UNO represents true multi-agent challenge** - Separates good from great
 
-## 🎯 FINAL VERDICT
+##  FINAL VERDICT
 
 **DRON with advanced opponent modeling** emerges as the clear winner across all complexity levels, proving that sophisticated opponent modeling techniques are the key to success in complex multi-agent environments.
 
