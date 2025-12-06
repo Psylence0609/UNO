@@ -1,0 +1,7 @@
+Model,Mean Win Rate,Std Win Rate,CI Lower,CI Upper,Mean Avg Turns,Meets 55% Threshold,Type,Architecture,File,N Runs
+RLCard DMC+MCTS (100M),0.6134,0.0227,0.5963,0.6305,39.21,True,rlcard_dmc,"[512, 512, 512, 512, 512]",models/rlcard/rlcard_dmc_mcts_100M.tar,10
+RLCard DMC (100M),0.6038,0.0149,0.5925,0.6151,39.31,True,rlcard_dmc,"[512, 512, 512, 512, 512]",models/rlcard/rlcard_dmc_100M.tar,10
+DQN+MCTS,0.5116,0.0168,0.4989,0.5243,47.41,False,dqn,"[256, 128]",models/custom/dqn_mcts_final.pth,10
+DMC Ep10k,0.5004,0.0179,0.4869,0.5139,47.59,False,dmc,"[256, 128]",models/custom/dmc_episode_10000.pth,10
+DQN Original,0.4978,0.0209,0.4820,0.5136,47.13,False,dqn,"[256, 128]",models/custom/dqn_final.pth,10
+DMC Old,0.4742,0.0151,0.4628,0.4856,46.50,False,dmc,"[256, 128]",models/custom/dmc_mcts_final.pth,10

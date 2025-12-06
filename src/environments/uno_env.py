@@ -31,9 +31,9 @@ def _patch_rlcard_uno():
             
             UnoEnv._decode_action = patched_decode_action
             UnoEnv._patched = True
-            print("✅ RLCard UNO environment patched successfully")
+            print(" RLCard UNO environment patched successfully")
     except Exception as e:
-        print(f"⚠️  Could not patch RLCard UNO: {e}")
+        print(f"  Could not patch RLCard UNO: {e}")
 
 _patch_rlcard_uno()
 

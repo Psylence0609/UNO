@@ -223,8 +223,9 @@ class DQNTrainer:
             self.logger.log_evaluation(self.episode, final_eval_data)
             
             # Save final model
+            os.makedirs(os.path.join(self.config['paths']['models'], "custom"), exist_ok=True)
             final_model_path = self.save_model(
-                os.path.join(self.config['paths']['models'], "dqn_mcts_final.pth")
+                os.path.join(self.config['paths']['models'], "custom", "dqn_mcts_final.pth")
             )
             
             self.logger.end_training()
@@ -234,7 +235,7 @@ class DQNTrainer:
 
 def main():
     """Main function to start DQN+MCTS training."""
-    print("🚀 UNO DQN + MCTS Training")
+    print(" UNO DQN + MCTS Training")
     print("=" * 50)
     
     # Check device
@@ -260,7 +261,7 @@ def main():
     final_eval, model_path = trainer.train()
     
     # Print final results
-    print("\n🏆 TRAINING COMPLETED!")
+    print("\n TRAINING COMPLETED!")
     print("=" * 50)
     print(f"Final win rate vs Random: {final_eval['win_rate']:.1%}")
     print(f"Final model saved to: {model_path}")

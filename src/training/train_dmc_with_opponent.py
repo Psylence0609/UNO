@@ -1,5 +1,5 @@
 """
-Training script for DMC agent with MCTS reward shaping on UNO.
+Training script for DMC agent with opponent modeling on UNO.
 """
 
 import os
@@ -13,15 +13,15 @@ from tqdm import tqdm
 sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
 from src.environments.uno_env import UnoEnvironment
-from src.agents.dmc_agent import DMCAgent
-from src.agents.dqn_agent_new import DQNAgent
+from src.agents.dmc_agent_with_opponent import DMCAgentWithOpponentModeling
 from src.agents.random_agent import RandomAgent
 from src.mcts.proper_mcts import ProperMCTS, calculate_mcts_reward
 from src.training.logger import TrainingLogger
 from src.evaluation.evaluator import Evaluator
 
-class DMCTrainer:
-    """Trainer for DMC agent with MCTS reward shaping."""
+
+class DMCTrainerWithOpponent:
+    """Trainer for DMC agent with opponent modeling and MCTS reward shaping."""
     
     def __init__(self, config_path="config.yaml"):
         """
@@ -45,42 +45,35 @@ class DMCTrainer:
         features.extend(np.zeros(self.env.num_actions))
         self.state_size = len(features)
         
-        # Setup DMC agent
-        self.dmc_agent = DMCAgent(
+        # Setup DMC agent with opponent modeling
+        self.dmc_agent = DMCAgentWithOpponentModeling(
             state_size=self.state_size,
             action_size=self.env.num_actions,
             config=self.config
         )
         
-        # Setup MCTS reward shaper
-        self.mcts_shaper = ProperMCTS(
-            env=self.env,
-            config=self.config.get('mcts', {})
-        )
+        # Reset opponent tracking
+        self.dmc_agent.reset_opponent_tracking(num_players=self.env.num_players)
+        
+        # Setup MCTS reward shaper (optional, can be disabled)
+        mcts_config = self.config.get('mcts', {})
+        if mcts_config.get('enabled', True):
+            self.mcts_shaper = ProperMCTS(
+                env=self.env,
+                config=mcts_config
+            )
+            self.use_mcts_reward = True
+        else:
+            self.mcts_shaper = None
+            self.use_mcts_reward = False
         
         # Setup opponents
         self.random_opponent = RandomAgent(self.env.num_actions)
         
-        # Setup baseline DQN (if available)
-        try:
-            self.dqn_agent = DQNAgent(
-                state_size=self.state_size,
-                action_size=self.env.num_actions,
-                config=self.config
-            )
-            # Try to load pre-trained DQN
-            if os.path.exists("models/custom/dqn_mcts_final.pth"):
-                self.dqn_agent.load("models/custom/dqn_mcts_final.pth")
-                self.dqn_agent.epsilon = 0.0  # No exploration for comparison
-                print(" Loaded pre-trained DQN for comparison")
-        except Exception as e:
-            print(f"  Could not load DQN baseline: {e}")
-            self.dqn_agent = None
-        
         # Setup logger
         self.logger = TrainingLogger(
             log_dir=self.config['paths']['logs'],
-            experiment_name=f"dmc_mcts_vs_random_{self.config['environment']['seed']}"
+            experiment_name=f"dmc_opponent_modeling_{self.config['environment']['seed']}"
         )
         
         # Setup evaluator
@@ -95,8 +88,12 @@ class DMCTrainer:
         return self.dmc_agent._process_state(state)
     
     def train_episode(self):
-        """Train for one episode."""
+        """Train for one episode with opponent tracking."""
         state, player_id = self.env.reset()
+        
+        # Reset opponent tracking for new episode
+        self.dmc_agent.reset_opponent_tracking(num_players=self.env.num_players)
+        
         episode_reward = 0
         episode_length = 0
         
@@ -106,15 +103,30 @@ class DMCTrainer:
             # Get current agent
             current_agent = agents[player_id]
             
-            # Store previous state for learning (only for DMC agent)
+            # Extract opponent features before action (for our agent)
             if player_id == 0:  # DMC agent's turn
-                prev_state = self._process_state(state)
+                opponent_features = self.dmc_agent.extract_opponent_features(state)
+                prev_state = state
             
             # Take action
             action = current_agent.use_raw(state)
             next_state, next_player_id = self.env.step(action)
             episode_length += 1
             self.total_steps += 1
+            
+            # Update opponent history after opponent's action
+            if player_id == 1:  # Opponent's turn
+                # Get opponent hand size if available
+                opponent_hand_size = None
+                if 'raw_obs' in next_state and 'num_cards' in next_state['raw_obs']:
+                    opponent_hand_size = next_state['raw_obs']['num_cards'].get(1)
+                
+                # Update opponent history
+                self.dmc_agent.update_opponent_history(
+                    action=action,
+                    opponent_id=1,
+                    hand_size=opponent_hand_size
+                )
             
             # Calculate reward and store experience (only for DMC agent)
             if player_id == 0:  # DMC agent's turn
@@ -124,18 +136,28 @@ class DMCTrainer:
                     payoffs = self.env.get_payoffs()
                     base_reward = 1.0 if payoffs[0] > 0 else -1.0
                 
-                # MCTS-shaped reward
-                shaped_reward = calculate_mcts_reward(
-                    self.env, state, action, next_state, player_id, 
-                    base_reward, self.mcts_shaper
-                )
+                # MCTS-shaped reward (if enabled)
+                if self.use_mcts_reward:
+                    shaped_reward = calculate_mcts_reward(
+                        self.env, state, action, next_state, player_id, 
+                        base_reward, self.mcts_shaper
+                    )
+                else:
+                    shaped_reward = base_reward
                 
                 episode_reward += shaped_reward
                 
-                # Store transition for episode-based learning
-                next_state_processed = self._process_state(next_state) if not self.env.is_over() else prev_state
+                # Extract opponent features for next state
+                next_opponent_features = self.dmc_agent.extract_opponent_features(next_state) if not self.env.is_over() else opponent_features
+                
+                # Store transition with opponent features
                 self.dmc_agent.store_transition(
-                    prev_state, action, shaped_reward, next_state_processed, self.env.is_over()
+                    state=prev_state,
+                    action=action,
+                    reward=shaped_reward,
+                    next_state=next_state if not self.env.is_over() else prev_state,
+                    done=self.env.is_over(),
+                    opponent_features=opponent_features
                 )
             
             # Update state and player
@@ -160,7 +182,7 @@ class DMCTrainer:
     
     def evaluate_agent(self, num_games=1000):
         """
-        Evaluate the DMC agent against different opponents.
+        Evaluate the DMC agent with opponent modeling against different opponents.
         
         Args:
             num_games (int): Number of games to evaluate
@@ -186,18 +208,6 @@ class DMCTrainer:
             'losses': random_results['wins'][1]
         }
         
-        # Evaluate against DQN if available
-        if self.dqn_agent is not None:
-            agents = [self.dmc_agent, self.dqn_agent]
-            dqn_results = self.evaluator.evaluate_agents(agents, num_games, verbose=False)
-            
-            results['vs_dqn'] = {
-                'win_rate': dqn_results['win_rates'][0],
-                'avg_game_length': dqn_results['avg_game_length'],
-                'wins': dqn_results['wins'][0],
-                'losses': dqn_results['wins'][1]
-            }
-        
         # Restore training mode
         self.dmc_agent.train()
         self.dmc_agent.epsilon = original_epsilon
@@ -207,10 +217,11 @@ class DMCTrainer:
     def save_model(self, filepath=None):
         """Save the trained model."""
         if filepath is None:
-            os.makedirs(self.config['paths']['models'], exist_ok=True)
+            os.makedirs(os.path.join(self.config['paths']['models'], "custom"), exist_ok=True)
             filepath = os.path.join(
                 self.config['paths']['models'],
-                f"dmc_episode_{self.episode}.pth"
+                "custom",
+                f"dmc_opponent_episode_{self.episode}.pth"
             )
         
         self.dmc_agent.save(filepath)
@@ -225,8 +236,10 @@ class DMCTrainer:
         eval_freq = self.config['evaluation']['eval_freq']
         save_freq = self.config['logging']['save_freq']
         
+        eval_data = None
+        
         try:
-            for episode in tqdm(range(num_episodes), desc="Training DMC+MCTS"):
+            for episode in tqdm(range(num_episodes), desc="Training DMC with Opponent Modeling"):
                 self.episode = episode
                 
                 # Train one episode
@@ -235,34 +248,26 @@ class DMCTrainer:
                 self.logger.end_episode(episode, episode_data)
                 
                 # Evaluate periodically
-                eval_data = None
                 if episode % eval_freq == 0 and episode > 0:
                     eval_data = self.evaluate_agent(
                         num_games=self.config['evaluation']['eval_episodes']
                     )
                     
-                    # Log evaluation results
-                    combined_eval_data = {
+                    eval_data_to_log = {
                         'random_win_rate': eval_data['vs_random']['win_rate'],
                         'random_avg_length': eval_data['vs_random']['avg_game_length']
                     }
                     
-                    if 'vs_dqn' in eval_data:
-                        combined_eval_data.update({
-                            'dqn_win_rate': eval_data['vs_dqn']['win_rate'],
-                            'dqn_avg_length': eval_data['vs_dqn']['avg_game_length']
-                        })
+                    self.logger.log_evaluation(episode, eval_data_to_log)
                     
-                    self.logger.log_evaluation(episode, combined_eval_data)
+                    # Early stopping if excellent performance achieved
+                    if eval_data['vs_random']['win_rate'] >= 0.70:  # 70% target
+                        self.logger.logger.info(f"Excellent performance achieved! Stopping training.")
+                        break
                 
                 # Save model periodically
                 if episode % save_freq == 0 and episode > 0:
                     self.save_model()
-                
-                # Early stopping if excellent performance achieved
-                if eval_data is not None and eval_data['vs_random']['win_rate'] >= 0.70:  # 70% target
-                    self.logger.logger.info(f"Excellent performance achieved! Stopping training.")
-                    break
         
         except KeyboardInterrupt:
             self.logger.logger.info("Training interrupted by user")
@@ -275,23 +280,17 @@ class DMCTrainer:
             )
             
             # Log final results
-            combined_eval_data = {
+            final_eval_data = {
                 'random_win_rate': final_eval['vs_random']['win_rate'],
                 'random_avg_length': final_eval['vs_random']['avg_game_length']
             }
             
-            if 'vs_dqn' in final_eval:
-                combined_eval_data.update({
-                    'dqn_win_rate': final_eval['vs_dqn']['win_rate'],
-                    'dqn_avg_length': final_eval['vs_dqn']['avg_game_length']
-                })
-            
-            self.logger.log_evaluation(self.episode, combined_eval_data)
+            self.logger.log_evaluation(self.episode, final_eval_data)
             
             # Save final model
             os.makedirs(os.path.join(self.config['paths']['models'], "custom"), exist_ok=True)
             final_model_path = self.save_model(
-                os.path.join(self.config['paths']['models'], "custom", "dmc_mcts_final.pth")
+                os.path.join(self.config['paths']['models'], "custom", "dmc_opponent_modeling_final.pth")
             )
             
             self.logger.end_training()
@@ -300,23 +299,32 @@ class DMCTrainer:
 
 
 def main():
-    """Main function to start DMC+MCTS training."""
-    print(" UNO DMC + MCTS Training")
+    """Main function to start training."""
+    print(" UNO DMC + Opponent Modeling Training")
     print("=" * 50)
     
-    # Check if CUDA is available
-    device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
+    # Check device
+    if torch.backends.mps.is_available():
+        device = "mps"
+    elif torch.cuda.is_available():
+        device = "cuda"
+    else:
+        device = "cpu"
     print(f"Using device: {device}")
     
     # Create trainer and start training
-    trainer = DMCTrainer()
-    trainer.dmc_agent.set_device(device)
+    trainer = DMCTrainerWithOpponent()
     
-    print(f"Training DMC agent with MCTS reward shaping...")
+    print(f"Training DMC agent with opponent modeling...")
     print(f"State size: {trainer.state_size}")
     print(f"Action size: {trainer.env.num_actions}")
+    print(f"Opponent feature size: {trainer.dmc_agent.opponent_feature_size}")
+    print(f"Strategy dimension: {trainer.dmc_agent.strategy_dim}")
     print(f"Episodes: {trainer.config['training']['episodes']}")
-    print(f"MCTS simulations: {trainer.mcts_shaper.num_simulations}")
+    if trainer.use_mcts_reward:
+        print(f"MCTS simulations: {trainer.mcts_shaper.num_simulations}")
+    else:
+        print(f"MCTS reward shaping: Disabled")
     print()
     
     # Start training
@@ -326,11 +334,10 @@ def main():
     print("\n TRAINING COMPLETED!")
     print("=" * 50)
     print(f"Final win rate vs Random: {final_eval['vs_random']['win_rate']:.1%}")
-    if 'vs_dqn' in final_eval:
-        print(f"Final win rate vs DQN: {final_eval['vs_dqn']['win_rate']:.1%}")
     print(f"Final model saved to: {model_path}")
     print(f"Logs saved to: {trainer.logger.log_dir}")
 
 
 if __name__ == "__main__":
     main()
+
