@@ -68,23 +68,36 @@ if [ ! -d "models/custom" ] || [ ! -d "models/rlcard" ]; then
     echo "  Source: Google Drive folder"
     echo ""
     
-    # Create models directory if it doesn't exist
-    mkdir -p models
-    
-    # Download the folder using gdown
-    python -m gdown --folder "https://drive.google.com/drive/folders/${FOLDER_ID}" -O models/ --remaining-ok
+    # Download the folder directly to current directory
+    # Google Drive folder already contains models/custom/ and models/rlcard/
+    python -m gdown --folder "https://drive.google.com/drive/folders/${FOLDER_ID}" -O ./ --remaining-ok
     
     if [ $? -eq 0 ]; then
         echo ""
-        echo "  ✓ Models downloaded successfully"
-        echo "    - Custom models: $(ls models/custom/*.pth 2>/dev/null | wc -l) files"
-        echo "    - RLCard models: $(ls models/rlcard/*.tar 2>/dev/null | wc -l) files"
+        # Verify models are in correct location
+        if [ -d "models/custom" ] && [ -d "models/rlcard" ]; then
+            echo "  ✓ Models downloaded successfully"
+            echo "    - Custom models: $(ls models/custom/*.pth 2>/dev/null | wc -l) files"
+            echo "    - RLCard models: $(ls models/rlcard/*.tar 2>/dev/null | wc -l) files"
+        else
+            echo "  ✗ Models not found in expected location. Please download manually:"
+            echo "    1. Visit: $MODELS_URL"
+            echo "    2. Download the 'models' folder"
+            echo "    3. Place it in the project root directory"
+            echo ""
+            read -p "Continue anyway? (y/N): " -n 1 -r
+            echo
+            if [[ ! $REPLY =~ ^[Yy]$ ]]; then
+                echo "Exiting. Please download models and run again."
+                exit 1
+            fi
+        fi
     else
         echo ""
         echo "  ✗ Download failed. Please download manually:"
         echo "    1. Visit: $MODELS_URL"
-        echo "    2. Download the 'custom' and 'rlcard' folders"
-        echo "    3. Place them in the 'models/' directory"
+        echo "    2. Download the 'models' folder"
+        echo "    3. Place it in the project root directory"
         echo ""
         read -p "Continue anyway? (y/N): " -n 1 -r
         echo

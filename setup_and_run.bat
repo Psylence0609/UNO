@@ -80,18 +80,16 @@ if !MODELS_MISSING!==1 (
     echo   Source: Google Drive folder
     echo.
     
-    REM Create models directory if it doesn't exist
-    if not exist "models\" mkdir models
-    
-    REM Download the folder using gdown
-    python -m gdown --folder "https://drive.google.com/drive/folders/!FOLDER_ID!" -O models/ --remaining-ok
+    REM Download the folder directly to current directory
+    REM Google Drive folder already contains models/custom/ and models/rlcard/
+    python -m gdown --folder "https://drive.google.com/drive/folders/!FOLDER_ID!" -O ./ --remaining-ok
     
     if errorlevel 1 (
         echo.
         echo   [ERROR] Download failed. Please download manually:
         echo     1. Visit: %MODELS_URL%
-        echo     2. Download the 'custom' and 'rlcard' folders
-        echo     3. Place them in the 'models\' directory
+        echo     2. Download the 'models' folder
+        echo     3. Place it in the project root directory
         echo.
         set /p CONTINUE="Continue anyway? (y/N): "
         if /i not "!CONTINUE!"=="y" (
@@ -100,7 +98,28 @@ if !MODELS_MISSING!==1 (
         )
     ) else (
         echo.
-        echo   [OK] Models downloaded successfully
+        REM Verify models are in correct location
+        if exist "models\custom\" (
+            if exist "models\rlcard\" (
+                echo   [OK] Models downloaded successfully
+            ) else (
+                echo   [ERROR] Models not found in expected location
+                echo     Please download manually from: %MODELS_URL%
+                set /p CONTINUE="Continue anyway? (y/N): "
+                if /i not "!CONTINUE!"=="y" (
+                    echo Exiting. Please download models and run again.
+                    exit /b 1
+                )
+            )
+        ) else (
+            echo   [ERROR] Models not found in expected location
+            echo     Please download manually from: %MODELS_URL%
+            set /p CONTINUE="Continue anyway? (y/N): "
+            if /i not "!CONTINUE!"=="y" (
+                echo Exiting. Please download models and run again.
+                exit /b 1
+            )
+        )
     )
 ) else (
     echo   [OK] Models already present
