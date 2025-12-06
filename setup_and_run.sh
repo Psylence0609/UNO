@@ -41,12 +41,7 @@ echo ""
 
 # Step 3: Activate virtual environment and install dependencies
 echo "[3/6] Installing dependencies..."
-source venv/bin/activate
-pip install --upgrade pip > /dev/null 2>&1
-echo "  Installing project requirements..."
-pip install -r requirements.txt > /dev/null 2>&1
-echo "  ✓ Dependencies installed"
-echo ""
+source venv/bin/activate && pip install --upgrade pip > /dev/null 2>&1 && pip install -r requirements.txt > /dev/null 2>&1
 
 # Step 4: Check if models exist, if not download automatically
 echo "[4/6] Checking for trained models..."
@@ -130,6 +125,9 @@ echo "This may take a while depending on your configuration..."
 echo "Results will be saved to: tournament_${NUM_PLAYERS}player_results.json"
 echo "=================================================="
 echo ""
+
+# Ensure virtual environment is activated
+source venv/bin/activate
 
 python src/evaluation/tournament_multiplayer.py --players "$NUM_PLAYERS" --games "$NUM_GAMES"
 

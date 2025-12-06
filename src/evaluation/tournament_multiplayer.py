@@ -243,7 +243,7 @@ def load_agent(agent_type, model_path=None, config=None):
     elif agent_type == 'rlcard_dmc':
         # Load RLCard DMC model
         try:
-            from evaluate_rlcard_dmc import load_rlcard_dmc_model
+            from scripts.evaluate_rlcard_dmc import load_rlcard_dmc_model
             # Use RLCard's actual state shape for UNO
             state_shape = [4, 4, 15]  # RLCard UNO state shape
             action_shape = [61]  # RLCard UNO action size

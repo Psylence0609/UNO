@@ -144,6 +144,9 @@ echo Results will be saved to: tournament_%NUM_PLAYERS%player_results.json
 echo ==================================================
 echo.
 
+REM Ensure virtual environment is activated
+call venv\Scripts\activate.bat
+
 python src\evaluation\tournament_multiplayer.py --players %NUM_PLAYERS% --games %NUM_GAMES%
 
 echo.
