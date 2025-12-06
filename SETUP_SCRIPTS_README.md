@@ -43,7 +43,7 @@ The scripts automatically download models using `gdown`:
 
 **Google Drive Source:** [UNO RL Models](https://drive.google.com/drive/folders/1A7MnHhTU2ZQ188I1O3_hURcqP8bCQsjg?usp=sharing)
 
-**Download Size:** ~2GB (one-time download)
+**Download Size:** ~2.7GB (one-time download) (venv + Models)
 **Download Time:** 3-5 minutes (depends on connection speed)
 
 ## Configuration
