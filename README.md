@@ -111,16 +111,16 @@ python src/training/rlcard_dmc_mcts_trainer.py
 
 ```bash
 # Evaluate all custom models
-python evaluate_all_models.py
+python scripts/evaluate_all_models.py
 
 # Evaluate RLCard DMC model
-python evaluate_rlcard_dmc.py experiments/rlcard_dmc_uno_100M/uno_rlcard_dmc/model.tar
+python scripts/evaluate_rlcard_dmc.py experiments/rlcard_dmc_uno_100M/uno_rlcard_dmc/model.tar
 
 # Evaluate all models (custom + RLCard) with statistical analysis
-python evaluate_all_models_comprehensive.py
+python scripts/evaluate_all_models_comprehensive.py
 
 # Evaluate opponent modeling against diverse opponents
-python evaluate_opponent_modeling.py
+python scripts/evaluate_opponent_modeling.py
 ```
 
 ### Analyze Environment
