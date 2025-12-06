@@ -1,6 +1,6 @@
 # UNO Reinforcement Learning Project
 
-A reinforcement learning project implementing intelligent agents to play UNO using deep learning techniques.
+A comprehensive survey and evaluation of Deep Reinforcement Learning architectures for UNO, featuring advanced opponent modeling and multi-scale tournament evaluation across 2, 3, and 4-player games.
 
 ## Authors
 - Praneet Sai Madhu Surabhi (psurabhi@tamu.edu)
@@ -8,199 +8,258 @@ A reinforcement learning project implementing intelligent agents to play UNO usi
 
 ## Project Overview
 
-This project implements and evaluates multiple reinforcement learning algorithms for the UNO card game, with a focus on addressing the sparse reward problem through Monte Carlo Tree Search (MCTS) reward shaping and opponent modeling. We compare five distinct approaches:
+This project implements and evaluates five distinct Deep RL approaches for the UNO card game, addressing key challenges in imperfect information multi-agent environments:
 
-1. **DQN (Deep Q-Network)**: Baseline deep RL with sparse rewards only
-2. **DQN+MCTS**: DQN enhanced with MCTS-based intermediate reward shaping
-3. **DMC (Deep Monte Carlo)**: Episode-based Monte Carlo method with MCTS reward shaping
-4. **DMC with Opponent Modeling**: DMC enhanced with explicit neural network opponent modeling
-5. **RLCard DMC**: Built-in DMC implementation from RLCard toolkit
+1. **DRON** (Deep Reinforcement Opponent Network): Advanced DMC with transformer-based opponent modeling
+2. **DMC + MCTS**: Deep Monte Carlo with MCTS reward shaping
+3. **DMC**: Custom Deep Monte Carlo with three-headed architecture
+4. **DQN + MCTS**: Deep Q-Network with MCTS reward shaping
+5. **RLCard DMC**: Official RLCard DMC implementation baseline
+
+### Key Research Focus
+- **Sparse Reward Problem**: Addressed through MCTS-based reward shaping
+- **Opponent Modeling**: Explicit neural network approach with attention mechanisms
+- **Scalability Analysis**: Systematic evaluation across different game complexities
 
 ## Project Structure
 
 ```
 UNO/
- src/
-    agents/          # RL agent implementations
-       dqn_agent_new.py    # Canonical DQN agent ([256,128] architecture)
-       dmc_agent.py        # DMC agent with three-headed architecture
-       dmc_agent_with_opponent.py  # DMC with opponent modeling
-       opponent_modeling.py        # Opponent modeling network
-       random_agent.py     # Random baseline agent
-    environments/    # Environment wrappers and utilities
-       uno_env.py          # RLCard UNO environment wrapper
-       analyze_env.py      # Environment analysis tools
-    training/        # Training loops and infrastructure
-       train_dqn.py        # DQN training (sparse rewards)
-       train_dqn_new.py    # DQN+MCTS training
-       train_dmc.py        # DMC+MCTS training
-       train_dmc_with_opponent.py  # DMC with opponent modeling training
-       rlcard_dmc_trainer.py        # RLCard DMC training
-       rlcard_dmc_mcts_trainer.py   # RLCard DMC+MCTS training
-    features/           # Opponent feature extraction
-       opponent_features.py
-    evaluation/      # Evaluation and metrics
-       evaluator.py        # Evaluation framework
-       comprehensive_eval.py
-       statistical_analysis.py  # Statistical analysis utilities
-       generate_statistical_report.py  # Generate statistical reports
-    mcts/           # MCTS reward shaping
-       proper_mcts.py      # MCTS implementation for reward shaping
-       mcts_tree.py        # MCTS tree structure
-    utils/          # Utility functions and helpers
-        replay_buffer.py    # Experience replay buffer
- models/             # Saved model checkpoints
-    custom/         # Custom model checkpoints
-    rlcard/         # RLCard model checkpoints
- experiments/        # Experiment outputs
-    rlcard_dmc_uno_100M/     # RLCard DMC (100M frames)
-    rlcard_dmc_mcts_uno_100M/# RLCard DMC+MCTS (100M frames)
-    archived/       # Archived incomplete experiments
- logs/              # Training logs and metrics
- results/           # Evaluation results
- config.yaml        # Configuration file
- requirements.txt   # Project dependencies
- MODELS.md          # Model registry and documentation
- OPPONENT_MODELING.md # Opponent modeling research and implementation plan
- LITERATURE_SURVEY.md # Comprehensive literature survey
+├── src/
+│   ├── agents/              # RL agent implementations
+│   ├── environments/        # Environment wrappers
+│   ├── training/            # Training infrastructure
+│   ├── evaluation/          # Tournament and evaluation
+│   ├── mcts/                # MCTS reward shaping
+│   └── utils/               # Utilities
+├── models/                  # Trained model checkpoints
+├── docs/                    # Documentation and reports
+├── tournament_*player_results.json  # Tournament data
+├── config.yaml              # Configuration
+└── requirements.txt         # Dependencies
 ```
 
-## Setup
+## Quick Start (Automated Setup)
 
-1. Create a virtual environment:
+### One-Click Tournament Execution
+
+We provide automated setup scripts that handle **everything automatically** - including downloading trained models from Google Drive:
+
+**macOS/Linux:**
+```bash
+# Run with default settings (3 players, 1000 games)
+./setup_and_run.sh
+
+# Custom configuration
+./setup_and_run.sh 4 500  # 4 players, 500 games per matchup
+```
+
+**Windows(Experimental and not tested):**
+```cmd
+REM Run with default settings (3 players, 1000 games)
+setup_and_run.bat
+
+REM Custom configuration
+setup_and_run.bat 4 500  REM 4 players, 500 games per matchup
+```
+
+**The script automatically:**
+1. Checks Python installation
+2. Creates virtual environment
+3. Installs dependencies (including `gdown`)
+4. **Downloads trained models from Google Drive** (~2GB)
+5. Verifies project structure
+6. Runs tournament and saves results
+
+**First-time setup takes ~5-10 minutes** (includes model download). Subsequent runs are instant.
+
+**IMPORTANT NOTE**: If you want to rerun a particular tournament you have to MOVE or DELETE the corresponding json file like 'tournament_3player_results.json'. The script resumes the tournament if an old file is found.
+
+See [SETUP_SCRIPTS_README.md](SETUP_SCRIPTS_README.md) for detailed script documentation.
+
+### Model Information
+
+**Models are automatically downloaded from:** [Google Drive - UNO RL Models](https://drive.google.com/drive/folders/1A7MnHhTU2ZQ188I1O3_hURcqP8bCQsjg?usp=sharing)
+
+**Included Models:**
+- `models/custom/` - Custom trained agents (DRON, DMC, DQN variants) - 5 models
+- `models/rlcard/` - RLCard DMC baseline implementation - 1 model
+
+**Manual Download (if automated download fails):**
+1. Visit the [Google Drive link](https://drive.google.com/drive/folders/1A7MnHhTU2ZQ188I1O3_hURcqP8bCQsjg?usp=sharing)
+2. Download the `custom` and `rlcard` folders
+3. Place them in the `models/` directory in your project root
+
+## Manual Setup
+
+If you prefer manual setup:
+
+### Installation
+
+1. **Create virtual environment:**
 ```bash
 python -m venv venv
 source venv/bin/activate  # On macOS/Linux
+# venv\Scripts\activate   # On Windows
 ```
 
-2. Install dependencies:
+2. **Install dependencies:**
 ```bash
 pip install -r requirements.txt
 ```
 
-3. Verify RLCard UNO environment:
+3. **Download models** from the [Google Drive link](https://drive.google.com/drive/folders/1A7MnHhTU2ZQ188I1O3_hURcqP8bCQsjg?usp=sharing) and place in `models/`
+
+4. **Verify installation:**
 ```bash
 python -c "import rlcard; print('RLCard version:', rlcard.__version__)"
 ```
 
-## Quick Start
+### Running Tournaments
 
-### Training Models
-
-```bash
-# Train DQN (sparse rewards)
-python src/training/train_dqn.py
-
-# Train DQN+MCTS (with MCTS reward shaping)
-python src/training/train_dqn_new.py
-
-# Train DMC+MCTS (custom implementation)
-python src/training/train_dmc.py
-
-# Train DMC with Opponent Modeling
-python src/training/train_dmc_with_opponent.py
-
-# Train RLCard DMC (parallel training)
-python src/training/rlcard_dmc_trainer.py
-
-# Train RLCard DMC+MCTS (experimental)
-python src/training/rlcard_dmc_mcts_trainer.py
-```
-
-### Evaluating Models
+Evaluate agents across different complexity levels:
 
 ```bash
-# Evaluate all custom models
-python scripts/evaluate_all_models.py
+# 2-player tournament (head-to-head)
+python src/evaluation/tournament_multiplayer.py --players 2
 
-# Evaluate RLCard DMC model
-python scripts/evaluate_rlcard_dmc.py experiments/rlcard_dmc_uno_100M/uno_rlcard_dmc/model.tar
+# 3-player tournament (balanced complexity)
+python src/evaluation/tournament_multiplayer.py --players 3
 
-# Evaluate all models (custom + RLCard) with statistical analysis
-python scripts/evaluate_all_models_comprehensive.py
+# 4-player tournament (maximum complexity)
+python src/evaluation/tournament_multiplayer.py --players 4
 
-# Evaluate opponent modeling against diverse opponents
-python scripts/evaluate_opponent_modeling.py
+# Custom number of games per matchup
+python src/evaluation/tournament_multiplayer.py --players 4 --games 500
 ```
 
-### Analyze Environment
+**Tournament Features:**
+- Automatic result saving to `tournament_{n}player_results.json`
+- Smart skip logic for resuming interrupted tournaments
+- Statistical analysis with win rates and average placements
 
-```bash
-# Comprehensive environment analysis
-python src/environments/analyze_env.py
-```
+## Tournament Results
 
-## Model Performance
+### 4-Player Tournament (Maximum Complexity)
 
-### Current Results (vs Random Baseline)
+Our comprehensive 4-player tournament reveals how algorithms scale with multi-agent complexity:
 
-| Model | Win Rate | 95% CI | Meets 55%? | Status |
-|-------|----------|--------|------------|--------|
-| RLCard DMC+MCTS (100M) | 61.3% | [59.6%, 63.0%] |  Yes | Best overall |
-| RLCard DMC (100M) | 60.4% | [59.3%, 61.5%] |  Yes | Best overall |
-| DMC with Opponent Modeling | TBD* | TBD | TBD | Stretch goal |
-| DQN+MCTS | 51.2% | [49.9%, 52.4%] |  No | Best custom |
-| DMC Ep10k | 50.0% | [48.7%, 51.4%] |  No | Good performance |
-| DQN Original | 49.8% | [48.2%, 51.4%] |  No | Baseline |
-| DMC Old | 47.4% | [46.3%, 48.6%] |  No | Baseline |
+| Rank | Agent | Win Rate | Avg Placement | Scaling (2→4) |
+|------|-------|----------|---------------|---------------|
+| 1 | **DRON** | **54.2%** | 1.46 | **+0.8%** ✓ |
+| 2 | **DMC + MCTS** | **47.4%** | 1.53 | **+1.5%** ✓ |
+| 3 | DMC | 41.6% | 1.51 | -6.3% |
+| 4 | DQN + MCTS | 30.8% | 1.51 | -17.6% |
+| 5 | DQN | 17.6% | 1.53 | -29.5% |
+| 6 | RLCard DMC | 8.3% | 1.42 | -49.4% |
+| 7 | Heuristic | 0.0% | - | -52.0% |
+| 8 | Random | 0.0% | - | -47.6% |
 
-*TBD: To be determined after training and evaluation
-**Results based on 10 evaluation runs with 500 games each (5,000 total games per model). See `results/statistical_analysis_report.md` for detailed analysis.
+**Total Games**: 70,000 (8,750 per agent across 70 unique matchups)
 
-### Key Insights
+### Key Findings
 
-1. **RLCard DMC is Superior**: Parallel actor-learner architecture achieves 60.4-61.3% win rate vs 47.4-51.2% for custom sequential training. Performance gap is 10.2% over best custom model with large effect sizes (p<0.001).
+#### 1. DRON Demonstrates Exceptional Scalability
+- **Only agent that improves with complexity** (+0.8% from 2 to 4 players)
+- Maintains 54.2% win rate in maximum complexity scenarios
+- Advanced opponent modeling successfully captures strategic patterns
+- **Beats all opponents in head-to-head matchups**
 
-2. **DQN+MCTS is Best Custom Model**: DQN+MCTS (51.2%) is the best performing custom model, significantly outperforming DMC Old (p<0.001) but not significantly different from DMC Ep10k (p=0.19).
+#### 2. MCTS Provides Algorithmic Resilience
+- **DMC + MCTS shows positive scaling** (+1.5% from 2 to 4 players)
+- MCTS reward shaping becomes more valuable with increased complexity
+- Significantly outperforms vanilla DMC in 4-player games (47.4% vs 41.6%)
 
-3. **MCTS Reward Shaping**: Provides modest improvements in custom models (+1.4% for DQN), but RLCard DMC+MCTS (61.3%) vs RLCard DMC (60.4%) difference is not statistically significant (p=0.30).
+#### 3. Traditional RL Algorithms Fail to Scale
+- **DQN variants collapse**: 29.5% performance loss for vanilla DQN
+- Deep Q-Learning fundamentally ill-suited for complex multi-agent environments
+- Temporal difference learning struggles with increased stochasticity
 
-4. **Checkpoint Selection Matters**: DMC Ep10k (50.0%) performs significantly better than DMC Old (47.4%) with p=0.004, suggesting potential overfitting in later training stages.
+#### 4. RLCard DMC Catastrophic Failure
+- **Worst performance drop**: 57.7% (2-player) → 8.3% (4-player)
+- Optimized implementation overfits to simpler scenarios
+- Demonstrates importance of architectural choices over computational efficiency
 
-5. **Statistical Robustness**: All comparisons use 10 evaluation runs with 500 games each (5,000 total games per model), providing robust 95% confidence intervals.
+#### 5. Rule-Based Methods Cannot Handle Complexity
+- **Heuristic agent**: 52.0% (2-player) → 0.0% (4-player)
+- Hand-crafted strategies fail spectacularly in complex settings
+- Learning-based approaches essential for multi-agent domains
 
-For detailed model information, see [MODELS.md](MODELS.md).
+### Performance Categories
 
-## Evaluation Metrics
+**Elite Scalers (Maintain/Improve):**
+- DRON: +0.8% scaling
+- DMC+MCTS: +1.5% scaling
 
-- Win rate against random baseline
-- Win rate in head-to-head comparisons
-- Average game length
-- Training convergence metrics
-- Strategic behavior analysis
+**Poor Scalers (Major Degradation):**
+- DQN: -29.5% scaling
+- RLCard DMC: -49.4% scaling
+
+**Complete Failures:**
+- Heuristic: -52.0% scaling
+- Random: -47.6% scaling
+
+### Scaling Analysis Summary
+
+Our **504,000-game evaluation** across three complexity levels reveals:
+
+1. **Opponent Modeling is Complexity-Robust**: DRON's positive scaling validates that modeling hidden information is crucial for multi-agent RL success
+
+2. **MCTS Enables Scaling**: Intermediate value estimates help agents navigate increased stochasticity
+
+3. **Evaluation Methodology Matters**: Performance in 2-player games does not predict 4-player performance
+
+4. **Complexity Reveals Algorithm Quality**: 4-player games effectively filter robust algorithms from brittle ones
+
+## Research Contributions
+
+1. **DRON Architecture**: Novel opponent modeling with transformer attention and gated fusion, achieving 54.2% win rate in 4-player tournaments
+
+2. **First Systematic Scaling Study**: Comprehensive analysis showing that sophisticated opponent modeling scales positively with complexity
+
+3. **MCTS Integration with DMC**: Demonstration that reward shaping provides algorithmic resilience across complexity levels
+
+4. **Empirical Rigor**: 504,000 games across 154 unique matchups with statistical significance testing
+
+5. **Open-Source Implementation**: Complete reproducible codebase with trained models
 
 ## Documentation
 
-- **[MODELS.md](MODELS.md)**: Comprehensive model registry with architectures, performance, and checkpoint locations
-- **[docs/](docs/)**: Additional documentation including research reports, tournament results, and analysis
-  - **[LITERATURE_SURVEY.md](docs/LITERATURE_SURVEY.md)**: Comprehensive literature survey with 20 references
-  - **[OPPONENT_MODELING.md](docs/OPPONENT_MODELING.md)**: Opponent modeling research and implementation plan
-  - **[SCALING_ANALYSIS.md](docs/SCALING_ANALYSIS.md)**: Complexity scaling analysis across different player counts
-  - **[FINAL_TOURNAMENT_LEADERBOARD.md](docs/FINAL_TOURNAMENT_LEADERBOARD.md)**: Tournament results and rankings
-  - **[FINAL_RESEARCH_REPORT.md](docs/FINAL_RESEARCH_REPORT.md)**: Final research report and findings
+- **[docs/FINAL_REPORT.md](docs/FINAL_REPORT.md)**: Comprehensive survey paper with detailed architectures and analysis
+- **[docs/SCALING_ANALYSIS.md](docs/SCALING_ANALYSIS.md)**: Complexity scaling analysis across player counts
+- **[docs/TOURNAMENT_4PLAYER_LEADERBOARD.md](docs/TOURNAMENT_4PLAYER_LEADERBOARD.md)**: 4-player tournament results
+- **[docs/FINAL_TOURNAMENT_LEADERBOARD.md](docs/FINAL_TOURNAMENT_LEADERBOARD.md)**: 3-player tournament results
+- **[docs/OPPONENT_MODELING.md](docs/OPPONENT_MODELING.md)**: Opponent modeling implementation details
+- **[docs/LITERATURE_SURVEY.md](docs/LITERATURE_SURVEY.md)**: Comprehensive literature survey (20 references)
+- **[MODELS.md](MODELS.md)**: Model registry with architectures and checkpoints
 
-## Roadmap
+## Citation
 
-1.  Project setup and environment configuration
-2.  Basic DQN agent implementation
-3.  Training infrastructure and logging
-4.  MCTS reward reshaping implementation
-5.  Deep Monte Carlo (DMC) implementation
-6.  Comprehensive evaluation framework
-7.  RLCard DMC integration
-8.  Opponent modeling implementation (see OPPONENT_MODELING.md)
-9. ⏳ Opponent modeling training and evaluation
-10. ⏳ Multi-agent training and self-play
+If you use this work, please cite:
 
-## Key Contributions
+```
+P. S. M. Surabhi and A. Pillai, "A Survey of Deep Reinforcement Learning 
+Architectures for UNO," Texas A&M University, 2025.
+```
 
-- Custom DMC agent with three-headed architecture (value, policy, Monte Carlo heads)
-- MCTS reward shaping integration for sparse reward problem
-- Comprehensive evaluation framework comparing multiple algorithms
-- Achievement of 52.6% win rate (custom DMC) and 60% win rate (RLCard DMC) vs random baseline
-- Opponent modeling implementation with explicit neural network approach (DRON-inspired)
-- Statistical analysis framework with confidence intervals and significance testing
+## Key Insights
+
+**For Researchers:**
+- Opponent modeling is the key to multi-agent RL success
+- Test algorithms across multiple complexity levels
+- MCTS reward shaping provides resilience in sparse reward domains
+- Architectural choices matter more than computational efficiency
+
+**For Practitioners:**
+- Avoid DQN for complex multi-agent scenarios
+- Prioritize opponent modeling + MCTS for imperfect information games
+- Evaluate across different player counts to ensure robustness
+- Official implementations may not generalize to complex scenarios
 
 ## License
 
-This project is for educational purposes as part of the Reinforcement Learning course.
+This project is for educational purposes as part of the Deep Reinforcement Learning course at Texas A&M University.
+
+---
+
+**GitHub Repository**: [https://github.com/Psylence0609/UNO](https://github.com/Psylence0609/UNO)

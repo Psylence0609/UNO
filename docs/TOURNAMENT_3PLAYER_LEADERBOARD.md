@@ -2,7 +2,7 @@
 
 ## Tournament Overview
 - **Total Agents**: 8 (7 trained + 1 baseline)
-- **Total Games**: 168,000 (21,000 per agent)
+- **Total Games**: 56,000 (21,000 per agent)
 - **Total Matchups**: 56 unique 3-player combinations
 - **Game Type**: 3-player UNO tournaments
 
